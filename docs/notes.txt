@@ -1,0 +1,16 @@
+Convention de codage:
+    -JAVA: 
+        -fichier:   "ExampleDeFichier.java"
+        -classe:    "ExampleDeClasse.java"
+        -attribut:  "exempleDAtttribut"
+        -fonction:  "exempleDeFonction"
+    -JSP:
+        -fichier:   "example_de_jps.jsp"
+    -POSTGRES:
+        -table:     "exemple_de_table"
+        -colonne:   "exemple_de_colonne"
+        -vue:       "v_exemple_de_vue"
+
+
+https://drive.google.com/drive/folders/1PtInZ7RXjca-dBWUFh0R3UegSbkCUoYw?usp=sharing
+

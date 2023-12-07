@@ -1,4 +1,4 @@
-package entity;
+package entity.reference;
 
 import java.sql.*;
 import java.util.ArrayList;

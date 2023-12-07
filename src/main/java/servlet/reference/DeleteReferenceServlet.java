@@ -1,10 +1,10 @@
-package servlet;
+package servlet.reference;
 
 import java.io.IOException;
 import java.sql.Connection;
 
 import database.PG;
-import entity.Reference;
+import entity.reference.Reference;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

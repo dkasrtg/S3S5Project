@@ -1,8 +1,10 @@
-D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\ReferenceServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\database\PG.java
-D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\DeleteReferenceServlet.java
-D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\OptionReference.java
-D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\UpdateReferenceServlet.java
-D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\Reference.java
-D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\VReference.java
-D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\NouvelleReferenceServlet.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\reference\DeleteReferenceServlet.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\reference\NouvelleReferenceServlet.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\reference\DetailsReferenceServlet.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\reference\VReference.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\reference\DetailsReference.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\reference\ReferenceServlet.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\reference\OptionReference.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\reference\UpdateReferenceServlet.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\reference\Reference.java

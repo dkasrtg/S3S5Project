@@ -1,6 +1,6 @@
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.DetailsReference" %>
-<%@ page import="entity.VReference" %>
+<%@ page import="entity.reference.DetailsReference" %>
+<%@ page import="entity.reference.VReference" %>
 <%@ page import="java.util.List" %>
 <%
 List<DetailsReference> detailsReferences = (List<DetailsReference>) request.getAttribute("detailsReferences");

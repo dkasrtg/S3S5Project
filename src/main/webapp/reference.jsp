@@ -1,6 +1,6 @@
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.OptionReference" %>
-<%@ page import="entity.VReference" %>
+<%@ page import="entity.reference.OptionReference" %>
+<%@ page import="entity.reference.VReference" %>
 <%@ page import="java.util.List" %>
 <%
 List<OptionReference> optionReferences = (List<OptionReference>) request.getAttribute("optionReferences");

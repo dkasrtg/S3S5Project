@@ -1,4 +1,4 @@
-package servlet;
+package servlet.reference;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import database.PG;
-import entity.DetailsReference;
-import entity.Reference;
+import entity.reference.DetailsReference;
+import entity.reference.Reference;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
