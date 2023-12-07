@@ -14,3 +14,8 @@ Convention de codage:
 
 https://drive.google.com/drive/folders/1PtInZ7RXjca-dBWUFh0R3UegSbkCUoYw?usp=sharing
 
+Git:
+    -git switch branch_name
+    -git add .
+    -git commit -m "Message"
+    -git push -u origin branch_name
