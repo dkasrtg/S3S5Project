@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import database.PG;
+import entity.reference.Checkbox;
 import entity.reference.OptionReference;
 import entity.reference.VReference;
 import jakarta.servlet.ServletException;
@@ -22,8 +23,10 @@ public class ReferenceServlet extends HttpServlet {
             connection = PG.getConnection();
             List<OptionReference> optionReferences = OptionReference.select(connection);
             List<VReference> vReferences = VReference.select(connection);
+            List<Checkbox> checkboxs = Checkbox.select(connection);
             request.setAttribute("optionReferences", optionReferences);
             request.setAttribute("vReferences", vReferences);
+            request.setAttribute("checkboxes", checkboxs);
         } catch (Exception e) {
         } finally {
             try {

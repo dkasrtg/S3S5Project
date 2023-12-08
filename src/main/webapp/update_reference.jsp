@@ -1,9 +1,14 @@
 <%@ page isErrorPage="true" %>
 <%@ page import="entity.reference.OptionReference" %>
 <%@ page import="entity.reference.VReference" %>
+<%@ page import="entity.reference.Checkbox" %>
+<%@ page import="entity.reference.VCheckboxReference" %>
 <%@ page import="java.util.List" %>
 <%
 List<OptionReference> optionReferences = (List<OptionReference>) request.getAttribute("optionReferences");
+List<OptionReference> optionReferencesRadio = (List<OptionReference>) request.getAttribute("optionReferencesRadio");
+List<VCheckboxReference> vCheckboxReferences = (List<VCheckboxReference>) request.getAttribute("vCheckboxReferences");
+List<Checkbox> checkboxs = (List<Checkbox>) request.getAttribute("checkboxs");
 VReference vReference = (VReference) request.getAttribute("vReference");
 %>
 <!DOCTYPE html>
@@ -143,6 +148,54 @@ VReference vReference = (VReference) request.getAttribute("vReference");
                                 />
                               </div>
                             </div>
+                            <div class="form-group row">
+                              <label class="col-md-3 my-1 control-label"
+                                >Radios</label
+                              >
+                              <div class="col-md-9">
+                                <div class="form-check-inline my-1">
+                                  <div class="custom-control custom-radio">
+                                    <input
+                                      type="radio"
+                                      id="customRadio0"
+                                      name="id_radio_reference"
+                                      class="custom-control-input"
+                                      value="<%= vReference.getIdRadioReference() %>"
+                                      checked
+                                    />
+                                    <label
+                                      class="custom-control-label"
+                                      for="customRadio0"
+                                      ><%= vReference.getRadio() %></label
+                                    >
+                                  </div>
+                                </div>
+                                <%
+                                  int j=1;  
+                                  for (OptionReference optionReferenceRadio : optionReferencesRadio) {
+                                  %>
+                                    <div class="form-check-inline my-1">
+                                      <div class="custom-control custom-radio">
+                                        <input
+                                          type="radio"
+                                          id="customRadio<%= j %>"
+                                          name="id_radio_reference"
+                                          class="custom-control-input"
+                                          value="<%= optionReferenceRadio.getId() %>"
+                                        />
+                                        <label
+                                          class="custom-control-label"
+                                          for="customRadio<%= j %>"
+                                          ><%= optionReferenceRadio.getOption() %></label
+                                        >
+                                      </div>
+                                    </div>
+                                  <%
+                                  j++;
+                                  }
+                                  %>
+                              </div>
+                            </div>
                           </div>
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -192,6 +245,62 @@ VReference vReference = (VReference) request.getAttribute("vReference");
                                   name="heure_simple"
                                   value="<%= vReference.getHeureSimple() %>"
                                 />
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label class="col-md-3 my-2 control-label"
+                                >Checkboxs</label
+                              >
+                              <div class="col-md-9">
+                                <%
+                                  int i = 0;
+                                  for (VCheckboxReference vCheckboxReference : vCheckboxReferences) {
+                                  %>
+                                  <div class="checkbox my-2">
+                                    <div class="custom-control custom-checkbox">
+                                      <input
+                                        type="checkbox"
+                                        class="custom-control-input"
+                                        id="customCheck<%= i %>"
+                                        data-parsley-multiple="groups"
+                                        name="id_checkbox_reference[]"
+                                        value="<%= vCheckboxReference.getIdCheckbox() %>"
+                                        checked
+                                      />
+                                      <label
+                                        class="custom-control-label"
+                                        for="customCheck<%= i %>"
+                                        ><%= vCheckboxReference.getNom() %></label
+                                      >
+                                    </div>
+                                  </div>
+                                  <%
+                                  i++;
+                                  }
+                                  for (Checkbox checkbox : checkboxs) {
+                                    %>
+                                    <div class="checkbox my-2">
+                                      <div class="custom-control custom-checkbox">
+                                        <input
+                                          type="checkbox"
+                                          class="custom-control-input"
+                                          id="customCheck<%= i %>"
+                                          data-parsley-multiple="groups"
+                                          name="id_checkbox_reference[]"
+                                          value="<%= checkbox.getId() %>"
+                                        />
+                                        <label
+                                          class="custom-control-label"
+                                          for="customCheck<%= i %>"
+                                          ><%= checkbox.getNom() %></label
+                                        >
+                                      </div>
+                                    </div>
+                                    <%
+                                    i++;
+                                    }
+                                  %>
+                                  
                               </div>
                             </div>
                             <div class="form-group row">

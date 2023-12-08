@@ -18,12 +18,15 @@ public class VReference {
     Double pasEntier;
     Integer idOptionReference;
     String option;
+    Integer idRadioReference;
+    String radio;
 
     public VReference() {
     }
 
     public VReference(Integer id, String string, LocalDate dateSimple, LocalTime heureSimple, LocalDateTime dateHeure,
-            Integer entier, Double pasEntier, Integer idOptionReference, String option) {
+            Integer entier, Double pasEntier, Integer idOptionReference, String option, Integer idRadioReference,
+            String radio) {
         setId(id);
         setString(string);
         setDateSimple(dateSimple);
@@ -33,6 +36,8 @@ public class VReference {
         setPasEntier(pasEntier);
         setIdOptionReference(idOptionReference);
         setOption(option);
+        setIdRadioReference(idRadioReference);
+        setRadio(radio);
     }
 
     public Integer getId() {
@@ -107,13 +112,29 @@ public class VReference {
         this.option = option;
     }
 
+    public Integer getIdRadioReference() {
+        return idRadioReference;
+    }
+
+    public void setIdRadioReference(Integer idRadioReference) {
+        this.idRadioReference = idRadioReference;
+    }
+
+    public String getRadio() {
+        return radio;
+    }
+
+    public void setRadio(String radio) {
+        this.radio = radio;
+    }
+
     public static List<VReference> select(Connection connection) {
         List<VReference> vReferences = new ArrayList<>();
 
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT id, string, date_simple, heure_simple, date_heure, entier, pas_entier, id_option_reference, option FROM v_reference");
+                    "SELECT id, string, date_simple, heure_simple, date_heure, entier, pas_entier, id_option_reference, option, id_radio_reference, radio FROM v_reference");
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -125,9 +146,11 @@ public class VReference {
                 double pasEntier = resultSet.getDouble("pas_entier");
                 int idOptionReference = resultSet.getInt("id_option_reference");
                 String option = resultSet.getString("option");
+                int idRadioReference = resultSet.getInt("id_radio_reference");
+                String radio = resultSet.getString("radio");
 
                 VReference vReference = new VReference(id, string, dateSimple, heureSimple, dateHeure, entier,
-                        pasEntier, idOptionReference, option);
+                        pasEntier, idOptionReference, option, idRadioReference, radio);
                 vReferences.add(vReference);
             }
 
@@ -143,7 +166,7 @@ public class VReference {
     public static VReference selectById(Connection connection, int id) {
         VReference vReference = null;
         try {
-            String sql = "SELECT id, string, date_simple, heure_simple, date_heure, entier, pas_entier, id_option_reference, option FROM v_reference WHERE id = ?";
+            String sql = "SELECT id, string, date_simple, heure_simple, date_heure, entier, pas_entier, id_option_reference, option, id_radio_reference, radio FROM v_reference WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
 
@@ -158,9 +181,11 @@ public class VReference {
                 double pasEntier = resultSet.getDouble("pas_entier");
                 int idOptionReference = resultSet.getInt("id_option_reference");
                 String option = resultSet.getString("option");
+                int idRadioReference = resultSet.getInt("id_radio_reference");
+                String radio = resultSet.getString("radio");
 
                 vReference = new VReference(id, string, dateSimple, heureSimple, dateHeure, entier,
-                        pasEntier, idOptionReference, option);
+                        pasEntier, idOptionReference, option, idRadioReference, radio);
             }
 
             resultSet.close();
@@ -171,6 +196,5 @@ public class VReference {
 
         return vReference;
     }
-
 
 }

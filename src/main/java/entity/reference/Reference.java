@@ -17,12 +17,13 @@ public class Reference {
     Integer entier;
     Double pasEntier;
     Integer idOptionReference;
+    Integer idRadioReference;
 
     public Reference() {
     }
 
     public Reference(Integer id, String string, LocalDate dateSimple, LocalTime heureSimple, LocalDateTime dateHeure,
-            Integer entier, Double pasEntier, Integer idOptionReference) {
+            Integer entier, Double pasEntier, Integer idOptionReference, Integer idRadioReference) {
         setId(id);
         setString(string);
         setDateSimple(dateSimple);
@@ -31,6 +32,7 @@ public class Reference {
         setEntier(entier);
         setPasEntier(pasEntier);
         setIdOptionReference(idOptionReference);
+        setIdRadioReference(idRadioReference);
     }
 
     public Integer getId() {
@@ -97,9 +99,17 @@ public class Reference {
         this.idOptionReference = idOptionReference;
     }
 
+    public Integer getIdRadioReference() {
+        return idRadioReference;
+    }
+
+    public void setIdRadioReference(Integer idRadioReference) {
+        this.idRadioReference = idRadioReference;
+    }
+
     public void insert(Connection connection) {
         try {
-            String sql = "INSERT INTO reference (string, date_simple, heure_simple, date_heure, entier, pas_entier, id_option_reference) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO reference (string, date_simple, heure_simple, date_heure, entier, pas_entier, id_option_reference, id_radio_reference) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, getString());
             statement.setObject(2, getDateSimple());
@@ -108,6 +118,7 @@ public class Reference {
             statement.setInt(5, getEntier());
             statement.setDouble(6, getPasEntier());
             statement.setInt(7, getIdOptionReference());
+            statement.setInt(8, getIdRadioReference());
             int affectedRows = statement.executeUpdate();
             if (affectedRows > 0) {
                 ResultSet generatedKeys = statement.getGeneratedKeys();
@@ -136,7 +147,7 @@ public class Reference {
 
     public void update(Connection connection) {
         try {
-            String sql = "UPDATE reference SET string = ?, date_simple = ?, heure_simple = ?, date_heure = ?, entier = ?, pas_entier = ?, id_option_reference = ? WHERE id = ?";
+            String sql = "UPDATE reference SET string = ?, date_simple = ?, heure_simple = ?, date_heure = ?, entier = ?, pas_entier = ?, id_option_reference = ?, id_radio_reference = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, getString());
             statement.setObject(2, getDateSimple());
@@ -145,7 +156,8 @@ public class Reference {
             statement.setInt(5, getEntier());
             statement.setDouble(6, getPasEntier());
             statement.setInt(7, getIdOptionReference());
-            statement.setInt(8, getId());
+            statement.setInt(8, getIdRadioReference());
+            statement.setInt(9, getId());
             statement.executeUpdate();
             statement.close();
         } catch (Exception e) {

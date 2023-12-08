@@ -1,10 +1,12 @@
 <%@ page isErrorPage="true" %>
 <%@ page import="entity.reference.OptionReference" %>
 <%@ page import="entity.reference.VReference" %>
+<%@ page import="entity.reference.Checkbox" %>
 <%@ page import="java.util.List" %>
 <%
 List<OptionReference> optionReferences = (List<OptionReference>) request.getAttribute("optionReferences");
 List<VReference> vReferences = (List<VReference>) request.getAttribute("vReferences");
+List<Checkbox> checkboxes = (List<Checkbox>) request.getAttribute("checkboxes");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -138,6 +140,37 @@ List<VReference> vReferences = (List<VReference>) request.getAttribute("vReferen
                                 />
                               </div>
                             </div>
+                            <div class="form-group row">
+                              <label class="col-md-3 my-1 control-label"
+                                >Radios</label
+                              >
+                              <div class="col-md-9">
+                                <%
+                                  int j=0;
+                                  for (OptionReference optionReference : optionReferences) {
+                                  %>
+                                    <div class="form-check-inline my-1">
+                                      <div class="custom-control custom-radio">
+                                        <input
+                                          type="radio"
+                                          id="customRadio<%= j %>"
+                                          name="id_radio_reference"
+                                          class="custom-control-input"
+                                          value="<%= optionReference.getId() %>"
+                                        />
+                                        <label
+                                          class="custom-control-label"
+                                          for="customRadio<%= j %>"
+                                          ><%= optionReference.getOption() %></label
+                                        >
+                                      </div>
+                                    </div>
+                                  <%
+                                  j++;
+                                  }
+                                  %>
+                              </div>
+                            </div>
                           </div>
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -184,6 +217,38 @@ List<VReference> vReferences = (List<VReference>) request.getAttribute("vReferen
                                   id="example-time-input"
                                   name="heure_simple"
                                 />
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label class="col-md-3 my-2 control-label"
+                                >Checkboxes</label
+                              >
+                              <div class="col-md-9">
+                                <%
+                                  int i = 0;
+                                  for (Checkbox checkbox : checkboxes) {
+                                  %>
+                                  <div class="checkbox my-2">
+                                    <div class="custom-control custom-checkbox">
+                                      <input
+                                        type="checkbox"
+                                        class="custom-control-input"
+                                        id="customCheck<%= i %>"
+                                        data-parsley-multiple="groups"
+                                        name="id_checkbox_reference[]"
+                                        value="<%= checkbox.getId() %>"
+                                      />
+                                      <label
+                                        class="custom-control-label"
+                                        for="customCheck<%= i %>"
+                                        ><%= checkbox.getNom() %></label
+                                      >
+                                    </div>
+                                  </div>
+                                  <%
+                                  i++;
+                                  }
+                                  %>
                               </div>
                             </div>
                           </div>
@@ -237,6 +302,7 @@ List<VReference> vReferences = (List<VReference>) request.getAttribute("vReferen
                             <th>Entier</th>
                             <th>Pas Entier</th>
                             <th>Option</th>
+                            <th>Radio</th>
                             <th></th>
                           </tr>
                         </thead>
@@ -253,9 +319,10 @@ List<VReference> vReferences = (List<VReference>) request.getAttribute("vReferen
                             <td><%= vReference.getEntier() %></td>
                             <td><%= vReference.getPasEntier() %></td>
                             <td><%= vReference.getOption() %></td>
+                            <td><%= vReference.getRadio() %></td>
                             <td>
                               <div class="row">
-                                <div class="col-4">
+                                <div class="col-3">
                                   <form action="/details_reference" method="get">
                                     <input type="hidden" name="id" value="<%= vReference.getId() %>">
                                     <button type="submit" class="btn btn-success">
@@ -263,7 +330,7 @@ List<VReference> vReferences = (List<VReference>) request.getAttribute("vReferen
                                     </button>
                                   </form>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-3">
                                   <form action="/update_reference" method="get">
                                     <input type="hidden" name="id" value="<%= vReference.getId() %>">
                                     <button type="submit" class="btn btn-primary">
@@ -271,7 +338,7 @@ List<VReference> vReferences = (List<VReference>) request.getAttribute("vReferen
                                     </button>
                                   </form>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-3">
                                   <form action="/delete_reference" method="post">
                                     <input type="hidden" name="id" value="<%= vReference.getId() %>">
                                     <button type="submit" class="btn btn-danger">
@@ -299,40 +366,7 @@ List<VReference> vReferences = (List<VReference>) request.getAttribute("vReferen
         <%@ include file="/statics/footer.jsp"%>
       </div>
     </div>
-    <script>
-      function addNewLine() {
-          var newLine = document.createElement('div');
-          newLine.className = 'col-12';
-          newLine.innerHTML = `
-              <div class="row">
-                  <div class="col-5">
-                      <div class="form-group row">
-                          <label for="example-text-input" class="col-sm-2 col-form-label">Details</label>
-                          <div class="col-sm-10">
-                              <input class="form-control" type="text" id="example-text-input" name="details[]" />
-                          </div>
-                      </div>
-                  </div>
-                  <div class="col-5">
-                      <div class="form-group row">
-                          <label for="example-text-input" class="col-sm-2 col-form-label">Note</label>
-                          <div class="col-sm-10">
-                              <input class="form-control" type="text" id="example-text-input" name="note[]" />
-                          </div>
-                      </div>
-                  </div>
-                  <div class="col-2">
-                      <button class="btn btn-danger" type="button">X</button>
-                  </div>
-              </div>
-          `;
-            document.getElementById('append').appendChild(newLine);
-            var closeButton = newLine.querySelector('.btn-danger');
-            closeButton.addEventListener('click', function() {
-                this.closest('.col-12').remove();
-            });
-        }
-    </script>
+    <script src="/js/reference.js"></script>
     <script src="/template/assets/js/jquery.min.js"></script>
     <script src="/template/assets/js/popper.min.js"></script>
     <script src="/template/assets/js/bootstrap.min.js"></script>

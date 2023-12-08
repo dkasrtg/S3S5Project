@@ -1,10 +1,12 @@
 <%@ page isErrorPage="true" %>
 <%@ page import="entity.reference.DetailsReference" %>
 <%@ page import="entity.reference.VReference" %>
+<%@ page import="entity.reference.VCheckboxReference" %>
 <%@ page import="java.util.List" %>
 <%
 List<DetailsReference> detailsReferences = (List<DetailsReference>) request.getAttribute("detailsReferences");
 VReference vReference = (VReference) request.getAttribute("vReference");
+List<VCheckboxReference> vCheckboxReferences = (List<VCheckboxReference>) request.getAttribute("vCheckboxReferences");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -107,6 +109,20 @@ VReference vReference = (VReference) request.getAttribute("vReference");
                                 <tr>
                                   <td>Option:</td>
                                   <td><%= vReference.getOption() %></td>
+                                </tr>
+                                <tr>
+                                  <td>Radio:</td>
+                                  <td><%= vReference.getRadio() %></td>
+                                </tr>
+                                <tr>
+                                  <td>Checkboxes:</td>
+                                  <td><%
+                                      for (VCheckboxReference vCheckboxReference : vCheckboxReferences){
+                                        %>
+                                        <span><%= vCheckboxReference.getNom() %>, </span>
+                                        <%
+                                      }
+                                    %></td>
                                 </tr>
                                 <tr>
                                   <td></td>

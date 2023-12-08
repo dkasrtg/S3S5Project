@@ -6,6 +6,7 @@ import java.util.List;
 
 import database.PG;
 import entity.reference.DetailsReference;
+import entity.reference.VCheckboxReference;
 import entity.reference.VReference;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,8 +24,10 @@ public class DetailsReferenceServlet extends HttpServlet {
             connection = PG.getConnection();
             VReference vReference = VReference.selectById(connection, id);
             List<DetailsReference> detailsReferences = DetailsReference.selectByIdReference(connection, vReference.getId());
+            List<VCheckboxReference> vCheckboxReferences = VCheckboxReference.selectByIdReference(connection, vReference.getId());
             request.setAttribute("vReference", vReference);
             request.setAttribute("detailsReferences", detailsReferences);
+            request.setAttribute("vCheckboxReferences", vCheckboxReferences);
         } catch (Exception e) {
         } finally {
             try {
