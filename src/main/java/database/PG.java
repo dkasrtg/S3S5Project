@@ -13,6 +13,7 @@ public class PG {
         try {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+            connection.setAutoCommit(false);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -16,10 +16,10 @@
       <div id="sidebar-menu">
         <ul>
           <li>
-            <a href="index.html" class="waves-effect"
+            <a href="/reference" class="waves-effect"
               ><i class="dripicons-device-desktop"></i>
               <span
-                >Dashboard
+                >Reference
                 <span class="badge badge-pill badge-primary float-right"
                   ></span
                 ></span

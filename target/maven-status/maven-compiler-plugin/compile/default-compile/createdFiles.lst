@@ -1,1 +1,15 @@
+entity\reference\DetailsReference.class
+servlet\reference\DetailsReferenceServlet.class
+servlet\reference\NouvelleReferenceServlet.class
+servlet\reference\ReferenceServlet.class
+servlet\reference\UpdateReferenceServlet.class
+entity\reference\OptionReference.class
+entity\reference\VCheckboxReference.class
+servlet\test\TestAffichage.class
+entity\reference\Reference.class
+servlet\reference\DeleteReferenceServlet.class
+servlet\test\TestDonnees.class
+entity\reference\Checkbox.class
 database\PG.class
+entity\reference\CheckboxReference.class
+entity\reference\VReference.class

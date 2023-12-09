@@ -19,3 +19,11 @@ Git:
     -git add .
     -git commit -m "Message"
     -git push -u origin branch_name
+
+
+-control (exception -> js)
+-commentaires
+-servlet for : affichage preview, data return
+
+-donnees de test = donnees vrai
+

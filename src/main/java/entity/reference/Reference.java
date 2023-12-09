@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import exception.DateAfterNowException;
+
 public class Reference {
     Integer id;
     String string;
@@ -23,7 +25,7 @@ public class Reference {
     }
 
     public Reference(Integer id, String string, LocalDate dateSimple, LocalTime heureSimple, LocalDateTime dateHeure,
-            Integer entier, Double pasEntier, Integer idOptionReference, Integer idRadioReference) {
+            Integer entier, Double pasEntier, Integer idOptionReference, Integer idRadioReference) throws Exception {
         setId(id);
         setString(string);
         setDateSimple(dateSimple);
@@ -55,7 +57,10 @@ public class Reference {
         return dateSimple;
     }
 
-    public void setDateSimple(LocalDate dateSimple) {
+    public void setDateSimple(LocalDate dateSimple) throws Exception{
+        if (dateSimple.isAfter(LocalDate.now())) {
+            throw new DateAfterNowException();
+        }
         this.dateSimple = dateSimple;
     }
 
@@ -71,7 +76,10 @@ public class Reference {
         return dateHeure;
     }
 
-    public void setDateHeure(LocalDateTime dateHeure) {
+    public void setDateHeure(LocalDateTime dateHeure) throws Exception{
+        if (dateHeure.isAfter(LocalDateTime.now())) {
+            throw new DateAfterNowException();
+        }
         this.dateHeure = dateHeure;
     }
 

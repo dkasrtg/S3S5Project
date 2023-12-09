@@ -78,6 +78,7 @@ List<Checkbox> checkboxes = (List<Checkbox>) request.getAttribute("checkboxes");
                     <div class="card-body">
                       <h4 class="mt-0 header-title">Nouvelle reference</h4>
                       <form action="/nouvelle_reference" method="post">
+                      <!-- Test donnees du formulaire <form action="/test_donness" method="post"> -->
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -367,6 +368,7 @@ List<Checkbox> checkboxes = (List<Checkbox>) request.getAttribute("checkboxes");
       </div>
     </div>
     <script src="/js/reference.js"></script>
+    <script src="/js/error.js"></script>
     <script src="/template/assets/js/jquery.min.js"></script>
     <script src="/template/assets/js/popper.min.js"></script>
     <script src="/template/assets/js/bootstrap.min.js"></script>

@@ -20,36 +20,39 @@ import jakarta.servlet.http.HttpServletResponse;
 public class NouvelleReferenceServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String string = request.getParameter("string");
-        Integer entier = Integer.parseInt(request.getParameter("entier"));
-        Double pasEntier = Double.parseDouble(request.getParameter("pas_entier"));
-        LocalDateTime dateHeure = LocalDateTime.parse(request.getParameter("date_heure"));
-        LocalDate dateSimple = LocalDate.parse(request.getParameter("date_simple"));
-        LocalTime heureSimple = LocalTime.parse(request.getParameter("heure_simple"));
-        Integer idOperationReference = Integer.parseInt(request.getParameter("id_option_reference"));
-        Integer idRadioReference = Integer.parseInt(request.getParameter("id_radio_reference"));
-        Reference reference = new Reference(null, string, dateSimple, heureSimple, dateHeure, entier, pasEntier,
-                idOperationReference, idRadioReference);
-        String[] strDetails = request.getParameterValues("details[]");
-        String[] strNotes = request.getParameterValues("note[]");
-        String[] idCheckboxReferences = request.getParameterValues("id_checkbox_reference[]");
+        String error = "";
         Connection connection = null;
         try {
+            String string = request.getParameter("string");
+            Integer entier = Integer.parseInt(request.getParameter("entier"));
+            Double pasEntier = Double.parseDouble(request.getParameter("pas_entier"));
+            LocalDateTime dateHeure = LocalDateTime.parse(request.getParameter("date_heure"));
+            LocalDate dateSimple = LocalDate.parse(request.getParameter("date_simple"));
+            LocalTime heureSimple = LocalTime.parse(request.getParameter("heure_simple"));
+            Integer idOperationReference = Integer.parseInt(request.getParameter("id_option_reference"));
+            Integer idRadioReference = Integer.parseInt(request.getParameter("id_radio_reference"));
+            String[] strDetails = request.getParameterValues("details[]");
+            String[] strNotes = request.getParameterValues("note[]");
+            String[] idCheckboxReferences = request.getParameterValues("id_checkbox_reference[]");
+            Reference reference = new Reference(null, string, dateSimple, heureSimple, dateHeure, entier, pasEntier,
+                    idOperationReference, idRadioReference);
             connection = PG.getConnection();
             reference.insert(connection);
             int i = 0;
             for (String details : strDetails) {
-                DetailsReference detailsReference = new DetailsReference(null, reference.getId(), details, Double.parseDouble(strNotes[i]));
+                DetailsReference detailsReference = new DetailsReference(null, reference.getId(), details,
+                        Double.parseDouble(strNotes[i]));
                 detailsReference.insert(connection);
                 i++;
             }
-            for(String idCheckboxReference: idCheckboxReferences){
-                CheckboxReference checkboxReference = new CheckboxReference(null,Integer.parseInt(idCheckboxReference),reference.getId());
+            for (String idCheckboxReference : idCheckboxReferences) {
+                CheckboxReference checkboxReference = new CheckboxReference(null, Integer.parseInt(idCheckboxReference),
+                        reference.getId());
                 checkboxReference.insert(connection);
             }
             connection.commit();
         } catch (Exception e) {
-
+            error = "?error=" + e.getMessage();
         } finally {
             try {
                 connection.close();
@@ -57,6 +60,6 @@ public class NouvelleReferenceServlet extends HttpServlet {
 
             }
         }
-        response.sendRedirect("/reference");
+        response.sendRedirect("/reference" + error);
     }
 }
