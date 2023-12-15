@@ -1,3 +1,10 @@
+<%@ page isErrorPage="true" %>
+<%@ page import="entity.materiau.*" %>
+<%@ page import="java.util.List" %>
+<%
+List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typeMateriau");
+List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -67,7 +74,7 @@
                   <div class="card">
                     <div class="card-body">
                       <h4 class="mt-0 header-title">Nouveau materiau</h4>
-                      <form action="#" method="post">
+                      <form action="/materiau" method="post">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -81,7 +88,7 @@
                                   class="form-control"
                                   type="text"
                                   id="example-text-input"
-                                  name="string"
+                                  name="nom"
                                 />
                               </div>
                             </div>
@@ -96,7 +103,7 @@
                                   class="form-control"
                                   type="text"
                                   id="example-text-input"
-                                  name="string"
+                                  name="description"
                                 />
                               </div>
                             </div>
@@ -108,8 +115,14 @@
                                 >Type</label
                               >
                               <div class="col-sm-10">
-                                <select class="form-control" name="id_option_reference">
-                                  
+                                <select class="form-control" name="id_type_materiau">
+                                  <%
+                                    for (TypeMateriau t : typeMateriau){
+                                      %>
+                                      <option value="<%= t.getId() %>"><%= t.getNom() %></option>
+                                      <%
+                                    }
+                                  %>
                                 </select>
                               </div>
                             </div>
@@ -153,13 +166,25 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>1</td>
-                            <td>Palissandre</td>
-                            <td>Bois</td>
-                            <td>Bois cool non nul</td>
-                            <td>2 x 2 x 4 ; 2 x 2 x 8</td>
-                          </tr>
+                          <%
+                          for (VMateriau v : vMateriau) {
+                            %>
+                            <tr>
+                              <td><%= v.getId() %></td>
+                              <td><%= v.getNom() %></td>
+                              <td><%= v.getNomTypeMateriau() %></td>
+                              <td><%= v.getDescription() %></td>
+                              <td>
+                                <%
+                                for(VDimensionPossibleMateriau vdpm : v.getVDimensionPossibleMateriau()){
+                                  out.print(vdpm.getDimension() + " ; ");
+                                }
+                                %>
+                              </td>
+                            </tr>
+                            <%
+                          }
+                          %>
                         </tbody>
                       </table>
                     </div>
@@ -173,6 +198,7 @@
         <%@ include file="/statics/footer.jsp"%>
       </div>
     </div>
+    <script src="/js/error.js"></script>
     <script src="/template/assets/js/jquery.min.js"></script>
     <script src="/template/assets/js/popper.min.js"></script>
     <script src="/template/assets/js/bootstrap.min.js"></script>

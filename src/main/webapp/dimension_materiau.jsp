@@ -1,3 +1,11 @@
+<%@ page isErrorPage="true" %>
+<%@ page import="entity.materiau.DimensionMateriau" %>
+<%@ page import="entity.materiau.VMateriau" %>
+<%@ page import="java.util.List" %>
+<%
+List<DimensionMateriau> dimensionMateriau = (List<DimensionMateriau>) request.getAttribute("dimensionMateriau");
+List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -67,7 +75,7 @@
                   <div class="card">
                     <div class="card-body">
                       <h4 class="mt-0 header-title">Nouvelle dimension</h4>
-                      <form action="#" method="post">
+                      <form action="/dimension_materiau" method="post">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -81,8 +89,7 @@
                                   class="form-control"
                                   type="text"
                                   id="example-text-input"
-                                  name="string"
-                                  value=""
+                                  name="dimension"
                                 />
                               </div>
                             </div>
@@ -110,30 +117,15 @@
                       <h4 class="mt-0 header-title">Liste des dimensions</h4>
                       <p class="text-muted mb-4 font-13"></p>
                       <div class="row">
-                        <div class="col-2">
-                          <p>2 x 2 x 8</p>
-                        </div>
-                        <div class="col-2">
-                          <p>2 x 2 x 8</p>
-                        </div>
-                        <div class="col-2">
-                          <p>2 x 2 x 8</p>
-                        </div>
-                        <div class="col-2">
-                          <p>2 x 2 x 8</p>
-                        </div>
-                        <div class="col-2">
-                          <p>2 x 2 x 8</p>
-                        </div>
-                        <div class="col-2">
-                          <p>2 x 2 x 8</p>
-                        </div>
-                        <div class="col-2">
-                          <p>2 x 2 x 8</p>
-                        </div>
-                        <div class="col-2">
-                          <p>2 x 2 x 8</p>
-                        </div>
+                        <%
+                        for (DimensionMateriau d : dimensionMateriau){
+                          %>
+                          <div class="col-2">
+                            <p><%= d.getDimension() %></p>
+                          </div>
+                          <%
+                        }
+                        %>
                       </div>
                     </div>
                   </div>
@@ -142,7 +134,7 @@
                   <div class="card">
                     <div class="card-body">
                       <h4 class="mt-0 header-title">Assigner un dimension a un materiau</h4>
-                      <form action="#" method="post">
+                      <form action="/dimension_possible_materiau" method="post">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -152,8 +144,14 @@
                                 >Materiau</label
                               >
                               <div class="col-sm-10">
-                                <select class="form-control" name="id_option_reference">
-
+                                <select class="form-control" name="id_materiau">
+                                  <%
+                                  for (VMateriau v : vMateriau){
+                                    %>
+                                    <option value="<%= v.getId() %>"><%= v.getNom() %></option>
+                                    <%
+                                  }
+                                  %>
                                 </select>
                               </div>
                             </div>
@@ -166,8 +164,14 @@
                                 >Dimension</label
                               >
                               <div class="col-sm-10">
-                                <select class="form-control" name="id_option_reference">
-
+                                <select class="form-control" name="id_dimension_materiau">
+                                  <%
+                                  for (DimensionMateriau d : dimensionMateriau){
+                                    %>
+                                    <option value="<%= d.getId() %>"><%= d.getDimension() %></option>
+                                    <%
+                                  }
+                                  %>
                                 </select>
                               </div>
                             </div>
@@ -196,9 +200,8 @@
         <%@ include file="/statics/footer.jsp"%>
       </div>
     </div>
-    <script src="/template/assets/js/jquery.min.js">
-
-    </script>
+    <script src="/js/error.js"></script>
+    <script src="/template/assets/js/jquery.min.js"></script>
     <script src="/template/assets/js/popper.min.js"></script>
     <script src="/template/assets/js/bootstrap.min.js"></script>
     <script src="/template/assets/js/modernizr.min.js"></script>

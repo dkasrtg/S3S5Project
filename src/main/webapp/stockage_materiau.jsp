@@ -1,3 +1,11 @@
+<%@ page isErrorPage="true" %>
+<%@ page import="entity.materiau.*" %>
+<%@ page import="java.util.List" %>
+<%
+List<DimensionMateriau> dimensionMateriau = (List<DimensionMateriau>) request.getAttribute("dimensionMateriau");
+List<VStockageMateriau> vStockageMateriau = (List<VStockageMateriau>) request.getAttribute("vStockageMateriau");
+List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -67,7 +75,7 @@
                   <div class="card">
                     <div class="card-body">
                       <h4 class="mt-0 header-title">Nouvelle stockage</h4>
-                      <form action="#" method="post">
+                      <form action="/stockage_materiau" method="post">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -75,8 +83,14 @@
                                 >Materiau</label
                               >
                               <div class="col-sm-10">
-                                <select class="form-control" name="id_option_reference">
-                                  
+                                <select class="form-control" name="id_materiau">
+                                  <%
+                                  for(VMateriau v : vMateriau){
+                                    %>
+                                    <option value="<%= v.getId() %>"><%= v.getNom() %></option>
+                                    <%
+                                  }
+                                  %>
                                 </select>
                               </div>
                             </div>
@@ -91,7 +105,7 @@
                                   class="form-control"
                                   type="text"
                                   id="example-number-input"
-                                  name="pas_entier"
+                                  name="quantite_stockage"
                                 />
                               </div>
                             </div>
@@ -106,7 +120,7 @@
                                   class="form-control"
                                   type="text"
                                   id="example-number-input"
-                                  name="pas_entier"
+                                  name="prix_unitaire"
                                 />
                               </div>
                             </div>
@@ -117,8 +131,14 @@
                                 >Dimension</label
                               >
                               <div class="col-sm-10">
-                                <select class="form-control" name="id_option_reference">
-                                  
+                                <select class="form-control" name="id_dimension_materiau">
+                                  <%
+                                  for (DimensionMateriau d : dimensionMateriau){
+                                    %>
+                                    <option value="<%= d.getId() %>"><%= d.getDimension() %></option>
+                                    <%
+                                  }
+                                  %>
                                 </select>
                               </div>
                             </div>
@@ -133,7 +153,7 @@
                                   class="form-control"
                                   type="date"
                                   id="example-date-input"
-                                  name="date_simple"
+                                  name="date_stockage"
                                 />
                               </div>
                             </div>
@@ -176,16 +196,26 @@
                             <th>Dimension</th>
                             <th>Quantite</th>
                             <th>Prix Unitaire</th>
+                            <th>Prix Total</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <td>1</td>
-                          <td>2022-02-02</td>
-                          <td>Ebene</td>
-                          <td>Bois</td>
-                          <td>2 x 2 x 8</td>
-                          <td>20</td>
-                          <td>100000</td>
+                          <%
+                          for (VStockageMateriau v : vStockageMateriau){
+                            %>
+                            <tr>
+                              <td><%= v.getId() %></td>
+                              <td><%= v.getDateStockage() %></td>
+                              <td><%= v.getNomMateriau() %></td>
+                              <td><%= v.getNomTypeMateriau() %></td>
+                              <td><%= v.getDimension() %></td>
+                              <td><%= v.getQuantiteStockage() %></td>
+                              <td><%= v.getPrixUnitaire() %></td>
+                              <td><%= v.getPrixTotal() %></td>
+                            </tr>
+                            <%
+                          }
+                          %>
                         </tbody>
                       </table>
                     </div>
@@ -199,6 +229,7 @@
         <%@ include file="/statics/footer.jsp"%>
       </div>
     </div>
+    <script src="/js/error.js"></script>
     <script src="/template/assets/js/jquery.min.js"></script>
     <script src="/template/assets/js/popper.min.js"></script>
     <script src="/template/assets/js/bootstrap.min.js"></script>

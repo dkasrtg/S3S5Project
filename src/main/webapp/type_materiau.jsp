@@ -1,3 +1,9 @@
+<%@ page isErrorPage="true" %>
+<%@ page import="entity.materiau.TypeMateriau" %>
+<%@ page import="java.util.List" %>
+<%
+List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typeMateriau");
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -67,7 +73,7 @@
                   <div class="card">
                     <div class="card-body">
                       <h4 class="mt-0 header-title">Nouvelle type</h4>
-                      <form action="#" method="post">
+                      <form action="/type_materiau" method="post">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -81,8 +87,7 @@
                                   class="form-control"
                                   type="text"
                                   id="example-text-input"
-                                  name="string"
-                                  value=""
+                                  name="nom"
                                 />
                               </div>
                             </div>
@@ -110,12 +115,15 @@
                       <h4 class="mt-0 header-title">Liste des types</h4>
                       <p class="text-muted mb-4 font-13"></p>
                       <div class="row">
-                        <div class="col-2">
-                          <p>Bois</p>
-                        </div>
-                        <div class="col-2">
-                          <p>Plastique</p>
-                        </div>
+                        <%
+                        for (TypeMateriau t : typeMateriau){
+                          %>
+                          <div class="col-2">
+                            <p><%= t.getNom() %></p>
+                          </div>
+                          <%
+                        }
+                        %>
                       </div>
                     </div>
                   </div>
@@ -128,6 +136,7 @@
         <%@ include file="/statics/footer.jsp"%>
       </div>
     </div>
+    <script src="/js/error.js"></script>
     <script src="/template/assets/js/jquery.min.js"></script>
     <script src="/template/assets/js/popper.min.js"></script>
     <script src="/template/assets/js/bootstrap.min.js"></script>

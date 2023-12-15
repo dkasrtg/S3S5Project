@@ -201,3 +201,36 @@ create table destockage_materiau(
     foreign key(id_stockage_materiau) references stockage_materiau(id)
 );
 
+insert into dimension_materiau(dimension) values('1 x 2 x 8');
+insert into dimension_materiau(dimension) values('2 x 2 x 10');
+insert into dimension_materiau(dimension) values('2 x 4 x 20');
+
+
+insert into type_materiau(nom) values('bois');
+insert into type_materiau(nom) values('verre');
+insert into type_materiau(nom) values('plastique');
+
+
+insert into materiau(nom,description,id_type_materiau) values('palissandre','Bla bla',1);
+
+
+create or replace view v_materiau as 
+select m.*,tm.nom as nom_type_materiau from materiau m join type_materiau tm  on m.id_type_materiau=tm.id;
+
+
+
+create or replace view v_dimension_possible_materiau as
+select dpm.*,dm.dimension from dimension_possible_materiau dpm join dimension_materiau dm on dm.id = dpm.id_dimension_materiau;
+
+
+
+insert into stockage_materiau(id_materiau,id_dimension_materiau,quantite_stockage,date_stockage,prix_unitaire,prix_total) 
+values(1,1,200,'2022-02-02',100,20000);
+
+
+create or replace view v_stockage_materiau as
+select sm.*,m.nom as nom_materiau, m.id_type_materiau, tm.nom as nom_type_materiau, dm.dimension
+from stockage_materiau sm join materiau m on m.id=sm.id_materiau 
+join dimension_materiau dm on dm.id=sm.id_dimension_materiau 
+join type_materiau tm on tm.id = m.id_type_materiau ;
+

@@ -1,12 +1,14 @@
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\CategorieMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\reference\NouvelleReferenceServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\reference\VReference.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\SuiteFabricationMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\DetailsFabricationMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\reference\ReferenceServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\reference\Checkbox.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\DimensionPossibleMateriau.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\reference\Reference.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\test\TestDonnees.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\DestockageMateriau.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\MateriauPossibleStyleMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\DimensionMateriau.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\FabricationMeubleServlet.java
@@ -28,7 +30,9 @@ D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materi
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\adapter\Adapter.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\reference\OptionReference.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\TypeMeuble.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\SuiteMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\materiau\MateriauServlet.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\QuantiteDimensionMateriauMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\FabricationMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\CategorieMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\reference\DetailsReferenceServlet.java
