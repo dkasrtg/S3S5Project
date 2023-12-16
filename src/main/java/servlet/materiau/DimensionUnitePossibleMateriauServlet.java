@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.sql.Connection;
 
 import database.PG;
-import entity.materiau.DimensionPossibleMateriau;
+import entity.materiau.DimensionUnitePossibleMateriau;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/dimension_possible_materiau")
-public class DimensionPossibleMateriauServlet extends HttpServlet {
+@WebServlet("/dimension_unite_possible_materiau")
+public class DimensionUnitePossibleMateriauServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -21,7 +21,8 @@ public class DimensionPossibleMateriauServlet extends HttpServlet {
         try {
             Integer idMateriau = Integer.parseInt(request.getParameter("id_materiau"));
             Integer idDimensionMateriau = Integer.parseInt(request.getParameter("id_dimension_materiau"));
-            DimensionPossibleMateriau dimensionPossibleMateriau = new DimensionPossibleMateriau(null, idMateriau, idDimensionMateriau);
+            Integer idUniteMateriau = Integer.parseInt(request.getParameter("id_unite_materiau"));
+            DimensionUnitePossibleMateriau dimensionPossibleMateriau = new DimensionUnitePossibleMateriau(null, idMateriau, idDimensionMateriau, idUniteMateriau);
             connection = PG.getConnection();
             dimensionPossibleMateriau.insert(connection);
             connection.commit();
@@ -33,7 +34,7 @@ public class DimensionPossibleMateriauServlet extends HttpServlet {
             } catch (Exception e) {
             }
         }
-        response.sendRedirect("/dimension_materiau" + error);
+        response.sendRedirect("/materiau" + error);
     }
 
 }

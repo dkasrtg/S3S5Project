@@ -10,16 +10,20 @@ public class VDimensionPossibleMateriau {
     private Integer id;
     private Integer idMateriau;
     private Integer idDimensionMateriau;
-    private String dimension;
+    private Double longueur;
+    private Double largeur;
+    private Double hauteur;
 
     public VDimensionPossibleMateriau() {
     }
 
-    public VDimensionPossibleMateriau(Integer id, Integer idMateriau, Integer idDimensionMateriau, String dimension) {
+    public VDimensionPossibleMateriau(Integer id, Integer idMateriau, Integer idDimensionMateriau, Double longueur, Double largeur, Double hauteur) {
         setId(id);
         setIdMateriau(idMateriau);
         setIdDimensionMateriau(idDimensionMateriau);
-        setDimension(dimension);
+        setLongueur(longueur);
+        setLargeur(largeur);
+        setHauteur(hauteur);
     }
 
     public Integer getId() {
@@ -46,12 +50,27 @@ public class VDimensionPossibleMateriau {
         this.idDimensionMateriau = idDimensionMateriau;
     }
 
-    public String getDimension() {
-        return dimension;
+    public Double getHauteur() {
+        return hauteur;
+    }
+    public void setHauteur(Double hauteur) {
+        this.hauteur = hauteur;
     }
 
-    public void setDimension(String dimension) {
-        this.dimension = dimension;
+    public Double getLargeur() {
+        return largeur;
+    }
+
+    public void setLargeur(Double largeur) {
+        this.largeur = largeur;
+    }
+
+    public Double getLongueur() {
+        return longueur;
+    }
+
+    public void setLongueur(Double longueur) {
+        this.longueur = longueur;
     }
 
     public static List<VDimensionPossibleMateriau> listByIdMateriau(Connection connection, Integer idMateriau)
@@ -62,11 +81,13 @@ public class VDimensionPossibleMateriau {
         statement.setInt(1, idMateriau);
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
-            int id = resultSet.getInt("id");
-            int idDimensionMateriau = resultSet.getInt("id_dimension_materiau");
-            String dimension = resultSet.getString("dimension");
+            Integer id = resultSet.getInt("id");
+            Integer idDimensionMateriau = resultSet.getInt("id_dimension_materiau");
+            Double longueur = resultSet.getDouble("longueur");
+            Double largeur = resultSet.getDouble("largeur");
+            Double hauteur = resultSet.getDouble("hauteur");
             VDimensionPossibleMateriau dimensionPossibleMateriau = new VDimensionPossibleMateriau(id, idMateriau,
-                    idDimensionMateriau, dimension);
+                    idDimensionMateriau, longueur, largeur , hauteur);
             dimensionPossibleMateriauList.add(dimensionPossibleMateriau);
         }
         return dimensionPossibleMateriauList;

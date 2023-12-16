@@ -19,14 +19,19 @@ public class VStockageMateriau {
     private String nomMateriau;
     private Integer idTypeMateriau;
     private String nomTypeMateriau;
-    private String dimension;
+    private Double longueur;
+    private Double largeur;
+    private Double hauteur;
+    private Integer idUniteMateriau;
+    private String nomUniteMateriau;
 
     public VStockageMateriau() {
     }
 
     public VStockageMateriau(Integer id, Integer idMateriau, Integer idDimensionMateriau, Double quantiteStockage,
             Date dateStockage, Double prixUnitaire, Double prixTotal, String nomMateriau,
-            Integer idTypeMateriau, String nomTypeMateriau, String dimension) {
+            Integer idTypeMateriau, String nomTypeMateriau, Double longueur, Double largeur, Double hauteur,
+            Integer idUniteMateriau, String nomUniteMateriau) {
         setId(id);
         setIdMateriau(idMateriau);
         setIdDimensionMateriau(idDimensionMateriau);
@@ -37,7 +42,11 @@ public class VStockageMateriau {
         setNomMateriau(nomMateriau);
         setIdTypeMateriau(idTypeMateriau);
         setNomTypeMateriau(nomTypeMateriau);
-        setDimension(dimension);
+        setLongueur(longueur);
+        setLargeur(largeur);
+        setHauteur(hauteur);
+        setIdUniteMateriau(idUniteMateriau);
+        setNomUniteMateriau(nomUniteMateriau);
     }
 
     public Integer getId() {
@@ -120,12 +129,44 @@ public class VStockageMateriau {
         this.nomTypeMateriau = nomTypeMateriau;
     }
 
-    public String getDimension() {
-        return dimension;
+    public Double getHauteur() {
+        return hauteur;
     }
 
-    public void setDimension(String dimension) {
-        this.dimension = dimension;
+    public void setHauteur(Double hauteur) {
+        this.hauteur = hauteur;
+    }
+
+    public Double getLargeur() {
+        return largeur;
+    }
+
+    public void setLargeur(Double largeur) {
+        this.largeur = largeur;
+    }
+
+    public Double getLongueur() {
+        return longueur;
+    }
+
+    public void setLongueur(Double longueur) {
+        this.longueur = longueur;
+    }
+
+    public Integer getIdUniteMateriau() {
+        return idUniteMateriau;
+    }
+
+    public void setIdUniteMateriau(Integer idUniteMateriau) {
+        this.idUniteMateriau = idUniteMateriau;
+    }
+
+    public String getNomUniteMateriau() {
+        return nomUniteMateriau;
+    }
+
+    public void setNomUniteMateriau(String nomUniteMateriau) {
+        this.nomUniteMateriau = nomUniteMateriau;
     }
 
     public static List<VStockageMateriau> list(Connection connection) throws SQLException {
@@ -146,11 +187,15 @@ public class VStockageMateriau {
             String nomMateriau = resultSet.getString("nom_materiau");
             Integer idTypeMateriau = resultSet.getInt("id_type_materiau");
             String nomTypeMateriau = resultSet.getString("nom_type_materiau");
-            String dimension = resultSet.getString("dimension");
+            Double longueur = resultSet.getDouble("longueur");
+            Double largeur = resultSet.getDouble("largeur");
+            Double hauteur = resultSet.getDouble("hauteur");
+            Integer idUniteMateriau = resultSet.getInt("id_unite_materiau");
+            String nomUniteMateriau = resultSet.getString("nom_unite_materiau");
 
             VStockageMateriau stockageMateriau = new VStockageMateriau(
                     id, idMateriau, idDimensionMateriau, quantiteStockage, dateStockage, prixUnitaire,
-                    prixTotal, nomMateriau, idTypeMateriau, nomTypeMateriau, dimension);
+                    prixTotal, nomMateriau, idTypeMateriau, nomTypeMateriau, longueur, largeur, hauteur,idUniteMateriau,nomUniteMateriau);
 
             stockageMateriauList.add(stockageMateriau);
         }

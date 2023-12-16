@@ -4,18 +4,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class DimensionPossibleMateriau {
+public class DimensionUnitePossibleMateriau {
     private Integer id;
     private Integer idMateriau;
     private Integer idDimensionMateriau;
+    private Integer idUniteMateriau;
 
-    public DimensionPossibleMateriau() {
+    public DimensionUnitePossibleMateriau() {
     }
 
-    public DimensionPossibleMateriau(Integer id, Integer idMateriau, Integer idDimensionMateriau) {
+    public DimensionUnitePossibleMateriau(Integer id, Integer idMateriau, Integer idDimensionMateriau, Integer idUniteMateriau) {
         setId(id);
         setIdMateriau(idMateriau);
         setIdDimensionMateriau(idDimensionMateriau);
+        setIdUniteMateriau(idUniteMateriau);
     }
 
     public Integer getId() {
@@ -42,11 +44,20 @@ public class DimensionPossibleMateriau {
         this.idDimensionMateriau = idDimensionMateriau;
     }
 
+    public Integer getIdUniteMateriau() {
+        return idUniteMateriau;
+    }
+
+    public void setIdUniteMateriau(Integer idUniteMateriau) {
+        this.idUniteMateriau = idUniteMateriau;
+    }
+
     public void insert(Connection connection) throws SQLException {
-        String query = "INSERT INTO dimension_possible_materiau (id_materiau, id_dimension_materiau) VALUES (?, ?)";
+        String query = "INSERT INTO dimension_unite_possible_materiau (id_materiau, id_dimension_materiau, id_unite_materiau) VALUES (?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, this.idMateriau);
-        statement.setInt(2, this.idDimensionMateriau);
+        statement.setInt(1, getIdMateriau());
+        statement.setInt(2, getIdDimensionMateriau());
+        statement.setInt(3, getIdUniteMateriau());
         statement.executeUpdate();
         statement.close();
     }

@@ -63,12 +63,13 @@ public class Materiau {
         statement.close();
     }
 
-    public static boolean hasDimension(Connection connection, Integer idMateriau, Integer idDimensionMateriau)
+    public static boolean hasDimensionUnite(Connection connection, Integer idMateriau, Integer idDimensionMateriau, Integer idUniteMateriau)
             throws SQLException {
-        String query = "SELECT * FROM dimension_possible_materiau WHERE id_materiau = ? AND id_dimension_materiau = ?";
+        String query = "SELECT * FROM dimension_unite_possible_materiau WHERE id_materiau = ? AND id_dimension_materiau = ? and id_unite_materiau = ?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, idMateriau);
         statement.setInt(2, idDimensionMateriau);
+        statement.setInt(3, idUniteMateriau);
         ResultSet resultSet = statement.executeQuery();
         return resultSet.next();
     }

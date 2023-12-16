@@ -62,10 +62,21 @@
             >
           </li>
           <li>
-            <a href="type_materiau" class="waves-effect"
+            <a href="/type_materiau" class="waves-effect"
               ><i class="fas fa-flask"></i>
               <span
                 >Type
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/unite_materiau" class="waves-effect"
+              ><i class="fas fa-balance-scale"></i>
+              <span
+                >Unite
                 <span class="badge badge-pill badge-primary float-right"
                   ></span
                 ></span

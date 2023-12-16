@@ -13,6 +13,7 @@ public class VMateriau {
     private String description;
     private String nomTypeMateriau;
     private List<VDimensionPossibleMateriau> vDimensionPossibleMateriau;
+    private List<VUnitePossibleMateriau> vUnitePossibleMateriau;
 
     public VMateriau() {
     }
@@ -73,9 +74,17 @@ public class VMateriau {
         this.vDimensionPossibleMateriau = vDimensionPossibleMateriau;
     }
 
+    public void setVUnitePossibleMateriau(List<VUnitePossibleMateriau> vUnitePossibleMateriau) {
+        this.vUnitePossibleMateriau = vUnitePossibleMateriau;
+    }
+
+    public List<VUnitePossibleMateriau> getVUnitePossibleMateriau() {
+        return vUnitePossibleMateriau;
+    }
+
     public static List<VMateriau> list(Connection connection) throws Exception {
         List<VMateriau> vMateriauList = new ArrayList<>();
-        String query = "SELECT id, nom, id_type_materiau, description, nom_type_materiau FROM v_materiau";
+        String query = "SELECT * FROM v_materiau";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
         while (resultSet.next()) {

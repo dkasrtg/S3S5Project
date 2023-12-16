@@ -9,14 +9,18 @@ import java.util.List;
 
 public class DimensionMateriau {
     private Integer id;
-    private String dimension;
+    private Double longueur;
+    private Double largeur;
+    private Double hauteur;
 
     public DimensionMateriau() {
     }
 
-    public DimensionMateriau(Integer id, String dimension) {
+    public DimensionMateriau(Integer id, Double longueur, Double largeur, Double hauteur) {
         setId(id);
-        setDimension(dimension);
+        setLongueur(longueur);
+        setLargeur(largeur);
+        setHauteur(hauteur);
     }
 
     public Integer getId() {
@@ -27,23 +31,41 @@ public class DimensionMateriau {
         this.id = id;
     }
 
-    public String getDimension() {
-        return dimension;
+    public Double getHauteur() {
+        return hauteur;
     }
 
-    public void setDimension(String dimension) {
-        this.dimension = dimension;
+    public void setHauteur(Double hauteur) {
+        this.hauteur = hauteur;
+    }
+
+    public Double getLargeur() {
+        return largeur;
+    }
+
+    public void setLargeur(Double largeur) {
+        this.largeur = largeur;
+    }
+
+    public Double getLongueur() {
+        return longueur;
+    }
+
+    public void setLongueur(Double longueur) {
+        this.longueur = longueur;
     }
 
     public static List<DimensionMateriau> list(Connection connection) throws Exception {
         List<DimensionMateriau> dimensionMateriauList = new ArrayList<>();
-        String query = "SELECT id, dimension FROM dimension_materiau";
+        String query = "SELECT id, longueur, largeur, hauteur FROM dimension_materiau";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
         while (resultSet.next()) {
             Integer id = resultSet.getInt("id");
-            String dimension = resultSet.getString("dimension");
-            DimensionMateriau dimensionMateriau = new DimensionMateriau(id, dimension);
+            Double longueur = resultSet.getDouble("longueur");
+            Double largeur = resultSet.getDouble("largeur");
+            Double hauteur = resultSet.getDouble("hauteur");
+            DimensionMateriau dimensionMateriau = new DimensionMateriau(id, longueur, largeur, hauteur);
             dimensionMateriauList.add(dimensionMateriau);
         }
         resultSet.close();
@@ -52,9 +74,11 @@ public class DimensionMateriau {
     }
 
     public void insert(Connection connection) throws Exception {
-        String query = "INSERT INTO dimension_materiau (dimension) VALUES (?)";
+        String query = "INSERT INTO dimension_materiau (longueur, largeur, hauteur) VALUES (?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, getDimension());
+        statement.setDouble(1, getLongueur());
+        statement.setDouble(2, getLargeur());
+        statement.setDouble(3, getHauteur());
         statement.executeUpdate();
         statement.close();
     }

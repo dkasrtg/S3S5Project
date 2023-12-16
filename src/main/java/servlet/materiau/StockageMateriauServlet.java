@@ -9,9 +9,10 @@ import database.PG;
 import entity.materiau.DimensionMateriau;
 import entity.materiau.Materiau;
 import entity.materiau.StockageMateriau;
+import entity.materiau.UniteMateriau;
 import entity.materiau.VMateriau;
 import entity.materiau.VStockageMateriau;
-import exception.InvalidDimensionMateriauException;
+import exception.InvalidDimensionUniteMateriauException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -28,6 +29,8 @@ public class StockageMateriauServlet extends HttpServlet {
             List<VStockageMateriau> vStockageMateriau = VStockageMateriau.list(connection);
             List<DimensionMateriau> dimensionMateriau = DimensionMateriau.list(connection);
             List<VMateriau> vMateriau = VMateriau.list(connection);
+            List<UniteMateriau> uniteMateriau = UniteMateriau.list(connection);
+            request.setAttribute("uniteMateriau", uniteMateriau);
             request.setAttribute("vStockageMateriau", vStockageMateriau);
             request.setAttribute("dimensionMateriau", dimensionMateriau);
             request.setAttribute("vMateriau", vMateriau);
@@ -49,15 +52,16 @@ public class StockageMateriauServlet extends HttpServlet {
         try {
             Integer idMateriau = Integer.parseInt(request.getParameter("id_materiau"));
             Integer idDimensionMateriau = Integer.parseInt(request.getParameter("id_dimension_materiau"));
+            Integer idUniteMateriau = Integer.parseInt(request.getParameter("id_unite_materiau"));
             Double quantiteStockage = Double.parseDouble(request.getParameter("quantite_stockage"));
             connection = PG.getConnection();
-            if (!Materiau.hasDimension(connection, idMateriau, idDimensionMateriau)) {
-                throw new InvalidDimensionMateriauException();
+            if (!Materiau.hasDimensionUnite(connection, idMateriau, idDimensionMateriau,idUniteMateriau)) {
+                throw new InvalidDimensionUniteMateriauException();
             }
             LocalDate dateStockage = LocalDate.parse(request.getParameter("date_stockage"));
             Double prixUnitaire = Double.parseDouble(request.getParameter("prix_unitaire"));
             Double prixTotal = prixUnitaire * quantiteStockage;
-            StockageMateriau stockageMateriau = new StockageMateriau(null, idMateriau, idDimensionMateriau,
+            StockageMateriau stockageMateriau = new StockageMateriau(null, idMateriau, idDimensionMateriau, idUniteMateriau,
                     quantiteStockage, dateStockage, prixUnitaire, prixTotal);
             stockageMateriau.insert(connection);
             connection.commit();

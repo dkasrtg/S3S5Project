@@ -15,7 +15,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/dimension_materiau")
 public class DimensionMateriauServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request,HttpServletResponse response)throws ServletException, IOException{
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         Connection connection = null;
         try {
             connection = PG.getConnection();
@@ -34,12 +35,16 @@ public class DimensionMateriauServlet extends HttpServlet {
         request.getRequestDispatcher("dimension_materiau.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         Connection connection = null;
         String error = "";
         try {
-            String dimension = request.getParameter("dimension");
-            DimensionMateriau dimensionMateriau = new DimensionMateriau(null,dimension);
+            Double longueur = Double.parseDouble(request.getParameter("longueur"));
+            Double largeur = Double.parseDouble(request.getParameter("largeur"));
+            Double hauteur = Double.parseDouble(request.getParameter("hauteur"));
+
+            DimensionMateriau dimensionMateriau = new DimensionMateriau(null, longueur, largeur, hauteur);
             connection = PG.getConnection();
             dimensionMateriau.insert(connection);
             connection.commit();
@@ -54,5 +59,4 @@ public class DimensionMateriauServlet extends HttpServlet {
         response.sendRedirect("/dimension_materiau" + error);
     }
 
-    
 }

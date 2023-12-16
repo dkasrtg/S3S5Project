@@ -5,6 +5,7 @@
 List<DimensionMateriau> dimensionMateriau = (List<DimensionMateriau>) request.getAttribute("dimensionMateriau");
 List<VStockageMateriau> vStockageMateriau = (List<VStockageMateriau>) request.getAttribute("vStockageMateriau");
 List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
+List<UniteMateriau> uniteMateriau = (List<UniteMateriau>) request.getAttribute("uniteMateriau");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -124,8 +125,25 @@ List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
                                 />
                               </div>
                             </div>
+                            <div class="form-group row">
+                              <label class="col-sm-2 col-form-label"
+                                >Unite</label
+                              >
+                              <div class="col-sm-10">
+                                <select class="form-control" name="id_unite_materiau">
+                                  <%
+                                  for (UniteMateriau u : uniteMateriau){
+                                    %>
+                                    <option value="<%= u.getId() %>"><%= u.getNom() %></option>
+                                    <%
+                                  }
+                                  %>
+                                </select>
+                              </div>
+                            </div>
                           </div>
                           <div class="col-xl-6">
+                            
                             <div class="form-group row">
                               <label class="col-sm-2 col-form-label"
                                 >Dimension</label
@@ -135,7 +153,7 @@ List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
                                   <%
                                   for (DimensionMateriau d : dimensionMateriau){
                                     %>
-                                    <option value="<%= d.getId() %>"><%= d.getDimension() %></option>
+                                    <option value="<%= d.getId() %>"><%= d.getLongueur() %> x <%= d.getLargeur() %> x <%= d.getHauteur() %></option>
                                     <%
                                   }
                                   %>
@@ -193,6 +211,7 @@ List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
                             <th>Date</th>
                             <th>Materiau</th>
                             <th>Type</th>
+                            <th>Unite</th>
                             <th>Dimension</th>
                             <th>Quantite</th>
                             <th>Prix Unitaire</th>
@@ -208,7 +227,8 @@ List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
                               <td><%= v.getDateStockage() %></td>
                               <td><%= v.getNomMateriau() %></td>
                               <td><%= v.getNomTypeMateriau() %></td>
-                              <td><%= v.getDimension() %></td>
+                              <td><%= v.getNomUniteMateriau() %></td>
+                              <td><%= v.getLongueur() %> x <%= v.getLargeur() %> x <%= v.getHauteur() %></td>
                               <td><%= v.getQuantiteStockage() %></td>
                               <td><%= v.getPrixUnitaire() %></td>
                               <td><%= v.getPrixTotal() %></td>

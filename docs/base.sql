@@ -97,9 +97,18 @@ create table meuble(
     nom varchar(200),
     id_style_meuble integer,
     id_categorie_meuble integer,
+    longueur numeric,
+    largeur numeric,
+    hauteur numeric,
+    volume numeric,
+    volume_materiau numeric,
     description text,
     foreign key(id_style_meuble) references style_meuble(id),
     foreign key(id_categorie_meuble) references categorie_meuble(id)
+);
+
+create table volume_materiau_meuble(
+    
 );
 
 create table type_possible_meuble(
@@ -109,6 +118,21 @@ create table type_possible_meuble(
     foreign key(id_meuble) references meuble(id),
     foreign key(id_type_meuble) references type_meuble(id)
 );
+
+
+create table unite_materiau(
+    id serial primary key,
+    nom varchar(200)
+);
+
+insert into unite_materiau(nom) values('planche');
+insert into unite_materiau(nom) values('panneau');
+insert into unite_materiau(nom) values('feuille');
+insert into unite_materiau(nom) values('poteau');
+insert into unite_materiau(nom) values('barre');
+insert into unite_materiau(nom) values('tube');
+
+
 
 create table type_materiau(
     id serial primary key,
@@ -125,15 +149,22 @@ create table materiau(
 
 create table dimension_materiau(
     id serial primary key,
-    dimension varchar(200)  
+    longueur numeric,
+    largeur numeric,
+    hauteur numeric
 );
 
-create table dimension_possible_materiau(
+insert into dimension_materiau(longueur, largeur , hauteur) values(1,1,1);
+
+
+create table dimension_unite_possible_materiau(
     id serial primary key,
     id_materiau integer,
     id_dimension_materiau integer,
+    id_unite_materiau integer,
     foreign key(id_materiau) references materiau(id),
-    foreign key(id_dimension_materiau) references dimension_materiau(id)
+    foreign key(id_dimension_materiau) references dimension_materiau(id),
+    foreign key(id_unite_materiau) references unite_materiau(id)
 );
 
 create table materiau_possible_style_meuble(
@@ -150,12 +181,14 @@ create table stockage_materiau(
     id serial primary key,
     id_materiau integer,
     id_dimension_materiau integer,
+    id_unite_materiau integer,
     quantite_stockage numeric,
     date_stockage date,
     prix_unitaire numeric,
     prix_total numeric,
     foreign key(id_materiau) references materiau(id),
-    foreign key(id_dimension_materiau) references dimension_materiau(id)
+    foreign key(id_dimension_materiau) references dimension_materiau(id),
+    foreign key(id_unite_materiau) references unite_materiau(id)
 );
 
 create table fabrication_meuble(
@@ -171,44 +204,12 @@ create table fabrication_meuble(
 );
 
 
-create table quantite_dimension_materiau_meuble(
-    id serial primary key,
-    id_materiau integer,
-    id_dimension_materiau integer,
-    quantite numeric,
-    id_meuble integer,
-    foreign key(id_materiau) references materiau(id),
-    foreign key(id_dimension_materiau) references dimension_materiau(id),
-    foreign key(id_meuble) references meuble(id)
-);
-
-create table details_fabrication_meuble(
-    id serial primary key,
-    id_fabrication_meuble integer,
-    id_quantite_dimension_materiau_meuble integer,
-    quantite numeric,
-    foreign key(id_fabrication_meuble) references fabrication_meuble(id),
-    foreign key(id_quantite_dimension_materiau_meuble) references quantite_dimension_materiau_meuble(id)
-);
-
-create table destockage_materiau(
-    id serial primary key,
-    id_details_fabrication_meuble integer,
-    id_stockage_materiau integer,
-    quantite numeric,
-    date_destockage date,
-    foreign key(id_details_fabrication_meuble) references details_fabrication_meuble(id),
-    foreign key(id_stockage_materiau) references stockage_materiau(id)
-);
-
-insert into dimension_materiau(dimension) values('1 x 2 x 8');
-insert into dimension_materiau(dimension) values('2 x 2 x 10');
-insert into dimension_materiau(dimension) values('2 x 4 x 20');
-
-
 insert into type_materiau(nom) values('bois');
-insert into type_materiau(nom) values('verre');
+insert into type_materiau(nom) values('metal');
 insert into type_materiau(nom) values('plastique');
+insert into type_materiau(nom) values('verre');
+insert into type_materiau(nom) values('tissus');
+
 
 
 insert into materiau(nom,description,id_type_materiau) values('palissandre','Bla bla',1);
@@ -220,17 +221,20 @@ select m.*,tm.nom as nom_type_materiau from materiau m join type_materiau tm  on
 
 
 create or replace view v_dimension_possible_materiau as
-select dpm.*,dm.dimension from dimension_possible_materiau dpm join dimension_materiau dm on dm.id = dpm.id_dimension_materiau;
+select dupm.id,dupm.id_materiau,dupm.id_dimension_materiau,dm.longueur,dm.largeur,dm.hauteur from dimension_unite_possible_materiau dupm join dimension_materiau dm on dm.id = dupm.id_dimension_materiau;
 
 
+create or replace view v_unite_possible_materiau as
+select distinct dupm.id_materiau,dupm.id_unite_materiau,um.nom as nom_unite_materiau from dimension_unite_possible_materiau dupm join unite_materiau um on um.id=dupm.id_unite_materiau;
 
 insert into stockage_materiau(id_materiau,id_dimension_materiau,quantite_stockage,date_stockage,prix_unitaire,prix_total) 
 values(1,1,200,'2022-02-02',100,20000);
 
 
 create or replace view v_stockage_materiau as
-select sm.*,m.nom as nom_materiau, m.id_type_materiau, tm.nom as nom_type_materiau, dm.dimension
+select sm.*,m.nom as nom_materiau, m.id_type_materiau, tm.nom as nom_type_materiau, dm.longueur, dm.largeur, dm.hauteur, um.nom as nom_unite_materiau 
 from stockage_materiau sm join materiau m on m.id=sm.id_materiau 
 join dimension_materiau dm on dm.id=sm.id_dimension_materiau 
+join unite_materiau um on um.id=sm.id_unite_materiau
 join type_materiau tm on tm.id = m.id_type_materiau ;
 

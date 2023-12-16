@@ -10,6 +10,7 @@ public class StockageMateriau {
     private Integer id;
     private Integer idMateriau;
     private Integer idDimensionMateriau;
+    private Integer idUniteMateriau;
     private Double quantiteStockage;
     private LocalDate dateStockage;
     private Double prixUnitaire;
@@ -18,11 +19,12 @@ public class StockageMateriau {
     public StockageMateriau() {
     }
 
-    public StockageMateriau(Integer id, Integer idMateriau, Integer idDimensionMateriau, Double quantiteStockage,
+    public StockageMateriau(Integer id, Integer idMateriau, Integer idDimensionMateriau,Integer idUniteMateriau, Double quantiteStockage,
             LocalDate dateStockage, Double prixUnitaire, Double prixTotal) throws Exception{
         setId(id);
         setIdMateriau(idMateriau);
         setIdDimensionMateriau(idDimensionMateriau);
+        setIdUniteMateriau(idUniteMateriau);
         setQuantiteStockage(quantiteStockage);
         setDateStockage(dateStockage);
         setPrixUnitaire(prixUnitaire);
@@ -88,15 +90,24 @@ public class StockageMateriau {
         this.prixTotal = prixTotal;
     }
 
+    public Integer getIdUniteMateriau() {
+        return idUniteMateriau;
+    }
+
+    public void setIdUniteMateriau(Integer idUniteMateriau) {
+        this.idUniteMateriau = idUniteMateriau;
+    }
+
     public void insert(Connection connection) throws Exception {
-        String query = "INSERT INTO stockage_materiau (id_materiau, id_dimension_materiau, quantite_stockage, date_stockage, prix_unitaire, prix_total) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO stockage_materiau (id_materiau, id_dimension_materiau, quantite_stockage, date_stockage, prix_unitaire, prix_total, id_unite_materiau) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, this.idMateriau);
-        statement.setInt(2, this.idDimensionMateriau);
-        statement.setDouble(3, this.quantiteStockage);
-        statement.setObject(4, this.dateStockage);
-        statement.setDouble(5, this.prixUnitaire);
-        statement.setDouble(6, this.prixTotal);
+        statement.setInt(1, getIdMateriau());
+        statement.setInt(2, getIdDimensionMateriau());
+        statement.setDouble(3, getQuantiteStockage());
+        statement.setObject(4, getDateStockage());
+        statement.setDouble(5, getPrixUnitaire());
+        statement.setDouble(6, getPrixTotal());
+        statement.setInt(7, getIdUniteMateriau());
         statement.executeUpdate();
     }
 }

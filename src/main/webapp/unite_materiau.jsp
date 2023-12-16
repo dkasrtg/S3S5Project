@@ -1,10 +1,8 @@
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.materiau.DimensionMateriau" %>
-<%@ page import="entity.materiau.VMateriau" %>
+<%@ page import="entity.materiau.UniteMateriau" %>
 <%@ page import="java.util.List" %>
 <%
-List<DimensionMateriau> dimensionMateriau = (List<DimensionMateriau>) request.getAttribute("dimensionMateriau");
-List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
+List<UniteMateriau> uniteMateriau = (List<UniteMateriau>) request.getAttribute("uniteMateriau");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +13,7 @@ List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"
     />
-    <title>Materiau - Dimension</title>
+    <title>Materiau - Unite</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -62,10 +60,10 @@ List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
                         <li class="breadcrumb-item">
                           <a href="#">Materiau</a>
                         </li>
-                        <li class="breadcrumb-item active">Dimension</li>
+                        <li class="breadcrumb-item active">Unite</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Dimension</h4>
+                    <h4 class="page-title">Unite</h4>
                   </div>
                 </div>
               </div>
@@ -74,59 +72,28 @@ List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Nouvelle dimension</h4>
-                      <form action="/dimension_materiau" method="post">
+                      <h4 class="mt-0 header-title">Nouvelle unite</h4>
+                      <form action="/unite_materiau" method="post">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
                               <label
                                 for="example-text-input"
                                 class="col-sm-2 col-form-label"
-                                >Longueur</label
+                                >Nom</label
                               >
                               <div class="col-sm-10">
                                 <input
                                   class="form-control"
                                   type="text"
                                   id="example-text-input"
-                                  name="longueur"
-                                />
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Largeur</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  id="example-text-input"
-                                  name="largeur"
+                                  name="nom"
                                 />
                               </div>
                             </div>
                           </div>
                           <div class="col-xl-6">
                             <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Hauteur</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  id="example-text-input"
-                                  name="hauteur"
-                                />
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <did class="col-sm-10"></did>
                               <div class="col-sm-2">
                                 <button
                                   type="submit"
@@ -145,14 +112,14 @@ List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Liste des dimensions</h4>
+                      <h4 class="mt-0 header-title">Liste des unite</h4>
                       <p class="text-muted mb-4 font-13"></p>
                       <div class="row">
                         <%
-                        for (DimensionMateriau d : dimensionMateriau){
+                        for (UniteMateriau u : uniteMateriau){
                           %>
                           <div class="col-2">
-                            <p><%= d.getLongueur() %> x <%= d.getLargeur() %> x <%= d.getHauteur() %></p>
+                            <p><%= u.getNom() %></p>
                           </div>
                           <%
                         }
