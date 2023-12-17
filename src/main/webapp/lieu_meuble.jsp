@@ -1,3 +1,9 @@
+<%@ page isErrorPage="true" %>
+<%@ page import="entity.meuble.LieuMeuble" %>
+<%@ page import="java.util.List" %>
+<%
+List<LieuMeuble> lieuMeuble = (List<LieuMeuble>) request.getAttribute("lieuMeuble");
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,7 +13,7 @@
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"
     />
-    <title>Meuble - Type</title>
+    <title>Meuble - Lieu</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -54,10 +60,10 @@
                         <li class="breadcrumb-item">
                           <a href="#">Meuble</a>
                         </li>
-                        <li class="breadcrumb-item active">Type</li>
+                        <li class="breadcrumb-item active">Lieu</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Type</h4>
+                    <h4 class="page-title">Lieu</h4>
                   </div>
                 </div>
               </div>
@@ -66,8 +72,8 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Nouvelle type</h4>
-                      <form action="#" method="post">
+                      <h4 class="mt-0 header-title">Nouveau lieu</h4>
+                      <form action="/lieu_meuble" method="post">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -81,7 +87,7 @@
                                   class="form-control"
                                   type="text"
                                   id="example-text-input"
-                                  name="string"
+                                  name="nom"
                                   value=""
                                 />
                               </div>
@@ -107,15 +113,19 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Liste des types</h4>
+                      <h4 class="mt-0 header-title">Liste des lieux</h4>
                       <p class="text-muted mb-4 font-13"></p>
                       <div class="row">
-                        <div class="col-2">
-                          <p>Chambre a coucher</p>
-                        </div>
-                        <div class="col-2">
-                          <p>Cuisine</p>
-                        </div>
+                        <%
+                        for (LieuMeuble l : lieuMeuble) {
+                          %>
+                          <div class="col-2">
+                            <p><%= l.getNom() %></p>
+                          </div>
+                          <%
+                        }
+                        %>
+                       
                       </div>
                     </div>
                   </div>

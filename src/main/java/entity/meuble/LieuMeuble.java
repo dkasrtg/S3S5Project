@@ -8,14 +8,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategorieMeuble {
+public class LieuMeuble {
     private Integer id;
     private String nom;
 
-    public CategorieMeuble() {
+    public LieuMeuble() {
     }
 
-    public CategorieMeuble(Integer id, String nom) {
+    public LieuMeuble(Integer id, String nom) {
         setId(id);
         setNom(nom);
     }
@@ -37,24 +37,24 @@ public class CategorieMeuble {
     }
 
     public void insert(Connection connection) throws SQLException {
-        String query = "INSERT INTO categorie_meuble (nom) VALUES (?)";
+        String query = "INSERT INTO lieu_meuble (nom) VALUES (?)";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, this.nom);
         statement.executeUpdate();
         statement.close();
     }
 
-    public static List<CategorieMeuble> list(Connection connection) throws SQLException {
-        List<CategorieMeuble> categorieMeubleList = new ArrayList<>();
-        String query = "SELECT * FROM categorie_meuble";
+    public static List<LieuMeuble> list(Connection connection) throws SQLException {
+        List<LieuMeuble> lieuMeubleList = new ArrayList<>();
+        String query = "SELECT * FROM lieu_meuble";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
         while (resultSet.next()) {
             Integer id = resultSet.getInt("id");
             String nom = resultSet.getString("nom");
-            CategorieMeuble categorieMeuble = new CategorieMeuble(id, nom);
-            categorieMeubleList.add(categorieMeuble);
+            LieuMeuble lieuMeuble = new LieuMeuble(id, nom);
+            lieuMeubleList.add(lieuMeuble);
         }
-        return categorieMeubleList;
+        return lieuMeubleList;
     }
 }

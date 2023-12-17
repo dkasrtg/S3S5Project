@@ -87,10 +87,14 @@ create table style_meuble(
     nom varchar(200)
 );
 
-create table type_meuble(
+create table lieu_meuble(
     id serial primary key,
     nom varchar(200)
 );
+
+
+
+
 
 create table meuble(
     id serial primary key,
@@ -111,12 +115,12 @@ create table volume_materiau_meuble(
     
 );
 
-create table type_possible_meuble(
+create table lieu_possible_meuble(
     id serial primary key,
     id_meuble integer,
-    id_type_meuble integer,
+    id_lieu_meuble integer,
     foreign key(id_meuble) references meuble(id),
-    foreign key(id_type_meuble) references type_meuble(id)
+    foreign key(id_lieu_meuble) references lieu_meuble(id)
 );
 
 
@@ -175,6 +179,9 @@ create table materiau_possible_style_meuble(
     foreign key(id_materiau) references materiau(id)
 );
 
+
+create or replace view v_materiau_possible_style_meuble as 
+select mpsm.*,m.nom as nom_materiau,m.id_type_materiau,tm.nom as nom_type_materiau from materiau_possible_style_meuble mpsm join materiau m on m.id=mpsm.id_materiau join type_materiau tm on tm.id=m.id_type_materiau;
 
 
 create table stockage_materiau(

@@ -1,8 +1,11 @@
 <%@ page isErrorPage="true" %>
 <%@ page import="entity.meuble.*" %>
+<%@ page import="entity.materiau.*" %>
 <%@ page import="java.util.List" %>
 <%
 List<StyleMeuble> styleMeuble = (List<StyleMeuble>) request.getAttribute("styleMeuble");
+List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
+List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = (List<VMateriauPossibleStyleMeuble>) request.getAttribute("vMateriauPossibleStyleMeuble");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,32 +72,50 @@ List<StyleMeuble> styleMeuble = (List<StyleMeuble>) request.getAttribute("styleM
               </div>
               <!-- Test affichage start -->
               <div class="row">
+                
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Nouvelle style</h4>
-                      <form action="/style_meuble" method="post">
+                      <h4 class="mt-0 header-title">Assigner un materiau a un style</h4>
+                      <form action="/materiau_possible_style_meuble" method="post">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Nom</label
+                              <label class="col-sm-2 col-form-label"
+                                >Materiau</label
                               >
                               <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  id="example-text-input"
-                                  name="nom"
-                                  value=""
-                                />
+                                <select class="form-control" name="id_materiau">
+                                  <%
+                                  for( VMateriau v : vMateriau){
+                                    %>
+                                    <option value="<%= v.getId() %>"><%= v.getNom() %></option>
+                                    <%
+                                  }
+                                  %>
+                                </select>
                               </div>
                             </div>
                           </div>
                           <div class="col-xl-6">
                             <div class="form-group row">
+                              <label class="col-sm-2 col-form-label"
+                                >Style</label
+                              >
+                              <div class="col-sm-10">
+                                <select class="form-control" name="id_style_meuble">
+                                  <%
+                                  for( StyleMeuble s : styleMeuble) {
+                                    %>
+                                    <option value="<%= s.getId() %>"><%= s.getNom() %></option>
+                                    <%
+                                  }
+                                  %>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <div class="col-sm-10"></div>
                               <div class="col-sm-2">
                                 <button
                                   type="submit"
@@ -108,28 +129,80 @@ List<StyleMeuble> styleMeuble = (List<StyleMeuble>) request.getAttribute("styleM
                         </div>
                       </form>
                     </div>
-                  </div>
+                  </div>                    
                 </div>
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Liste des styles</h4>
-                      <p class="text-muted mb-4 font-13"></p>
-                      <div class="row">
-                        <%
-                        for( StyleMeuble s : styleMeuble) {
-                          %>
-                          <div class="col-2">
-                            <p><%= s.getNom() %></p>
+                      <h4 class="mt-0 header-title">Les materiaux associes aux style</h4>
+                      <form action="/materiau_possible_style_meuble" method="get">
+                        <div class="row">
+                          <div class="col-xl-6">
+                            <div class="form-group row">
+                              <label class="col-sm-2 col-form-label"
+                                >Style</label
+                              >
+                              <div class="col-sm-10">
+                                <select class="form-control" name="id_style_meuble">
+                                  <%
+                                  for( StyleMeuble s : styleMeuble) {
+                                    %>
+                                    <option value="<%= s.getId() %>"><%= s.getNom() %></option>
+                                    <%
+                                  }
+                                  %>
+                                </select>
+                              </div>
+                            </div>
                           </div>
+                          <div class="col-xl-6">
+                            <div class="form-group row">
+                              <div class="col-sm-2">
+                                <button
+                                  type="submit"
+                                  class="btn btn-primary waves-effect waves-light"
+                                >
+                                  Voir
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                      <table
+                        id="datatable"
+                        class="table table-bordered dt-responsive nowrap"
+                        style="
+                          border-collapse: collapse;
+                          border-spacing: 0;
+                          width: 100%;
+                        "
+                      >
+                        <thead>
+                          <tr>
+                            <th>Id</th>
+                            <th>Nom</th>
+                            <th>Type</th>
+                          </tr>
+                        </thead>
+                        <tbody>
                           <%
-                        }
-                        %>                        
-                      </div>
+                          for (VMateriauPossibleStyleMeuble v : vMateriauPossibleStyleMeuble) {
+                            %>
+                            <tr>
+                              <td><%= v.getIdMateriau()  %></td>
+                              <td><%= v.getNomMateriau() %></td>
+                              <td><%= v.getNomTypeMateriau() %></td>
+                            </tr>
+                            <%
+                          }
+                          %>
+                          
+                        </tbody>
+                      </table>
                     </div>
-                  </div>
+                  </div>                    
                 </div>
-                
               </div>
               <!-- Test affichage end -->
             </div>

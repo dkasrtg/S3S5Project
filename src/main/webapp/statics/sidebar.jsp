@@ -107,6 +107,17 @@
             >
           </li>
           <li>
+            <a href="/lieu_meuble" class="waves-effect"
+              ><i class="fas fa-map-marker"></i>
+              <span
+                >Lieu
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
             <a href="/meuble" class="waves-effect"
               ><i class="fas fa-chair"></i>
               <span
@@ -129,10 +140,10 @@
             >
           </li>
           <li>
-            <a href="/type_meuble" class="waves-effect"
-              ><i class="fas fa-cube"></i>
+            <a href="/materiau_possible_style_meuble" class="waves-effect"
+              ><i class="fas fa-puzzle-piece"></i>
               <span
-                >Type
+                >Style et Materiau
                 <span class="badge badge-pill badge-primary float-right"
                   ></span
                 ></span

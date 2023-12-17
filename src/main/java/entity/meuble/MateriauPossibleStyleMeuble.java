@@ -1,40 +1,55 @@
 package entity.meuble;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class MateriauPossibleStyleMeuble {
-    private int id;
-    private int idStyleMeuble;
-    private int idMateriau;
+    private Integer id;
+    private Integer idStyleMeuble;
+    private Integer idMateriau;
 
     public MateriauPossibleStyleMeuble() {
     }
 
-    public MateriauPossibleStyleMeuble(int id, int idStyleMeuble, int idMateriau) {
+    public MateriauPossibleStyleMeuble(Integer id, Integer idStyleMeuble, Integer idMateriau) {
         setId(id);
         setIdStyleMeuble(idStyleMeuble);
         setIdMateriau(idMateriau);
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getIdStyleMeuble() {
+    public Integer getIdStyleMeuble() {
         return idStyleMeuble;
     }
 
-    public void setIdStyleMeuble(int idStyleMeuble) {
+    public void setIdStyleMeuble(Integer idStyleMeuble) {
         this.idStyleMeuble = idStyleMeuble;
     }
 
-    public int getIdMateriau() {
+    public Integer getIdMateriau() {
         return idMateriau;
     }
 
-    public void setIdMateriau(int idMateriau) {
+    public void setIdMateriau(Integer idMateriau) {
         this.idMateriau = idMateriau;
     }
+
+    public void insert(Connection connection) throws SQLException {
+        String query = "INSERT INTO materiau_possible_style_meuble (id_style_meuble, id_materiau) VALUES (?, ?)";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, this.idStyleMeuble);
+        statement.setInt(2, this.idMateriau);
+        statement.executeUpdate();
+        statement.close();
+    }
+
+    
 }

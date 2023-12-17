@@ -1,3 +1,9 @@
+<%@ page isErrorPage="true" %>
+<%@ page import="entity.meuble.CategorieMeuble" %>
+<%@ page import="java.util.List" %>
+<%
+List<CategorieMeuble> categorieMeuble = (List<CategorieMeuble>) request.getAttribute("categorieMeuble");
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -67,7 +73,7 @@
                   <div class="card">
                     <div class="card-body">
                       <h4 class="mt-0 header-title">Nouvelle categorie</h4>
-                      <form action="#" method="post">
+                      <form action="/categorie_meuble" method="post">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -81,7 +87,7 @@
                                   class="form-control"
                                   type="text"
                                   id="example-text-input"
-                                  name="string"
+                                  name="nom"
                                   value=""
                                 />
                               </div>
@@ -110,12 +116,16 @@
                       <h4 class="mt-0 header-title">Liste des categories</h4>
                       <p class="text-muted mb-4 font-13"></p>
                       <div class="row">
-                        <div class="col-2">
-                          <p>Table</p>
-                        </div>
-                        <div class="col-2">
-                          <p>Chaise</p>
-                        </div>
+                        <%
+                        for(CategorieMeuble c : categorieMeuble){
+                          %>
+                          <div class="col-2">
+                            <p><%= c.getNom() %></p>
+                          </div>
+                          <%
+                        }
+                        %>
+                        
                       </div>
                     </div>
                   </div>
