@@ -7,6 +7,7 @@ List<StyleMeuble> styleMeuble = (List<StyleMeuble>) request.getAttribute("styleM
 List<CategorieMeuble> categorieMeuble = (List<CategorieMeuble>) request.getAttribute("categorieMeuble");
 List<LieuMeuble> lieuMeuble = (List<LieuMeuble>) request.getAttribute("lieuMeuble");
 List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typeMateriau");
+List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,7 +78,7 @@ List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typ
                   <div class="card">
                     <div class="card-body">
                       <h4 class="mt-0 header-title">Nouveau meuble</h4>
-                      <form action="#" method="post">
+                      <form action="/meuble" method="post">
                       <!-- Test donnees du formulaire <form action="/test_donness" method="post"> -->
                         <div class="row">
                           <div class="col-xl-6">
@@ -92,7 +93,7 @@ List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typ
                                   class="form-control"
                                   type="text"
                                   id="example-text-input"
-                                  name="string"
+                                  name="nom"
                                 />
                               </div>
                             </div>
@@ -107,8 +108,61 @@ List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typ
                                   class="form-control"
                                   type="text"
                                   id="example-text-input"
-                                  name="string"
+                                  name="description"
                                 />
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-4">
+                                <div class="form-group row">
+                                  <label
+                                    for="example-text-input"
+                                    class="col-sm-8 col-form-label"
+                                    >Longueur</label
+                                  >
+                                  <div class="col-sm-4">
+                                    <input
+                                      class="form-control"
+                                      type="text"
+                                      id="example-text-input"
+                                      name="longueur"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-4">
+                                <div class="form-group row">
+                                  <label
+                                    for="example-text-input"
+                                    class="col-sm-8 col-form-label"
+                                    >Largeur</label
+                                  >
+                                  <div class="col-sm-4">
+                                    <input
+                                      class="form-control"
+                                      type="text"
+                                      id="example-text-input"
+                                      name="largeur"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-4">
+                                <div class="form-group row">
+                                  <label
+                                    for="example-text-input"
+                                    class="col-sm-8 col-form-label"
+                                    >Hauteur</label
+                                  >
+                                  <div class="col-sm-4">
+                                    <input
+                                      class="form-control"
+                                      type="text"
+                                      id="example-text-input"
+                                      name="hauteur"
+                                    />
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -118,7 +172,7 @@ List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typ
                                 >Categorie</label
                               >
                               <div class="col-sm-10">
-                                <select class="form-control" name="id_option_reference">
+                                <select class="form-control" name="id_categorie_meuble">
                                 <%
                                 for(CategorieMeuble c : categorieMeuble){
                                   %>
@@ -134,7 +188,7 @@ List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typ
                                 >Style</label
                               >
                               <div class="col-sm-10">
-                                <select class="form-control" name="id_option_reference">
+                                <select class="form-control" name="id_style_meuble">
                                   <%
                                 for(StyleMeuble s : styleMeuble){
                                   %>
@@ -143,6 +197,21 @@ List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typ
                                 }
                                 %>
                                 </select>
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label
+                                for="example-text-input"
+                                class="col-sm-2 col-form-label"
+                                >Volume materiau</label
+                              >
+                              <div class="col-sm-10">
+                                <input
+                                  class="form-control"
+                                  type="text"
+                                  id="example-text-input"
+                                  name="volume_materiau"
+                                />
                               </div>
                             </div>
                           </div>
@@ -163,7 +232,7 @@ List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typ
                                         id="l<%= l.getId() %>"
                                         data-parsley-multiple="groups"
                                         value="<%= l.getId() %>"
-                                        name="[]"
+                                        name="id_lieu_meuble[]"
                                       />
                                       <label
                                         class="custom-control-label"
@@ -234,20 +303,42 @@ List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typ
                             <th>Categorie</th>
                             <th>Style</th>
                             <th>Lieux</th>
-                            <th>Description</th>
-                            <th>Dimensions</th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>1</td>
-                            <td>Tabouuret Tabou</td>
-                            <td>Chaise</td>
-                            <td>Boheme</td>
-                            <td>Chambre ; Salon</td>
-                            <td>Bla bla </td>
-                            <td>2 x 2 x 4</td>
-                          </tr>
+                          <%
+                          for (VMeuble v : vMeuble){
+                            %>
+                            <tr>
+                              <td><%= v.getId() %></td>
+                              <td><%= v.getNom() %>u</td>
+                              <td><%= v.getNomCategorieMeuble() %></td>
+                              <td><%= v.getNomStyleMeuble() %></td>
+                              <td>
+                                <%
+                                for(VLieuPossibleMeuble vlpm : v.getVLieuPossibleMeuble()){
+                                  out.print(vlpm.getNom() + " ; "); 
+                                }
+                                %>
+                              </td>
+                              <td>
+                                <div class="row">
+                                  <div class="col-3">
+                                    <form action="/detail_meuble" method="get">
+                                      <input type="hidden" name="id_meuble" value="<%= v.getId() %>">
+                                      <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-info-circle"></i>
+                                      </button>
+                                    </form>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>  
+                            <%
+                          }
+                          %>
+                          
                         </tbody>
                       </table>
                     </div>
@@ -273,11 +364,11 @@ List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typ
                 class="form-control"
                 type="text"
                 id="example-text-input"
-                name="string"
+                name="nom_composant[]"
               />
             </div>
             <div class="col-3">
-              <select class="form-control" name="id_option_reference">
+              <select class="form-control" name="id_type_materiau_composant[]">
                 <%
                 for(TypeMateriau t : typeMateriau){
                   %>
@@ -292,7 +383,7 @@ List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typ
                 class="form-control"
                 type="text"
                 id="example-text-input"
-                name="string"
+                name="volume_composant[]"
               />
             </div>
             <div class="col-3">
@@ -308,6 +399,7 @@ List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typ
     }
     addNewLine();
     </script>
+    <script src="/js/error.js"></script>
     <script src="/template/assets/js/jquery.min.js"></script>
     <script src="/template/assets/js/popper.min.js"></script>
     <script src="/template/assets/js/bootstrap.min.js"></script>

@@ -111,10 +111,6 @@ create table meuble(
     foreign key(id_categorie_meuble) references categorie_meuble(id)
 );
 
-create table volume_materiau_meuble(
-    
-);
-
 create table lieu_possible_meuble(
     id serial primary key,
     id_meuble integer,
@@ -122,6 +118,17 @@ create table lieu_possible_meuble(
     foreign key(id_meuble) references meuble(id),
     foreign key(id_lieu_meuble) references lieu_meuble(id)
 );
+
+create table composant_meuble(
+    id serial primary key,
+    nom varchar(200),
+    id_meuble integer,
+    id_type_materiau integer,
+    volume numeric,
+    foreign key(id_meuble) references meuble(id),
+    foreign key(id_type_materiau) references type_materiau(id)
+);
+
 
 
 create table unite_materiau(
@@ -245,3 +252,13 @@ join dimension_materiau dm on dm.id=sm.id_dimension_materiau
 join unite_materiau um on um.id=sm.id_unite_materiau
 join type_materiau tm on tm.id = m.id_type_materiau ;
 
+
+
+create or replace view v_meuble as
+select m.*,sm.nom as nom_style_meuble,cm.nom as nom_categorie_meuble from meuble m join style_meuble sm on sm.id=m.id_style_meuble join categorie_meuble cm on cm.id=m.id_categorie_meuble;
+
+create or replace view v_lieu_possible_meuble as
+select lpm.*,lm.nom from lieu_possible_meuble lpm join lieu_meuble lm on lpm.id_lieu_meuble=lm.id;
+
+create or replace view v_composant_meuble as
+select cm.*,tm.nom as nom_type_materiau from composant_meuble cm join type_materiau tm on tm.id=cm.id_type_materiau ;
