@@ -1,23 +1,35 @@
 package entity.meuble;
 
-import java.util.Date;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
 
 public class FabricationMeuble {
-    private int id;
-    private int idMeuble;
-    private Date dateFabrication;
-    private int quantite;
-    private double coutUnitaireFabrication;
-    private double coutTotalFabrication;
-    private double margeBeneficiaire;
-    private double prixUnitaireDeVente;
+    private Integer id;
+    private Integer idMeuble;
+    private LocalDate dateFabrication;
+    private Double quantite;
+    private Double coutUnitaireFabrication;
+    private Double coutTotalFabrication;
+    private Double margeBeneficiaire;
+    private Double prixUnitaireDeVente;
 
     public FabricationMeuble() {
     }
 
-    public FabricationMeuble(int id, int idMeuble, Date dateFabrication, int quantite,
-                             double coutUnitaireFabrication, double coutTotalFabrication,
-                             double margeBeneficiaire, double prixUnitaireDeVente) {
+    public FabricationMeuble(Integer idMeuble, LocalDate dateFabrication, Double quantite, Double margeBeneficiaire) {
+        setIdMeuble(idMeuble);
+        setDateFabrication(dateFabrication);
+        setQuantite(quantite);
+        setMargeBeneficiaire(margeBeneficiaire);
+    }
+
+    public FabricationMeuble(Integer id, Integer idMeuble, LocalDate dateFabrication, Double quantite,
+            Double coutUnitaireFabrication, Double coutTotalFabrication,
+            Double margeBeneficiaire, Double prixUnitaireDeVente) {
         setId(id);
         setIdMeuble(idMeuble);
         setDateFabrication(dateFabrication);
@@ -28,67 +40,100 @@ public class FabricationMeuble {
         setPrixUnitaireDeVente(prixUnitaireDeVente);
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getIdMeuble() {
+    public Integer getIdMeuble() {
         return idMeuble;
     }
 
-    public void setIdMeuble(int idMeuble) {
+    public void setIdMeuble(Integer idMeuble) {
         this.idMeuble = idMeuble;
     }
 
-    public Date getDateFabrication() {
+    public LocalDate getDateFabrication() {
         return dateFabrication;
     }
 
-    public void setDateFabrication(Date dateFabrication) {
+    public void setDateFabrication(LocalDate dateFabrication) {
         this.dateFabrication = dateFabrication;
     }
 
-    public int getQuantite() {
+    public Double getQuantite() {
         return quantite;
     }
 
-    public void setQuantite(int quantite) {
+    public void setQuantite(Double quantite) {
         this.quantite = quantite;
     }
 
-    public double getCoutUnitaireFabrication() {
+    public Double getCoutUnitaireFabrication() {
         return coutUnitaireFabrication;
     }
 
-    public void setCoutUnitaireFabrication(double coutUnitaireFabrication) {
+    public void setCoutUnitaireFabrication(Double coutUnitaireFabrication) {
         this.coutUnitaireFabrication = coutUnitaireFabrication;
     }
 
-    public double getCoutTotalFabrication() {
+    public Double getCoutTotalFabrication() {
         return coutTotalFabrication;
     }
 
-    public void setCoutTotalFabrication(double coutTotalFabrication) {
+    public void setCoutTotalFabrication(Double coutTotalFabrication) {
         this.coutTotalFabrication = coutTotalFabrication;
     }
 
-    public double getMargeBeneficiaire() {
+    public Double getMargeBeneficiaire() {
         return margeBeneficiaire;
     }
 
-    public void setMargeBeneficiaire(double margeBeneficiaire) {
+    public void setMargeBeneficiaire(Double margeBeneficiaire) {
         this.margeBeneficiaire = margeBeneficiaire;
     }
 
-    public double getPrixUnitaireDeVente() {
+    public Double getPrixUnitaireDeVente() {
         return prixUnitaireDeVente;
     }
 
-    public void setPrixUnitaireDeVente(double prixUnitaireDeVente) {
+    public void setPrixUnitaireDeVente(Double prixUnitaireDeVente) {
         this.prixUnitaireDeVente = prixUnitaireDeVente;
     }
+
+    public void insert(Connection connection) throws SQLException {
+        String query = "INSERT INTO fabrication_meuble (id_meuble, date_fabrication, quantite, marge_beneficiaire) " +
+                "VALUES (?, ?, ?, ?) RETURNING id";
+        PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        statement.setInt(1, getIdMeuble());
+        statement.setObject(2, getDateFabrication());
+        statement.setDouble(3, getQuantite());
+        statement.setDouble(4, getMargeBeneficiaire());
+        statement.executeUpdate();
+        ResultSet rs = statement.getGeneratedKeys();
+        if (rs.next()) {
+           setId( rs.getInt(1));;
+        }
+        rs.close();
+        statement.close();
+    }
+
+    public void update(Connection connection) throws SQLException {
+        String query = "UPDATE fabrication_meuble " +
+                "SET cout_unitaire_fabrication = ?, " +
+                "cout_total_fabrication = ?, " +
+                "prix_unitaire_vente = ? " +
+                "WHERE id = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setDouble(1, getCoutUnitaireFabrication());
+        statement.setDouble(2, getCoutTotalFabrication());
+        statement.setDouble(3, getPrixUnitaireDeVente());
+        statement.setInt(4, getId());
+        statement.executeUpdate();
+        statement.close();
+    }
+    
 }

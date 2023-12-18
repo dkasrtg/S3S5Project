@@ -1,3 +1,9 @@
+<%@ page isErrorPage="true" %>
+<%@ page import="entity.meuble.*" %>
+<%@ page import="java.util.List" %>
+<%
+List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -67,7 +73,7 @@
                   <div class="card">
                     <div class="card-body">
                       <h4 class="mt-0 header-title">Nouvelle fabrication</h4>
-                      <form action="#" method="post">
+                      <form action="/choix_materiau_fabrication_meuble" method="post">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -75,8 +81,14 @@
                                 >Meuble</label
                               >
                               <div class="col-sm-10">
-                                <select class="form-control" name="id_option_reference">
-                                  
+                                <select class="form-control" name="id_meuble">
+                                  <%
+                                  for( VMeuble v : vMeuble){
+                                    %>
+                                    <option value="<%= v.getId() %>"><%= v.getNom() %></option>
+                                    <%
+                                  }
+                                  %>
                                 </select>
                               </div>
                             </div>
@@ -91,7 +103,7 @@
                                   class="form-control"
                                   type="date"
                                   id="example-date-input"
-                                  name="date_simple"
+                                  name="date_fabrication"
                                 />
                               </div>
                             </div>
@@ -108,7 +120,7 @@
                                   class="form-control"
                                   type="text"
                                   id="example-number-input"
-                                  name="pas_entier"
+                                  name="quantite"
                                 />
                               </div>
                             </div>
@@ -123,7 +135,7 @@
                                   class="form-control"
                                   type="text"
                                   id="example-number-input"
-                                  name="pas_entier"
+                                  name="marge_beneficiaire"
                                 />
                               </div>
                             </div>
@@ -204,6 +216,7 @@
         <%@ include file="/statics/footer.jsp"%>
       </div>
     </div>
+    <script src="/js/error.js"></script>
     <script src="/template/assets/js/jquery.min.js"></script>
     <script src="/template/assets/js/popper.min.js"></script>
     <script src="/template/assets/js/bootstrap.min.js"></script>

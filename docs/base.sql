@@ -218,6 +218,20 @@ create table fabrication_meuble(
 );
 
 
+create table detail_fabrication_meuble(
+    id serial primary key,
+    id_fabrication_meuble integer,
+    id_composant_meuble integer,
+    id_stockage_materiau integer,
+    quantite numeric,
+    cout_unitaire numeric,
+    cout_total numeric,
+    foreign key(id_fabrication_meuble) references fabrication_meuble(id),
+    foreign key(id_composant_meuble) references composant_meuble(id),
+    foreign key(id_stockage_materiau) references stockage_materiau(id)
+);
+
+
 insert into type_materiau(nom) values('bois');
 insert into type_materiau(nom) values('metal');
 insert into type_materiau(nom) values('plastique');
