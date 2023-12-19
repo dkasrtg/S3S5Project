@@ -94,4 +94,24 @@ public class VComposantMeuble {
         }
         return composants;
     }
+
+    public static VComposantMeuble selectById(Connection connection, Integer id) throws SQLException {
+        VComposantMeuble composant = null;
+        String query = "SELECT * FROM v_composant_meuble WHERE id = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, id);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            String nom = resultSet.getString("nom");
+            Integer idMeuble = resultSet.getInt("id_meuble");
+            Integer typeIdMateriau = resultSet.getInt("id_type_materiau");
+            Double volume = resultSet.getDouble("volume");
+            String nomTypeMateriau = resultSet.getString("nom_type_materiau");
+            composant = new VComposantMeuble(id, nom, idMeuble, typeIdMateriau, volume, nomTypeMateriau);
+        }
+        resultSet.close();
+        statement.close();
+        return composant;
+    }
+    
 }

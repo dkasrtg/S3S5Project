@@ -76,6 +76,43 @@ insert into details_reference(id_reference,details,note) values(1,'avgvwFVvWVwvW
 insert into details_reference(id_reference,details,note) values(2,'avgvwFVvWVwvWVWvev',10.5);
 insert into details_reference(id_reference,details,note) values(2,'avgvwFVvWVwvWVWvev',10.5);
 
+-- Reference
+
+create table unite_materiau(
+    id serial primary key,
+    nom varchar(200)
+);
+
+create table type_materiau(
+    id serial primary key,
+    nom varchar(200)
+);
+
+create table materiau(
+    id serial primary key,
+    nom varchar(200),
+    id_type_materiau integer,
+    description text,
+    foreign key(id_type_materiau) references type_materiau(id)
+);
+
+create table dimension_materiau(
+    id serial primary key,
+    longueur numeric,
+    largeur numeric,
+    hauteur numeric
+);
+
+create table dimension_unite_possible_materiau(
+    id serial primary key,
+    id_materiau integer,
+    id_dimension_materiau integer,
+    id_unite_materiau integer,
+    foreign key(id_materiau) references materiau(id),
+    foreign key(id_dimension_materiau) references dimension_materiau(id),
+    foreign key(id_unite_materiau) references unite_materiau(id)
+);
+
 
 create table categorie_meuble(
     id serial primary key,
@@ -91,10 +128,6 @@ create table lieu_meuble(
     id serial primary key,
     nom varchar(200)
 );
-
-
-
-
 
 create table meuble(
     id serial primary key,
@@ -128,56 +161,7 @@ create table composant_meuble(
     foreign key(id_meuble) references meuble(id),
     foreign key(id_type_materiau) references type_materiau(id)
 );
-
-
-
-create table unite_materiau(
-    id serial primary key,
-    nom varchar(200)
-);
-
-insert into unite_materiau(nom) values('planche');
-insert into unite_materiau(nom) values('panneau');
-insert into unite_materiau(nom) values('feuille');
-insert into unite_materiau(nom) values('poteau');
-insert into unite_materiau(nom) values('barre');
-insert into unite_materiau(nom) values('tube');
-
-
-
-create table type_materiau(
-    id serial primary key,
-    nom varchar(200)
-);
-
-create table materiau(
-    id serial primary key,
-    nom varchar(200),
-    id_type_materiau integer,
-    description text,
-    foreign key(id_type_materiau) references type_materiau(id)
-);
-
-create table dimension_materiau(
-    id serial primary key,
-    longueur numeric,
-    largeur numeric,
-    hauteur numeric
-);
-
-insert into dimension_materiau(longueur, largeur , hauteur) values(1,1,1);
-
-
-create table dimension_unite_possible_materiau(
-    id serial primary key,
-    id_materiau integer,
-    id_dimension_materiau integer,
-    id_unite_materiau integer,
-    foreign key(id_materiau) references materiau(id),
-    foreign key(id_dimension_materiau) references dimension_materiau(id),
-    foreign key(id_unite_materiau) references unite_materiau(id)
-);
-
+    
 create table materiau_possible_style_meuble(
     id serial primary key,
     id_style_meuble integer,
@@ -187,9 +171,9 @@ create table materiau_possible_style_meuble(
 );
 
 
+
 create or replace view v_materiau_possible_style_meuble as 
 select mpsm.*,m.nom as nom_materiau,m.id_type_materiau,tm.nom as nom_type_materiau from materiau_possible_style_meuble mpsm join materiau m on m.id=mpsm.id_materiau join type_materiau tm on tm.id=m.id_type_materiau;
-
 
 create table stockage_materiau(
     id serial primary key,
@@ -217,7 +201,6 @@ create table fabrication_meuble(
     foreign key(id_meuble) references meuble(id)
 );
 
-
 create table detail_fabrication_meuble(
     id serial primary key,
     id_fabrication_meuble integer,
@@ -231,33 +214,14 @@ create table detail_fabrication_meuble(
     foreign key(id_stockage_materiau) references stockage_materiau(id)
 );
 
-
-insert into type_materiau(nom) values('bois');
-insert into type_materiau(nom) values('metal');
-insert into type_materiau(nom) values('plastique');
-insert into type_materiau(nom) values('verre');
-insert into type_materiau(nom) values('tissus');
-
-
-
-insert into materiau(nom,description,id_type_materiau) values('palissandre','Bla bla',1);
-
-
 create or replace view v_materiau as 
 select m.*,tm.nom as nom_type_materiau from materiau m join type_materiau tm  on m.id_type_materiau=tm.id;
-
-
 
 create or replace view v_dimension_possible_materiau as
 select dupm.id,dupm.id_materiau,dupm.id_dimension_materiau,dm.longueur,dm.largeur,dm.hauteur from dimension_unite_possible_materiau dupm join dimension_materiau dm on dm.id = dupm.id_dimension_materiau;
 
-
 create or replace view v_unite_possible_materiau as
 select distinct dupm.id_materiau,dupm.id_unite_materiau,um.nom as nom_unite_materiau from dimension_unite_possible_materiau dupm join unite_materiau um on um.id=dupm.id_unite_materiau;
-
-insert into stockage_materiau(id_materiau,id_dimension_materiau,quantite_stockage,date_stockage,prix_unitaire,prix_total) 
-values(1,1,200,'2022-02-02',100,20000);
-
 
 create or replace view v_stockage_materiau as
 select sm.*,m.nom as nom_materiau, m.id_type_materiau, tm.nom as nom_type_materiau, dm.longueur, dm.largeur, dm.hauteur, um.nom as nom_unite_materiau 
@@ -265,8 +229,6 @@ from stockage_materiau sm join materiau m on m.id=sm.id_materiau
 join dimension_materiau dm on dm.id=sm.id_dimension_materiau 
 join unite_materiau um on um.id=sm.id_unite_materiau
 join type_materiau tm on tm.id = m.id_type_materiau ;
-
-
 
 create or replace view v_meuble as
 select m.*,sm.nom as nom_style_meuble,cm.nom as nom_categorie_meuble from meuble m join style_meuble sm on sm.id=m.id_style_meuble join categorie_meuble cm on cm.id=m.id_categorie_meuble;
@@ -276,3 +238,56 @@ select lpm.*,lm.nom from lieu_possible_meuble lpm join lieu_meuble lm on lpm.id_
 
 create or replace view v_composant_meuble as
 select cm.*,tm.nom as nom_type_materiau from composant_meuble cm join type_materiau tm on tm.id=cm.id_type_materiau ;
+
+INSERT INTO categorie_meuble( id, nom ) VALUES ( 1, 'Table');
+INSERT INTO categorie_meuble( id, nom ) VALUES ( 2, 'Chaise');
+INSERT INTO categorie_meuble( id, nom ) VALUES ( 3, 'Canape');
+INSERT INTO categorie_meuble( id, nom ) VALUES ( 4, 'Armoire');
+INSERT INTO categorie_meuble( id, nom ) VALUES ( 5, 'Coffre');
+INSERT INTO categorie_meuble( id, nom ) VALUES ( 6, 'Coiffeuse');
+INSERT INTO categorie_meuble( id, nom ) VALUES ( 7, 'Biblotheque');
+INSERT INTO categorie_meuble( id, nom ) VALUES ( 8, 'Vitrine');
+INSERT INTO dimension_materiau( id, longueur, largeur, hauteur ) VALUES ( 1, 1, 1, 1);
+INSERT INTO dimension_materiau( id, longueur, largeur, hauteur ) VALUES ( 2, 20, 2, 1);
+INSERT INTO lieu_meuble( id, nom ) VALUES ( 1, 'Cuisine');
+INSERT INTO lieu_meuble( id, nom ) VALUES ( 2, 'Salle a manger');
+INSERT INTO lieu_meuble( id, nom ) VALUES ( 3, 'Salon');
+INSERT INTO lieu_meuble( id, nom ) VALUES ( 4, 'Chambre a coucher');
+INSERT INTO style_meuble( id, nom ) VALUES ( 1, 'Boheme');
+INSERT INTO style_meuble( id, nom ) VALUES ( 2, 'Scandinave');
+INSERT INTO style_meuble( id, nom ) VALUES ( 3, 'Contemporaine');
+INSERT INTO type_materiau( id, nom ) VALUES ( 1, 'bois');
+INSERT INTO type_materiau( id, nom ) VALUES ( 2, 'metal');
+INSERT INTO type_materiau( id, nom ) VALUES ( 3, 'plastique');
+INSERT INTO type_materiau( id, nom ) VALUES ( 4, 'verre');
+INSERT INTO type_materiau( id, nom ) VALUES ( 5, 'tissus');
+INSERT INTO type_materiau( id, nom ) VALUES ( 6, 'contreplaque');
+INSERT INTO unite_materiau( id, nom ) VALUES ( 1, 'planche');
+INSERT INTO unite_materiau( id, nom ) VALUES ( 2, 'panneau');
+INSERT INTO unite_materiau( id, nom ) VALUES ( 3, 'feuille');
+INSERT INTO unite_materiau( id, nom ) VALUES ( 4, 'poteau');
+INSERT INTO unite_materiau( id, nom ) VALUES ( 5, 'barre');
+INSERT INTO unite_materiau( id, nom ) VALUES ( 6, 'tube');
+INSERT INTO unite_materiau( id, nom ) VALUES ( 7, 'bobine');
+INSERT INTO materiau( id, nom, id_type_materiau, description ) VALUES ( 1, 'Palissandre', 1, 'Bois cool non nul');
+INSERT INTO materiau( id, nom, id_type_materiau, description ) VALUES ( 2, 'Ebene', 1, 'Bois mlay');
+INSERT INTO materiau_possible_style_meuble( id, id_style_meuble, id_materiau ) VALUES ( 1, 2, 1);
+INSERT INTO materiau_possible_style_meuble( id, id_style_meuble, id_materiau ) VALUES ( 2, 3, 2);
+INSERT INTO meuble( id, nom, id_style_meuble, id_categorie_meuble, longueur, largeur, hauteur, volume, volume_materiau, description ) VALUES ( 1, 'Tabouret Tabou', 1, 1, 10, 10, 10, 1000, 100, 'wer');
+INSERT INTO composant_meuble( id, nom, id_meuble, id_type_materiau, volume ) VALUES ( 1, 'Structure', 1, 1, 100);
+INSERT INTO dimension_unite_possible_materiau( id, id_materiau, id_dimension_materiau, id_unite_materiau ) VALUES ( 1, 1, 1, 1);
+INSERT INTO dimension_unite_possible_materiau( id, id_materiau, id_dimension_materiau, id_unite_materiau ) VALUES ( 2, 1, 2, 1);
+INSERT INTO dimension_unite_possible_materiau( id, id_materiau, id_dimension_materiau, id_unite_materiau ) VALUES ( 3, 2, 1, 1);
+INSERT INTO lieu_possible_meuble( id, id_meuble, id_lieu_meuble ) VALUES ( 1, 1, 1);
+
+-- additionnals
+
+create table duree_fabrication(
+    id serial primary key,
+    id_categorie_meuble integer,
+    id_style_meuble integer,
+    heure_par_volume numeric,
+    foreign key(id_categorie_meuble) references categorie_meuble(id),
+    foreign key(id_style_meuble) references style_meuble(id)
+);
+

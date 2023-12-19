@@ -11,6 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/test_affichage")
 public class TestAffichage extends HttpServlet {
     protected void doGet(HttpServletRequest request,HttpServletResponse response)throws ServletException, IOException{
-        request.getRequestDispatcher("fabrication_meuble.jsp").forward(request, response);
+        request.getRequestDispatcher("test_multi_search.jsp").forward(request, response);
     }
 }

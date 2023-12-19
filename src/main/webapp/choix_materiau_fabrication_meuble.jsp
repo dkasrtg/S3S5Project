@@ -115,6 +115,7 @@ List<VComposantMeuble> vComposantMeuble = (List<VComposantMeuble>) request.getAt
                               for (VComposantMeuble v : vComposantMeuble){
                                 %>
                                 <input type="hidden" name="id_composant[]" value="<%= v.getId() %>">
+                                <input type="hidden" name="id_type_materiau[]" value="<%= v.getIdTypeMateriau() %>">
                                 <div class="row mb-4">
                                   <div class="col-2">
                                     <input

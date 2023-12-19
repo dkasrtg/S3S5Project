@@ -1,8 +1,7 @@
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\reference\NouvelleReferenceServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\reference\VReference.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\exception\InvalidTypeMateriauException.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\materiau\UniteMateriauServlet.java
-D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\SuiteFabricationMeubleServlet.java
-D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\DetailsFabricationMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\reference\ReferenceServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\reference\Checkbox.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\VDimensionPossibleMateriau.java
@@ -20,7 +19,6 @@ D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materi
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\database\PG.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\reference\DeleteReferenceServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\materiau\DimensionMateriauServlet.java
-D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\StockageMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\VMateriau.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\reference\OptionReference.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\materiau\DimensionUnitePossibleMateriauServlet.java
@@ -30,6 +28,7 @@ D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meubl
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\MeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\VStockageMateriau.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\VMateriauPossibleStyleMeuble.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\exception\QuantiteInsuffisantExcpetion.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\CategorieMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\VUnitePossibleMateriau.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\DestockageMateriau.java
@@ -39,6 +38,7 @@ D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meubl
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\reference\DetailsReference.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\ComposantMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\UniteMateriau.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\DetailFabricationMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\VLieuPossibleMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\materiau\StockageMateriauServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\reference\CheckboxReference.java
@@ -46,9 +46,11 @@ D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meubl
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\LieuPossibleMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\Meuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\VMeuble.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\VerificationFabricationMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\TypeMateriau.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\adapter\Adapter.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\FabricationMeuble.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\ChoixMateriauFabricationMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\reference\DetailsReferenceServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\TypePossibleMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\exception\InvalidDimensionUniteMateriauException.java
