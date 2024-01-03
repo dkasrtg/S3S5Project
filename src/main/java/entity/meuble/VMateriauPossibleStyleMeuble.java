@@ -77,7 +77,7 @@ public class VMateriauPossibleStyleMeuble {
 
     public static List<VMateriauPossibleStyleMeuble> selectByIdStyleMeuble(Connection connection, int idStyleMeuble) throws SQLException {
         List<VMateriauPossibleStyleMeuble> materiauList = new ArrayList<>();
-        String query = "SELECT * FROM public.v_materiau_possible_style_meuble WHERE id_style_meuble = ?";
+        String query = "SELECT * FROM v_materiau_possible_style_meuble WHERE id_style_meuble = ?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, idStyleMeuble);
         ResultSet resultSet = statement.executeQuery();
@@ -95,4 +95,5 @@ public class VMateriauPossibleStyleMeuble {
         resultSet.close();
         return materiauList;
     }
+
 }

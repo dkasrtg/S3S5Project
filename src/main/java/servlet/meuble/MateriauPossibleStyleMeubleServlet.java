@@ -2,6 +2,7 @@ package servlet.meuble;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 import database.PG;
@@ -17,20 +18,28 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/materiau_possible_style_meuble")
 public class MateriauPossibleStyleMeubleServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request,HttpServletResponse response)throws ServletException, IOException{
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         Connection connection = null;
         try {
             connection = PG.getConnection();
-            List<StyleMeuble> styleMeuble = StyleMeuble.list(connection);
+            List<StyleMeuble> styleMeubles = StyleMeuble.list(connection);
             List<VMateriau> vMateriau = VMateriau.list(connection);
-            request.setAttribute("styleMeuble", styleMeuble);
+            request.setAttribute("styleMeubles", styleMeubles);
             request.setAttribute("vMateriau", vMateriau);
-            Integer idStyleMeuble = -1;
-            if (request.getParameter("id_style_meuble")!=null) {
-                idStyleMeuble = Integer.parseInt(request.getParameter("id_style_meuble"));
+            if (request.getParameter("id_style_meuble") != null) {
+                Integer idStyleMeuble = Integer.parseInt(request.getParameter("id_style_meuble"));
+                StyleMeuble styleMeuble = StyleMeuble.selectById(connection, idStyleMeuble);
+                List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = VMateriauPossibleStyleMeuble
+                        .selectByIdStyleMeuble(connection, idStyleMeuble);
+                request.setAttribute("styleMeuble", styleMeuble);
+                request.setAttribute("vMateriauPossibleStyleMeuble", vMateriauPossibleStyleMeuble);
+            } else {
+                StyleMeuble styleMeuble = new StyleMeuble(null, "");
+                request.setAttribute("styleMeuble", styleMeuble);
+                List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = new ArrayList<>();
+                request.setAttribute("vMateriauPossibleStyleMeuble", vMateriauPossibleStyleMeuble);
             }
-            List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = VMateriauPossibleStyleMeuble.selectByIdStyleMeuble(connection, idStyleMeuble);
-            request.setAttribute("vMateriauPossibleStyleMeuble",vMateriauPossibleStyleMeuble);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -49,7 +58,8 @@ public class MateriauPossibleStyleMeubleServlet extends HttpServlet {
         try {
             Integer idMateriau = Integer.parseInt(request.getParameter("id_materiau"));
             Integer idStyleMeuble = Integer.parseInt(request.getParameter("id_style_meuble"));
-            MateriauPossibleStyleMeuble materiauPossibleStyleMeuble = new MateriauPossibleStyleMeuble(null, idStyleMeuble, idMateriau);
+            MateriauPossibleStyleMeuble materiauPossibleStyleMeuble = new MateriauPossibleStyleMeuble(null,
+                    idStyleMeuble, idMateriau);
             connection = PG.getConnection();
             materiauPossibleStyleMeuble.insert(connection);
             connection.commit();

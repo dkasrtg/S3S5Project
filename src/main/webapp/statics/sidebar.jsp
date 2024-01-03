@@ -29,32 +29,10 @@
           </li>
           <li class="menu-title">Materiau</li>
           <li>
-            <a href="/dimension_materiau" class="waves-effect"
-              ><i class="fas fa-ruler"></i>
-              <span
-                >Dimension
-                <span class="badge badge-pill badge-primary float-right"
-                  ></span
-                ></span
-              ></a
-            >
-          </li>
-          <li>
             <a href="/materiau" class="waves-effect"
               ><i class="fas fa-archive"></i>
               <span
                 >Materiau
-                <span class="badge badge-pill badge-primary float-right"
-                  ></span
-                ></span
-              ></a
-            >
-          </li>
-          <li>
-            <a href="/stockage_materiau" class="waves-effect"
-              ><i class="fas fa-warehouse"></i>
-              <span
-                >Stockage
                 <span class="badge badge-pill badge-primary float-right"
                   ></span
                 ></span
@@ -72,45 +50,12 @@
               ></a
             >
           </li>
-          <li>
-            <a href="/unite_materiau" class="waves-effect"
-              ><i class="fas fa-balance-scale"></i>
-              <span
-                >Unite
-                <span class="badge badge-pill badge-primary float-right"
-                  ></span
-                ></span
-              ></a
-            >
-          </li>
           <li class="menu-title">Meuble</li>
           <li>
             <a href="/categorie_meuble" class="waves-effect"
               ><i class="fas fa-couch"></i>
               <span
                 >Categorie
-                <span class="badge badge-pill badge-primary float-right"
-                  ></span
-                ></span
-              ></a
-            >
-          </li>
-          <li>
-            <a href="/fabrication_meuble" class="waves-effect"
-              ><i class="fas fa-toolbox"></i>
-              <span
-                >Fabrication
-                <span class="badge badge-pill badge-primary float-right"
-                  ></span
-                ></span
-              ></a
-            >
-          </li>
-          <li>
-            <a href="/lieu_meuble" class="waves-effect"
-              ><i class="fas fa-map-marker"></i>
-              <span
-                >Lieu
                 <span class="badge badge-pill badge-primary float-right"
                   ></span
                 ></span
@@ -144,6 +89,28 @@
               ><i class="fas fa-puzzle-piece"></i>
               <span
                 >Style et Materiau
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/taille_meuble" class="waves-effect"
+              ><i class="fas fa-arrows-alt"></i>
+              <span
+                >Taille
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/meuble_contenant_materiau" class="waves-effect"
+              ><i class="fab fa-mix"></i>
+              <span
+                >Meuble contenant materiau
                 <span class="badge badge-pill badge-primary float-right"
                   ></span
                 ></span

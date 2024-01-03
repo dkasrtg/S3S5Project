@@ -5,22 +5,22 @@ import java.sql.Connection;
 import java.util.List;
 
 import database.PG;
-import entity.meuble.LieuMeuble;
+import entity.meuble.TailleMeuble;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/lieu_meuble")
-public class LieuMeubleServlet extends HttpServlet {
+@WebServlet("/taille_meuble")
+public class TailleMeubleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Connection connection = null;
         try {
             connection = PG.getConnection();
-            List<LieuMeuble> lieuMeuble = LieuMeuble.list(connection);
-            request.setAttribute("lieuMeuble", lieuMeuble);
+            List<TailleMeuble> tailleMeuble = TailleMeuble.list(connection);
+            request.setAttribute("tailleMeuble", tailleMeuble);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -29,7 +29,7 @@ public class LieuMeubleServlet extends HttpServlet {
             } catch (Exception e) {
             }
         }
-        request.getRequestDispatcher("lieu_meuble.jsp").forward(request, response);
+        request.getRequestDispatcher("taille_meuble.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -38,9 +38,9 @@ public class LieuMeubleServlet extends HttpServlet {
         String error = "";
         try {
             String nom = request.getParameter("nom");
-            LieuMeuble lieuMeuble = new LieuMeuble(null, nom);
             connection = PG.getConnection();
-            lieuMeuble.insert(connection);
+            TailleMeuble tailleMeuble = new TailleMeuble(null, nom);
+            tailleMeuble.insert(connection);
             connection.commit();
         } catch (Exception e) {
             error = "?error=" + e.getMessage();
@@ -50,6 +50,6 @@ public class LieuMeubleServlet extends HttpServlet {
             } catch (Exception e) {
             }
         }
-        response.sendRedirect("/lieu_meuble" + error);
+        response.sendRedirect("/taille_meuble" + error);
     }
 }

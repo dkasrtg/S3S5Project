@@ -3,7 +3,8 @@
 <%@ page import="entity.materiau.*" %>
 <%@ page import="java.util.List" %>
 <%
-List<StyleMeuble> styleMeuble = (List<StyleMeuble>) request.getAttribute("styleMeuble");
+List<StyleMeuble> styleMeubles = (List<StyleMeuble>) request.getAttribute("styleMeubles");
+StyleMeuble styleMeuble = (StyleMeuble) request.getAttribute("styleMeuble");
 List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
 List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = (List<VMateriauPossibleStyleMeuble>) request.getAttribute("vMateriauPossibleStyleMeuble");
 %>
@@ -105,7 +106,7 @@ List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = (List<VMateria
                               <div class="col-sm-10">
                                 <select class="form-control" name="id_style_meuble">
                                   <%
-                                  for( StyleMeuble s : styleMeuble) {
+                                  for( StyleMeuble s : styleMeubles) {
                                     %>
                                     <option value="<%= s.getId() %>"><%= s.getNom() %></option>
                                     <%
@@ -134,7 +135,6 @@ List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = (List<VMateria
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Les materiaux associes aux style</h4>
                       <form action="/materiau_possible_style_meuble" method="get">
                         <div class="row">
                           <div class="col-xl-6">
@@ -145,7 +145,7 @@ List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = (List<VMateria
                               <div class="col-sm-10">
                                 <select class="form-control" name="id_style_meuble">
                                   <%
-                                  for( StyleMeuble s : styleMeuble) {
+                                  for( StyleMeuble s : styleMeubles) {
                                     %>
                                     <option value="<%= s.getId() %>"><%= s.getNom() %></option>
                                     <%
@@ -169,6 +169,7 @@ List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = (List<VMateria
                           </div>
                         </div>
                       </form>
+                      <h4 class="mt-0 header-title">Les materiaux associes aux style <i>"<%= styleMeuble.getNom() %>"</i> </h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive nowrap"

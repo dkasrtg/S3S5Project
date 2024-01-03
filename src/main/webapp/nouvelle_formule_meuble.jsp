@@ -1,8 +1,12 @@
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.meuble.LieuMeuble" %>
+<%@ page import="entity.meuble.*" %>
+<%@ page import="entity.materiau.*" %>
 <%@ page import="java.util.List" %>
 <%
-List<LieuMeuble> lieuMeuble = (List<LieuMeuble>) request.getAttribute("lieuMeuble");
+VMeuble vMeuble = (VMeuble) request.getAttribute("vMeuble");  
+List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = (List<VMateriauPossibleStyleMeuble>) request.getAttribute("vMateriauPossibleStyleMeuble");
+List<VMateriau> vMateriaus = (List<VMateriau>) request.getAttribute("vMateriaus");  
+List<TailleMeuble> tailleMeuble = (List<TailleMeuble>) request.getAttribute("tailleMeuble");  
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +17,7 @@ List<LieuMeuble> lieuMeuble = (List<LieuMeuble>) request.getAttribute("lieuMeubl
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"
     />
-    <title>Meuble - Lieu</title>
+    <title>Meuble - Formule</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -60,10 +64,10 @@ List<LieuMeuble> lieuMeuble = (List<LieuMeuble>) request.getAttribute("lieuMeubl
                         <li class="breadcrumb-item">
                           <a href="#">Meuble</a>
                         </li>
-                        <li class="breadcrumb-item active">Lieu</li>
+                        <li class="breadcrumb-item active">Formule</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Lieu</h4>
+                    <h4 class="page-title">Formule</h4>
                   </div>
                 </div>
               </div>
@@ -72,29 +76,45 @@ List<LieuMeuble> lieuMeuble = (List<LieuMeuble>) request.getAttribute("lieuMeubl
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Nouveau lieu</h4>
-                      <form action="/lieu_meuble" method="post">
+                      <h4 class="mt-0 header-title">Nouvelle formule pour le meuble <i>"<%= vMeuble.getNom() %>"</i></h4>
+                      <form action="/nouvelle_formule_meuble" method="post">
+                        <input type="hidden" name="id_meuble" value="<%= vMeuble.getId() %>">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Nom</label
+                              <label class="col-sm-2 col-form-label"
+                                >Taille</label
                               >
                               <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  id="example-text-input"
-                                  name="nom"
-                                  value=""
-                                />
+                                <select class="form-control" name="id_taille_meuble">
+                                  <%
+                                  for (TailleMeuble t: tailleMeuble){
+                                    %>
+                                    <option value="<%= t.getId() %>"><%= t.getNom() %></option>
+                                    <%
+                                  }
+                                  %>
+                                </select>
                               </div>
                             </div>
                           </div>
+                          <div class="col-xl-12">
+                            <dt class="col-sm-3">Compositions<button style="margin-left: 30px;" type="button" class="btn btn-success" onclick="addNewLine()">+</button> </dt>
+                            <div class="row">
+                              <div class="col-4">
+                                <p>Materiau</p>
+                              </div>
+                              <div class="col-4">
+                                <p>Quantite</p>
+                              </div>
+                            </div>
+                            <div class="row" id="append">
+                            </div>
+                          </div>
+                          <div class="col-xl-6"></div>
                           <div class="col-xl-6">
                             <div class="form-group row">
+                              <div class="col-sm-10"></div>
                               <div class="col-sm-2">
                                 <button
                                   type="submit"
@@ -110,26 +130,7 @@ List<LieuMeuble> lieuMeuble = (List<LieuMeuble>) request.getAttribute("lieuMeubl
                     </div>
                   </div>
                 </div>
-                <div class="col-12">
-                  <div class="card">
-                    <div class="card-body">
-                      <h4 class="mt-0 header-title">Liste des lieux</h4>
-                      <p class="text-muted mb-4 font-13"></p>
-                      <div class="row">
-                        <%
-                        for (LieuMeuble l : lieuMeuble) {
-                          %>
-                          <div class="col-2">
-                            <p><%= l.getNom() %></p>
-                          </div>
-                          <%
-                        }
-                        %>
-                       
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <!-- end col -->
               </div>
               <!-- Test affichage end -->
             </div>
@@ -138,6 +139,45 @@ List<LieuMeuble> lieuMeuble = (List<LieuMeuble>) request.getAttribute("lieuMeubl
         <%@ include file="/statics/footer.jsp"%>
       </div>
     </div>
+    <script>
+      function addNewLine() {
+      var newLine = document.createElement('div');
+      newLine.className = 'col-12';
+      newLine.innerHTML = `
+          <div class="row mb-1">
+            <div class="col-4">
+              <select class="form-control" name="id_materiau[]">
+                <%
+                for(VMateriauPossibleStyleMeuble v : vMateriauPossibleStyleMeuble){
+                  %>
+                  <option value="<%= v.getIdMateriau() %>"><%= v.getNomMateriau() %></option>
+                  <%
+                }
+                %>
+              </select>
+            </div>
+            <div class="col-4">
+              <input
+                class="form-control"
+                type="text"
+                id="example-text-input"
+                name="quantite[]"
+              />
+            </div>
+            <div class="col-4">
+                <button class="btn btn-danger" type="button">X</button>
+            </div>
+          </div>
+      `;
+        document.getElementById('append').appendChild(newLine);
+        var closeButton = newLine.querySelector('.btn-danger');
+        closeButton.addEventListener('click', function() {
+            this.closest('.col-12').remove();
+        });
+    }
+    addNewLine();
+    </script>
+    <script src="/js/error.js"></script>
     <script src="/template/assets/js/jquery.min.js"></script>
     <script src="/template/assets/js/popper.min.js"></script>
     <script src="/template/assets/js/bootstrap.min.js"></script>

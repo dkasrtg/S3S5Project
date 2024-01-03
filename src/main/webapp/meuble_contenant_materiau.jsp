@@ -1,8 +1,11 @@
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.materiau.UniteMateriau" %>
+<%@ page import="entity.meuble.*" %>
+<%@ page import="entity.materiau.*" %>
 <%@ page import="java.util.List" %>
 <%
-List<UniteMateriau> uniteMateriau = (List<UniteMateriau>) request.getAttribute("uniteMateriau");
+List<VMateriau> vMateriaus = (List<VMateriau>) request.getAttribute("vMateriaus");  
+VMateriau vMateriau = (VMateriau) request.getAttribute("vMateriau");  
+List<VFormuleMeuble> vFormuleMeuble = (List<VFormuleMeuble>) request.getAttribute("vFormuleMeuble");  
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +16,7 @@ List<UniteMateriau> uniteMateriau = (List<UniteMateriau>) request.getAttribute("
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"
     />
-    <title>Materiau - Unite</title>
+    <title>Meuble - Contenant materiau</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -58,12 +61,12 @@ List<UniteMateriau> uniteMateriau = (List<UniteMateriau>) request.getAttribute("
                     <div class="btn-group float-right">
                       <ol class="breadcrumb hide-phone p-0 m-0">
                         <li class="breadcrumb-item">
-                          <a href="#">Materiau</a>
+                          <a href="#">Meuble</a>
                         </li>
-                        <li class="breadcrumb-item active">Unite</li>
+                        <li class="breadcrumb-item active">Formule</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Unite</h4>
+                    <h4 class="page-title">Formule</h4>
                   </div>
                 </div>
               </div>
@@ -72,62 +75,80 @@ List<UniteMateriau> uniteMateriau = (List<UniteMateriau>) request.getAttribute("
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Nouvelle unite</h4>
-                      <form action="/unite_materiau" method="post">
+                      <form action="/meuble_contenant_materiau" method="get">
                         <div class="row">
-                          <div class="col-xl-6">
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Nom</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  id="example-text-input"
-                                  name="nom"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-xl-6">
-                            <div class="form-group row">
-                              <div class="col-sm-2">
-                                <button
-                                  type="submit"
-                                  class="btn btn-primary waves-effect waves-light"
-                                >
-                                  Submit
-                                </button>
-                              </div>
+                        <div class="col-xl-6">
+                          <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"
+                              >Materiau</label
+                            >
+                            <div class="col-sm-10">
+                              <select class="form-control" name="id_materiau">
+                                <%
+                                for(VMateriau v : vMateriaus){
+                                  %>
+                                  <option value="<%= v.getId() %>"><%= v.getNom() %></option>
+                                  <%
+                                }
+                                %>
+                              </select>
                             </div>
                           </div>
                         </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="card">
-                    <div class="card-body">
-                      <h4 class="mt-0 header-title">Liste des unite</h4>
-                      <p class="text-muted mb-4 font-13"></p>
-                      <div class="row">
-                        <%
-                        for (UniteMateriau u : uniteMateriau){
-                          %>
-                          <div class="col-2">
-                            <p><%= u.getNom() %></p>
+                        <div class="col-xl-6">
+                          <div class="form-group row">
+                            
+                              <button
+                                type="submit"
+                                class="btn btn-primary waves-effect waves-light"
+                              >
+                                OK
+                              </button>
                           </div>
-                          <%
-                        }
-                        %>
+                        </div>
                       </div>
+                      </form>
+                      <h4 class="mt-0 header-title">Les meubles contentant le materiau <i>"<%= vMateriau.getNom() %>"</i></h4>
+                      <table
+                        id="datatable"
+                        class="table table-bordered dt-responsive nowrap"
+                        style="
+                          border-collapse: collapse;
+                          border-spacing: 0;
+                          width: 100%;
+                        "
+                      >
+                        <thead>
+                          <tr>
+                            <th>Id</th>
+                            <th>Nom</th>
+                            <th>Categorie</th>
+                            <th>Style</th>
+                            <th>Taille</th>
+                            <th>Quantite</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <%
+                          for(VFormuleMeuble v : vFormuleMeuble) {
+                            %>
+                            <tr>
+                              <td><%= v.getId() %></td>
+                              <td><%= v.getNomMeuble() %></td>
+                              <td><%= v.getNomCategorieMeuble() %></td>
+                              <td><%= v.getNomStyleMeuble() %></td>
+                              <td><%= v.getNomTailleMeuble() %></td>
+                              <td><%= v.getQuantite() %></td>
+                            </tr>
+                            <%
+                          }
+                          %>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
+                <!-- end col -->
               </div>
               <!-- Test affichage end -->
             </div>

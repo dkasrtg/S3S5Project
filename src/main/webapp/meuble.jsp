@@ -5,7 +5,6 @@
 <%
 List<StyleMeuble> styleMeuble = (List<StyleMeuble>) request.getAttribute("styleMeuble");
 List<CategorieMeuble> categorieMeuble = (List<CategorieMeuble>) request.getAttribute("categorieMeuble");
-List<LieuMeuble> lieuMeuble = (List<LieuMeuble>) request.getAttribute("lieuMeuble");
 List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typeMateriau");
 List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
 %>
@@ -112,59 +111,6 @@ List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
                                 />
                               </div>
                             </div>
-                            <div class="row">
-                              <div class="col-4">
-                                <div class="form-group row">
-                                  <label
-                                    for="example-text-input"
-                                    class="col-sm-8 col-form-label"
-                                    >Longueur</label
-                                  >
-                                  <div class="col-sm-4">
-                                    <input
-                                      class="form-control"
-                                      type="text"
-                                      id="example-text-input"
-                                      name="longueur"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-4">
-                                <div class="form-group row">
-                                  <label
-                                    for="example-text-input"
-                                    class="col-sm-8 col-form-label"
-                                    >Largeur</label
-                                  >
-                                  <div class="col-sm-4">
-                                    <input
-                                      class="form-control"
-                                      type="text"
-                                      id="example-text-input"
-                                      name="largeur"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-4">
-                                <div class="form-group row">
-                                  <label
-                                    for="example-text-input"
-                                    class="col-sm-8 col-form-label"
-                                    >Hauteur</label
-                                  >
-                                  <div class="col-sm-4">
-                                    <input
-                                      class="form-control"
-                                      type="text"
-                                      id="example-text-input"
-                                      name="hauteur"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
                           </div>
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -198,70 +144,6 @@ List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
                                 %>
                                 </select>
                               </div>
-                            </div>
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Volume materiau</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  id="example-text-input"
-                                  name="volume_materiau"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-xl-12">
-                            <div class="form-group row">
-                              <label class="col-md-1 my-2 control-label"
-                                >Lieux</label
-                              >
-                              <div class="col-md-11">
-                                <%
-                                for(LieuMeuble l : lieuMeuble){
-                                  %>
-                                  <div class="form-check-inline my-2">
-                                    <div class="custom-control custom-checkbox">
-                                      <input
-                                        type="checkbox"
-                                        class="custom-control-input"
-                                        id="l<%= l.getId() %>"
-                                        data-parsley-multiple="groups"
-                                        value="<%= l.getId() %>"
-                                        name="id_lieu_meuble[]"
-                                      />
-                                      <label
-                                        class="custom-control-label"
-                                        for="l<%= l.getId() %>"
-                                        ><%= l.getNom() %></label
-                                      >
-                                    </div>
-                                  </div>
-                                  <%
-                                }
-                                %>
-                                
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-xl-12">
-                            <dt class="col-sm-3">Composants<button style="margin-left: 30px;" type="button" class="btn btn-success" onclick="addNewLine()">+</button> </dt>
-                            <div class="row">
-                              <div class="col-3">
-                                <p>Nom</p>
-                              </div>
-                              <div class="col-3">
-                                <p>Type de materiau</p>
-                              </div>
-                              <div class="col-3">
-                                <p>Volume</p>
-                              </div>
-                            </div>
-                            <div class="row" id="append">
                             </div>
                           </div>
                           <div class="col-xl-6"></div>
@@ -302,7 +184,6 @@ List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
                             <th>Nom</th>
                             <th>Categorie</th>
                             <th>Style</th>
-                            <th>Lieux</th>
                             <th></th>
                           </tr>
                         </thead>
@@ -312,23 +193,16 @@ List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
                             %>
                             <tr>
                               <td><%= v.getId() %></td>
-                              <td><%= v.getNom() %>u</td>
+                              <td><%= v.getNom() %></td>
                               <td><%= v.getNomCategorieMeuble() %></td>
                               <td><%= v.getNomStyleMeuble() %></td>
                               <td>
-                                <%
-                                for(VLieuPossibleMeuble vlpm : v.getVLieuPossibleMeuble()){
-                                  out.print(vlpm.getNom() + " ; "); 
-                                }
-                                %>
-                              </td>
-                              <td>
                                 <div class="row">
                                   <div class="col-3">
-                                    <form action="/detail_meuble" method="get">
+                                    <form action="/nouvelle_formule_meuble" method="get">
                                       <input type="hidden" name="id_meuble" value="<%= v.getId() %>">
                                       <button type="submit" class="btn btn-success">
-                                        <i class="fas fa-info-circle"></i>
+                                        <i class="fas fa-calculator"></i>
                                       </button>
                                     </form>
                                   </div>
@@ -353,52 +227,6 @@ List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
         <%@ include file="/statics/footer.jsp"%>
       </div>
     </div>
-    <script>
-      function addNewLine() {
-      var newLine = document.createElement('div');
-      newLine.className = 'col-12';
-      newLine.innerHTML = `
-          <div class="row mb-1">
-            <div class="col-3">
-              <input
-                class="form-control"
-                type="text"
-                id="example-text-input"
-                name="nom_composant[]"
-              />
-            </div>
-            <div class="col-3">
-              <select class="form-control" name="id_type_materiau_composant[]">
-                <%
-                for(TypeMateriau t : typeMateriau){
-                  %>
-                  <option value="<%= t.getId() %>"><%= t.getNom() %></option>
-                  <%
-                }
-                %>
-              </select>
-            </div>
-            <div class="col-3">
-              <input
-                class="form-control"
-                type="text"
-                id="example-text-input"
-                name="volume_composant[]"
-              />
-            </div>
-            <div class="col-3">
-                <button class="btn btn-danger" type="button">X</button>
-            </div>
-          </div>
-      `;
-        document.getElementById('append').appendChild(newLine);
-        var closeButton = newLine.querySelector('.btn-danger');
-        closeButton.addEventListener('click', function() {
-            this.closest('.col-12').remove();
-        });
-    }
-    addNewLine();
-    </script>
     <script src="/js/error.js"></script>
     <script src="/template/assets/js/jquery.min.js"></script>
     <script src="/template/assets/js/popper.min.js"></script>

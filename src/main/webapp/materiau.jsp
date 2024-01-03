@@ -4,8 +4,6 @@
 <%
 List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typeMateriau");
 List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
-List<DimensionMateriau> dimensionMateriau = (List<DimensionMateriau>) request.getAttribute("dimensionMateriau");
-List<UniteMateriau> uniteMateriau = (List<UniteMateriau>) request.getAttribute("uniteMateriau");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +14,7 @@ List<UniteMateriau> uniteMateriau = (List<UniteMateriau>) request.getAttribute("
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"
     />
-    <title>Test Affichage</title>
+    <title>Materiau</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -164,8 +162,6 @@ List<UniteMateriau> uniteMateriau = (List<UniteMateriau>) request.getAttribute("
                             <th>Nom</th>
                             <th>Type</th>
                             <th>Description</th>
-                            <th>Unites</th>
-                            <th>Dimensions</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -177,106 +173,12 @@ List<UniteMateriau> uniteMateriau = (List<UniteMateriau>) request.getAttribute("
                               <td><%= v.getNom() %></td>
                               <td><%= v.getNomTypeMateriau() %></td>
                               <td><%= v.getDescription() %></td>
-                              <td>
-                                <%
-                                for(VUnitePossibleMateriau vupm : v.getVUnitePossibleMateriau()){
-                                  out.print(vupm.getNomUniteMateriau() + " ; ");
-                                }
-                                %>
-                              </td>
-                              <td>
-                                <%
-                                for(VDimensionPossibleMateriau vdpm : v.getVDimensionPossibleMateriau()){
-                                  out.print(vdpm.getLongueur() + " x " +  vdpm.getLargeur()  + "x" +  vdpm.getHauteur() + " ; ");
-                                }
-                                %>
-                              </td>
                             </tr>
                             <%
                           }
                           %>
                         </tbody>
                       </table>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="card">
-                    <div class="card-body">
-                      <h4 class="mt-0 header-title">Assigner un dimension avec unite a un materiau</h4>
-                      <form action="/dimension_unite_possible_materiau" method="post">
-                        <div class="row">
-                          <div class="col-xl-6">
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Materiau</label
-                              >
-                              <div class="col-sm-10">
-                                <select class="form-control" name="id_materiau">
-                                  <%
-                                  for (VMateriau v : vMateriau){
-                                    %>
-                                    <option value="<%= v.getId() %>"><%= v.getNom() %></option>
-                                    <%
-                                  }
-                                  %>
-                                </select>
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Unite</label
-                              >
-                              <div class="col-sm-10">
-                                <select class="form-control" name="id_unite_materiau">
-                                  <%
-                                  for (UniteMateriau u : uniteMateriau){
-                                    %>
-                                    <option value="<%= u.getId() %>"><%= u.getNom() %></option>
-                                    <%
-                                  }
-                                  %>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-xl-6">
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Dimension</label
-                              >
-                              <div class="col-sm-10">
-                                <select class="form-control" name="id_dimension_materiau">
-                                  <%
-                                  for (DimensionMateriau d : dimensionMateriau){
-                                    %>
-                                    <option value="<%= d.getId() %>"><%= d.getLongueur() %> x <%= d.getLargeur() %> x <%= d.getHauteur() %></option>
-                                    <%
-                                  }
-                                  %>
-                                </select>
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <div class="col-sm-10"></div>
-                              <div class="col-sm-2">
-                                <button
-                                  type="submit"
-                                  class="btn btn-primary waves-effect waves-light"
-                                >
-                                  Submit
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
                     </div>
                   </div>
                 </div>

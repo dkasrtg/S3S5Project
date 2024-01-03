@@ -1,6 +1,7 @@
 package entity.materiau;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -12,8 +13,6 @@ public class VMateriau {
     private Integer idTypeMateriau;
     private String description;
     private String nomTypeMateriau;
-    private List<VDimensionPossibleMateriau> vDimensionPossibleMateriau;
-    private List<VUnitePossibleMateriau> vUnitePossibleMateriau;
 
     public VMateriau() {
     }
@@ -66,22 +65,6 @@ public class VMateriau {
         this.nomTypeMateriau = nomTypeMateriau;
     }
 
-    public List<VDimensionPossibleMateriau> getVDimensionPossibleMateriau() {
-        return vDimensionPossibleMateriau;
-    }
-
-    public void setVDimensionPossibleMateriau(List<VDimensionPossibleMateriau> vDimensionPossibleMateriau) {
-        this.vDimensionPossibleMateriau = vDimensionPossibleMateriau;
-    }
-
-    public void setVUnitePossibleMateriau(List<VUnitePossibleMateriau> vUnitePossibleMateriau) {
-        this.vUnitePossibleMateriau = vUnitePossibleMateriau;
-    }
-
-    public List<VUnitePossibleMateriau> getVUnitePossibleMateriau() {
-        return vUnitePossibleMateriau;
-    }
-
     public static List<VMateriau> list(Connection connection) throws Exception {
         List<VMateriau> vMateriauList = new ArrayList<>();
         String query = "SELECT * FROM v_materiau";
@@ -100,4 +83,24 @@ public class VMateriau {
         resultSet.close();
         return vMateriauList;
     }
+
+    public static VMateriau selectById(Connection connection, Integer id) throws Exception {
+        String query = "SELECT * FROM v_materiau WHERE id = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, id);
+        ResultSet resultSet = statement.executeQuery();
+        VMateriau vMateriau = null;
+        if (resultSet.next()) {
+            String nom = resultSet.getString("nom");
+            Integer idTypeMateriau = resultSet.getInt("id_type_materiau");
+            String description = resultSet.getString("description");
+            String nomTypeMateriau = resultSet.getString("nom_type_materiau");
+            vMateriau = new VMateriau(id, nom, idTypeMateriau, description, nomTypeMateriau);
+        }
+        statement.close();
+        resultSet.close();
+        return vMateriau;
+    }
+
 }
+    

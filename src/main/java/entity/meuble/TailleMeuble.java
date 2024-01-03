@@ -8,14 +8,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LieuMeuble {
+public class TailleMeuble {
     private Integer id;
     private String nom;
 
-    public LieuMeuble() {
+    public TailleMeuble() {
+
     }
 
-    public LieuMeuble(Integer id, String nom) {
+    public TailleMeuble(Integer id, String nom) {
         setId(id);
         setNom(nom);
     }
@@ -24,12 +25,12 @@ public class LieuMeuble {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getNom() {
         return nom;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setNom(String nom) {
@@ -37,24 +38,24 @@ public class LieuMeuble {
     }
 
     public void insert(Connection connection) throws SQLException {
-        String query = "INSERT INTO lieu_meuble (nom) VALUES (?)";
+        String query = "INSERT INTO taille_meuble (nom) VALUES (?)";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, this.nom);
         statement.executeUpdate();
         statement.close();
     }
 
-    public static List<LieuMeuble> list(Connection connection) throws SQLException {
-        List<LieuMeuble> lieuMeubleList = new ArrayList<>();
-        String query = "SELECT * FROM lieu_meuble";
+    public static List<TailleMeuble> list(Connection connection) throws SQLException {
+        List<TailleMeuble> tailleMeubleList = new ArrayList<>();
+        String query = "SELECT * FROM taille_meuble";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
         while (resultSet.next()) {
             Integer id = resultSet.getInt("id");
             String nom = resultSet.getString("nom");
-            LieuMeuble lieuMeuble = new LieuMeuble(id, nom);
-            lieuMeubleList.add(lieuMeuble);
+            TailleMeuble tailleMeuble = new TailleMeuble(id,nom);
+            tailleMeubleList.add(tailleMeuble);
         }
-        return lieuMeubleList;
+        return tailleMeubleList;
     }
 }

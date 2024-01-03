@@ -5,13 +5,9 @@ import java.sql.Connection;
 import java.util.List;
 
 import database.PG;
-import entity.materiau.DimensionMateriau;
 import entity.materiau.Materiau;
 import entity.materiau.TypeMateriau;
-import entity.materiau.UniteMateriau;
-import entity.materiau.VDimensionPossibleMateriau;
 import entity.materiau.VMateriau;
-import entity.materiau.VUnitePossibleMateriau;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -24,18 +20,8 @@ public class MateriauServlet extends HttpServlet {
         Connection connection = null;
         try {
             connection = PG.getConnection();
-            List<DimensionMateriau> dimensionMateriau = DimensionMateriau.list(connection);
-            request.setAttribute("dimensionMateriau", dimensionMateriau);
-            List<UniteMateriau> uniteMateriau = UniteMateriau.list(connection);
-            request.setAttribute("uniteMateriau", uniteMateriau);
             List<TypeMateriau> typeMateriau = TypeMateriau.list(connection);
             List<VMateriau> vMateriau = VMateriau.list(connection);
-            for (VMateriau v : vMateriau) {
-                List<VDimensionPossibleMateriau> vDimensionPossibleMateriau = VDimensionPossibleMateriau.listByIdMateriau(connection, v.getId());
-                v.setVDimensionPossibleMateriau(vDimensionPossibleMateriau);
-                List<VUnitePossibleMateriau> vUnitePossibleMateriau = VUnitePossibleMateriau.listByIdMateriau(connection, v.getId());
-                v.setVUnitePossibleMateriau(vUnitePossibleMateriau);
-            }
             request.setAttribute("typeMateriau", typeMateriau);
             request.setAttribute("vMateriau", vMateriau);
         } catch (Exception e) {

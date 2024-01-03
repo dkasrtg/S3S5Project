@@ -60,7 +60,7 @@ public class StyleMeuble {
         return styleMeubleList;
     }
 
-    public static StyleMeuble getById(Connection connection, int id) throws SQLException {
+    public static StyleMeuble selectById(Connection connection, int id) throws SQLException {
         String query = "SELECT * FROM style_meuble WHERE id = ?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, id);

@@ -1,7 +1,9 @@
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.meuble.*" %>
-<%@ page import="entity.materiau.*" %>
+<%@ page import="entity.meuble.TailleMeuble" %>
 <%@ page import="java.util.List" %>
+<%
+List<TailleMeuble> tailleMeuble = (List<TailleMeuble>) request.getAttribute("tailleMeuble");
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -11,7 +13,7 @@
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"
     />
-    <title>Meuble - Fabrication</title>
+    <title>Meuble - Taille</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -58,117 +60,80 @@
                         <li class="breadcrumb-item">
                           <a href="#">Meuble</a>
                         </li>
-                        <li class="breadcrumb-item active">Fabrication</li>
+                        <li class="breadcrumb-item active">Taille</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Fabrication</h4>
+                    <h4 class="page-title">Taille</h4>
                   </div>
                 </div>
               </div>
-              <!-- Eto no atao ny page -->
+              <!-- Test affichage start -->
               <div class="row">
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-											<div class="row">
-												<div class="col-10">
-													<h4 class="mt-0 header-title">Verification fabrication meuble</h4>
-												</div>
-												<div class="col-1">
-													<form action="/fabrication_meuble" method="get">
-														<button
-															type="submit"
-															class="btn btn-danger waves-effect waves-light"
-														>
-															Annuler
-														</button>
-													</form>
-												</div>
-												<div class="col-1">
-													<button
-														type="submit"
-														class="btn btn-primary waves-effect waves-light"
-													>
-														Valider
-													</button>
-												</div>
-											</div>
-                      <div class="row">
-                        <div class="col-6">
-                          <div class="table-responsive">
-                            <table class="table mb-0 table-centered">
-                              <tbody>
-                                <tr>
-                                  <td>Meuble:</td>
-                                  <td></td>
-                                </tr>
-                                <tr>
-                                  <td>Date:</td>
-                                  <td></td>
-                                </tr>
-                                <tr>
-                                  <td>Quantite:</td>
-                                  <td></td>
-                                </tr>
-                                <tr>
-                                  <td>Marge Beneficiaire:</td>
-                                  <td>
-                                    
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>Cout unitaire de fabrication:</td>
-                                  <td></td>
-                                </tr>
-                                <tr>
-                                  <td>Cout total de fabrication:</td>
-                                  <td></td>
-                                </tr>
-                                <tr>
-                                  <td>Prix unitaire de vente:</td>
-                                  <td></td>
-                                </tr>
-                                <tr>
-                                  <td>Composant</td>
-                                  <td></td>
-                                </tr>
-                              </tbody>
-                            </table>
+                      <h4 class="mt-0 header-title">Nouvelle Taille</h4>
+                      <form action="/taille_meuble" method="post">
+                        <div class="row">
+                          <div class="col-xl-6">
+                            <div class="form-group row">
+                              <label
+                                for="example-text-input"
+                                class="col-sm-2 col-form-label"
+                                >Nom</label
+                              >
+                              <div class="col-sm-10">
+                                <input
+                                  class="form-control"
+                                  type="text"
+                                  id="example-text-input"
+                                  name="nom"
+                                  value=""
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6">
+                            <div class="form-group row">
+                              <div class="col-sm-2">
+                                <button
+                                  type="submit"
+                                  class="btn btn-primary waves-effect waves-light"
+                                >
+                                  Submit
+                                </button>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div class="col-12">
-                          <table
-													id="datatable"
-													class="table table-bordered dt-responsive nowrap"
-													style="
-														border-collapse: collapse;
-														border-spacing: 0;
-														width: 100%;
-													"
-												>
-													<thead>
-														<tr>
-															<th>Id</th>
-															<th>Nom</th>
-															<th>Type de materiau</th>
-															<th>Materiau</th>
-															<th>Unite</th>
-															<th>Dimension</th>
-															<th>Quantite requis</th>
-															<th>Prix unitaire</th>
-														</tr>
-													</thead>
-													<tbody>
-																												
-													</tbody>
-                        </table>
-                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="mt-0 header-title">Liste des Tailles</h4>
+                      <p class="text-muted mb-4 font-13"></p>
+                      <div class="row">
+                        <%
+                        for(TailleMeuble t : tailleMeuble){
+                          %>
+                          <div class="col-2">
+                            <p><%= t.getNom() %></p>
+                          </div>
+                          <%
+                        }
+                        %>
+                         
+                          
+                        
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <!-- Eto no atao ny page -->
+              <!-- Test affichage end -->
             </div>
           </div>
         </div>

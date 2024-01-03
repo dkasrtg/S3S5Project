@@ -2,11 +2,8 @@ package servlet.meuble;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.List;
 
 import database.PG;
-import entity.meuble.VComposantMeuble;
-import entity.meuble.VLieuPossibleMeuble;
 import entity.meuble.VMeuble;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,10 +20,6 @@ public class DetailsMeubleServlet extends HttpServlet {
         try {
             connection = PG.getConnection();
             VMeuble vMeuble = VMeuble.selectById(connection, id);
-            List<VLieuPossibleMeuble> vLieuPossibleMeuble = VLieuPossibleMeuble.selectByIdMeuble(connection, id);
-            vMeuble.setVLieuPossibleMeuble(vLieuPossibleMeuble);
-            List<VComposantMeuble> vComposantMeuble = VComposantMeuble.selectByIdMeuble(connection, id);
-            vMeuble.setVComposantMeuble(vComposantMeuble);
             request.setAttribute("vMeuble", vMeuble);
         } catch (Exception e) {
         } finally {
