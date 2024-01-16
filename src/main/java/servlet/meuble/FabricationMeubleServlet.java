@@ -10,7 +10,6 @@ import java.util.List;
 import database.PG;
 import entity.materiau.MouvementMateriau;
 import entity.materiau.VMateriauRestant;
-import entity.meuble.DetailFormuleMeuble;
 import entity.meuble.FormuleMeuble;
 import entity.meuble.MouvementMeuble;
 import entity.meuble.TailleMeuble;
