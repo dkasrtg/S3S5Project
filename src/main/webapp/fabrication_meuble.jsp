@@ -1,8 +1,16 @@
 <%@ page isErrorPage="true" %>
 <%@ page import="entity.meuble.*" %>
+<%@ page import="entity.materiau.*" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.text.DecimalFormat" %>
 <%
+List<TailleMeuble> tailleMeuble = (List<TailleMeuble>) request.getAttribute("tailleMeuble");
 List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
+LocalDateTime dateDebut = (LocalDateTime) request.getAttribute("dateDebut");
+LocalDateTime dateFin = (LocalDateTime) request.getAttribute("dateFin");
+DecimalFormat df = new DecimalFormat("0");
+List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAttribute("vMouvementMeuble");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,7 +71,7 @@ List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
                         <li class="breadcrumb-item active">Fabrication</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Fabrication</h4>
+                    <h4 class="page-title">Fabrication meuble</h4>
                   </div>
                 </div>
               </div>
@@ -73,45 +81,46 @@ List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
                   <div class="card">
                     <div class="card-body">
                       <h4 class="mt-0 header-title">Nouvelle fabrication</h4>
-                      <form action="/choix_materiau_fabrication_meuble" method="post">
+                      <form action="/fabrication_meuble" method="post">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
-                              <label class="col-sm-2 col-form-label"
-                                >Meuble</label
-                              >
-                              <div class="col-sm-10">
-                                <select class="form-control" name="id_meuble">
-                                  <%
-                                  for( VMeuble v : vMeuble){
-                                    %>
-                                    <option value="<%= v.getId() %>"><%= v.getNom() %></option>
+                                <label class="col-sm-2 col-form-label"
+                                  >Meuble</label
+                                >
+                                <div class="col-sm-10">
+                                  <select class="form-control" name="id_meuble">
+                                      <%
+                                      for (VMeuble v : vMeuble){
+                                        %>
+                                        <option value="<%= v.getId() %>"><%= v.getNom() %></option>
+                                        <%
+                                      }
+                                      %>
+                                  </select>
+                                </div>
+                              </div>  
+                              <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"
+                                  >Taille</label
+                                >
+                                <div class="col-sm-10">
+                                  <select class="form-control" name="id_taille_meuble">
                                     <%
-                                  }
-                                  %>
-                                </select>
+                                    for(TailleMeuble t : tailleMeuble){
+                                      %>
+                                      <option value="<%= t.getId() %>"><%= t.getNom() %></option>
+                                      <%
+                                    }
+                                    %>
+                                  </select>
+                                </div>
                               </div>
-                            </div>
-                            <div class="form-group row">
-                              <label
-                                for="example-date-input"
-                                class="col-sm-2 col-form-label"
-                                >Date</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="date"
-                                  id="example-date-input"
-                                  name="date_fabrication"
-                                />
-                              </div>
-                            </div>
                           </div>
                           <div class="col-xl-6">
                             <div class="form-group row">
                               <label
-                                for="example-number-input"
+                                for="example-text-input"
                                 class="col-sm-2 col-form-label"
                                 >Quantite</label
                               >
@@ -119,26 +128,26 @@ List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
                                 <input
                                   class="form-control"
                                   type="text"
-                                  id="example-number-input"
+                                  id="example-text-input"
                                   name="quantite"
                                 />
                               </div>
                             </div>
                             <div class="form-group row">
-                              <label
-                                for="example-number-input"
-                                class="col-sm-2 col-form-label"
-                                >Marge beneficiaire</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  id="example-number-input"
-                                  name="marge_beneficiaire"
-                                />
+                                <label
+                                  for="example-text-input"
+                                  class="col-sm-2 col-form-label"
+                                  >Date</label
+                                >
+                                <div class="col-sm-10">
+                                  <input
+                                    class="form-control"
+                                    type="datetime-local"
+                                    id="example-text-input"
+                                    name="date_fabrication"
+                                  />
+                                </div>
                               </div>
-                            </div>
                             <div class="form-group row">
                               <div class="col-sm-10"></div>
                               <div class="col-sm-2">
@@ -146,7 +155,7 @@ List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
                                   type="submit"
                                   class="btn btn-primary waves-effect waves-light"
                                 >
-                                  Suivant
+                                  Submit
                                 </button>
                               </div>
                             </div>
@@ -159,7 +168,56 @@ List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Liste des fabrications</h4>
+                      <form action="/entree_materiau" method="get">
+                        <div class="row">
+                          <div class="col-xl-6">
+                            <div class="form-group row">
+                              <label
+                                for="example-text-input"
+                                class="col-sm-2 col-form-label"
+                                >Date debut</label
+                              >
+                              <div class="col-sm-10">
+                                <input
+                                  class="form-control"
+                                  type="datetime-local"
+                                  id="example-text-input"
+                                  name="date_debut"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6">
+                            <div class="form-group row">
+                              <label
+                                for="example-text-input"
+                                class="col-sm-2 col-form-label"
+                                >Date fin</label
+                              >
+                              <div class="col-sm-10">
+                                <input
+                                  class="form-control"
+                                  type="datetime-local"
+                                  id="example-text-input"
+                                  name="date_fin"
+                                />
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <div class="col-sm-10"></div>
+                              <div class="col-sm-2">
+                                <button
+                                  type="submit"
+                                  class="btn btn-primary waves-effect waves-light"
+                                >
+                                  Submit
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                      <h4 class="mt-0 header-title">Fabrication meubles du <%= dateDebut %> au <%= dateFin %></h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive nowrap"
@@ -172,43 +230,40 @@ List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
                         <thead>
                           <tr>
                             <th>Id</th>
-                            <th>Meuble</th>
                             <th>Date</th>
+                            <th>Meuble</th>
+                            <th>Taille</th>
+                            <th>Categorie</th>
+                            <th>Style</th>
                             <th>Quantite</th>
-                            <th>Cout unitaire</th>
-                            <th>Cout total</th>
-                            <th>Marge beneficiaire</th>
+                            <th>Prix total</th>
                             <th>Prix unitaire</th>
-                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
-                          <td>1</td>
-                          <td>Table basse Badoda</td>
-                          <td>2022-02-02</td>
-                          <td>20</td>
-                          <td>1000000</td>
-                          <td>20000000</td>
-                          <td>20</td>
-                          <td>?</td>
-                          <td>
-                            <div class="row">
-                              <div class="col-3">
-                                <form action="#" method="get">
-                                  <input type="hidden" name="id" value="">
-                                  <button type="submit" class="btn btn-success">
-                                    <i class="fas fa-info-circle"></i>
-                                  </button>
-                                </form>
-                              </div>
-                            </div>
-                          </td>
+                          <%
+                          for(VMouvementMeuble v : vMouvementMeuble){
+                            %>
+                            <tr>
+                              <td><%= v.getId() %></td>
+                              <td><%= v.getDateMouvement() %></td>
+                              <td><%= v.getNomMeuble() %></td>
+                              <td><%= v.getNomTailleMeuble() %></td>
+                              <td><%= v.getNomCategorieMeuble() %></td>
+                              <td><%= v.getNomStyleMeuble() %></td>
+                              <td><%= v.getQuantite() %></td>
+                              <td><%= df.format(v.getPrixTotal()) %></td>
+                              <td><%= df.format(v.getPrixUnitaire()) %></td>
+                            </tr>
+                            <%
+                          }
+                          %>
                         </tbody>
                       </table>
                     </div>
                   </div>
                 </div>
-              </div>
+               </div>
               <!-- Test affichage end -->
             </div>
           </div>

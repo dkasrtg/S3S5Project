@@ -120,7 +120,10 @@ create table materiau_possible_style_meuble(
 );
 
 create or replace view v_materiau_possible_style_meuble as 
-select mpsm.*,m.nom as nom_materiau,m.id_type_materiau,tm.nom as nom_type_materiau from materiau_possible_style_meuble mpsm join materiau m on m.id=mpsm.id_materiau join type_materiau tm on tm.id=m.id_type_materiau;
+select mpsm.*,m.nom as nom_materiau,m.id_type_materiau,tm.nom as nom_type_materiau 
+from materiau_possible_style_meuble mpsm 
+join materiau m on m.id=mpsm.id_materiau 
+join type_materiau tm on tm.id=m.id_type_materiau;
 
 create or replace view v_materiau as 
 select m.*,tm.nom as nom_type_materiau from materiau m join type_materiau tm  on m.id_type_materiau=tm.id;
@@ -150,6 +153,31 @@ create table detail_formule_meuble(
     id_materiau integer,
     quantite numeric,
     foreign key(id_formule_meuble) references formule_meuble(id),
+    foreign key(id_materiau) references materiau(id)
+);
+
+create table mouvement_meuble(
+    id serial primary key,
+    date_mouvement timestamp,
+    id_formule_meuble integer,
+    quantite numeric,
+    type_mouvement integer,
+    id_mouvement_mere integer,
+    prix_total numeric,
+    prix_unitaire numeric,
+    foreign key(id_formule_meuble) references formule_meuble(id)
+);
+
+create table mouvement_materiau(
+    id serial primary key,
+    date_mouvement timestamp,
+    id_materiau integer,
+    quantite numeric,
+    prix_unitaire numeric,
+    type_mouvement integer,
+    id_mouvement_mere integer,
+    description varchar(200),
+    id_mouvement_meuble integer,
     foreign key(id_materiau) references materiau(id)
 );
 
@@ -269,6 +297,16 @@ insert into taille_meuble (nom) values('petit');
 insert into taille_meuble (nom) values('moyen');
 insert into taille_meuble (nom) values('grand');
 
+-- Mouvement materiau
+INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 12:00:00 am', 1, 200, 200000, 1, -1, '', null);
+INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 01:00:00 am', 1, 20, 200000, -1, 1, '', null);
+INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 02:00:00 am', 1, 10, 200000, -1, 1, '', null);
+INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 03:00:00 am', 1, 20, 200000, -1, 1, '', null);
+INSERT INTO formule_meuble(id_meuble, id_taille_meuble ) VALUES (1, 1);
+INSERT INTO detail_formule_meuble(id_formule_meuble, id_materiau, quantite ) VALUES (1, 1, 2);
+INSERT INTO mouvement_meuble(date_mouvement, id_formule_meuble, quantite, type_mouvement, id_mouvement_mere, prix_total, prix_unitaire ) VALUES ('2024-01-01 05:00:00 am', 1, 20, 1, -1, 8000000, 400000);
+INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 05:00:00 am', 1, 40, 200000, -1, 1, 'Fabrication meuble', 1);
+
 
 select fm.*,vm.nom as nom_meuble,vm.id_style_meuble,vm.id_categorie_meuble,vm.description,vm.nom_style_meuble,vm.nom_categorie_meuble,
 dfm.quantite,tm.nom as nom_taille_meuble
@@ -278,4 +316,91 @@ join v_meuble vm on vm.id=fm.id_meuble
 join taille_meuble tm on tm.id=fm.id_taille_meuble
 where dfm.id_materiau = 1;
 
+DROP view v_mouvement_materiau;
+create or replace view v_mouvement_materiau as 
+select mm.*,m.id_type_materiau ,m.nom as nom_materiau,tm.nom as nom_type_materiau,mm.prix_unitaire*mm.quantite as prix_total 
+from mouvement_materiau mm join materiau m on m.id=mm.id_materiau
+join type_materiau tm on tm.id=m.id_type_materiau
+order by mm.date_mouvement desc
+;
 
+select * from v_mouvement_materiau where type_mouvement=1 and date_mouvement>='' and date_mouvement<='';
+
+
+
+select * from mouvement_materiau where type_mouvement=1 and date_mouvement<='02-01-2024 10:00';
+select * from mouvement_materiau where type_mouvement=-1 and date_mouvement<='02-01-2024 10:00';
+
+
+create or replace view v_materiau_restant as
+select * from (
+select id,date_mouvement,id_materiau,q_e-t_q_s as quantite, p_e as prix_unitaire from 
+(select id,date_mouvement,id_materiau,q_e,p_e,sum(q_s) as t_q_s from 
+(select mm_e.id,mm_e.date_mouvement,mm_e.id_materiau,mm_e.quantite as q_e,mm_e.prix_unitaire as p_e,
+coalesce(mm_s.quantite,0) as q_s
+from 
+(select id,date_mouvement,id_materiau,quantite,prix_unitaire from mouvement_materiau where type_mouvement=1) as mm_e 
+left join 
+(select id_mouvement_mere,quantite from mouvement_materiau where type_mouvement=-1) as mm_s 
+on mm_e.id=mm_s.id_mouvement_mere) 
+as q1
+group by id,date_mouvement,id_materiau,q_e,p_e )
+as q2
+order by date_mouvement asc)
+as q3
+where quantite>0
+;
+
+
+
+DROP view v_mouvement_meuble;
+create or replace view v_mouvement_meuble as 
+select 
+mm.*,fm.id_taille_meuble,fm.id_meuble,
+tm.nom as nom_taille_meuble,
+vm.nom as nom_meuble,vm.id_style_meuble,vm.id_categorie_meuble,vm.nom_style_meuble,vm.nom_categorie_meuble
+from mouvement_meuble mm 
+join formule_meuble fm on mm.id_formule_meuble=fm.id
+join v_meuble vm on vm.id=fm.id_meuble
+join taille_meuble tm on tm.id = fm.id_taille_meuble
+order by mm.date_mouvement desc
+;
+
+
+create or replace view v_detail_formule_meuble as 
+select dfm.*,m.nom as nom_materiau
+from detail_formule_meuble dfm
+join materiau m on m.id=dfm.id_materiau
+;
+
+
+-- reste total materiau
+
+select v_materiau.id,v_materiau.nom,v_materiau.id_type_materiau,v_materiau.nom_type_materiau,
+coalesce(q7.quantite_restant,0) as quantite_restant,
+coalesce(q7.prix_total,0) as prix_total,
+coalesce(q7.prix_unitaire_moyen,0) as prix_unitaire_moyen
+from v_materiau
+left join 
+(select id_materiau,q_r as quantite_restant,p_r as prix_total,p_r/q_r as prix_unitaire_moyen from (
+select id_materiau,sum(q_r) as q_r,sum(p_r) as p_r from (
+select id,id_materiau,q_r,q_r*prix_unitaire as p_r from (
+select id,id_materiau,prix_unitaire,q_e-q_s as q_r from (
+select id,id_materiau,prix_unitaire,q_e,sum(q_s) as q_s from (
+select id,id_materiau,prix_unitaire,q_e,coalesce(q_s,0) as q_s from (
+select mm_e.id,mm_e.id_materiau,mm_e.quantite as q_e ,mm_e.prix_unitaire, mm_s.quantite as q_s from
+(select * from mouvement_materiau where date_mouvement<='02-02-2024 00:00' and type_mouvement=1) as mm_e
+left join 
+(select * from mouvement_materiau where date_mouvement<='02-02-2024 00:00' and type_mouvement=-1) as mm_s
+on mm_e.id = mm_s.id_mouvement_mere)
+as q1)
+as q2
+group by id,id_materiau,prix_unitaire,q_e)
+as q3)
+as q4)
+as q5
+group by id_materiau)
+as q6)
+as q7
+on v_materiau.id=q7.id_materiau
+;

@@ -51,7 +51,7 @@ public class NouvelleFormuleMeubleServlet extends HttpServlet {
         try {
             Integer idTailleMeuble = Integer.parseInt(request.getParameter("id_taille_meuble"));
             connection = PG.getConnection();
-            if (FormuleMeuble.existByIdMeubleAndTailleMeuble(connection, idMeuble, idTailleMeuble)) {
+            if (FormuleMeuble.existByIdMeubleAndTailleMeuble(connection, idMeuble, idTailleMeuble)!=-1) {
                 throw new FormuleMeubleTailleExistException();
             }
             String[] idMateriau = request.getParameterValues("id_materiau[]");

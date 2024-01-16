@@ -96,6 +96,7 @@ public class VMateriau {
             String description = resultSet.getString("description");
             String nomTypeMateriau = resultSet.getString("nom_type_materiau");
             vMateriau = new VMateriau(id, nom, idTypeMateriau, description, nomTypeMateriau);
+            
         }
         statement.close();
         resultSet.close();

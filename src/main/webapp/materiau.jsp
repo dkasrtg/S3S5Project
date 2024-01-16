@@ -110,6 +110,7 @@ List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
                             
                           </div>
                           <div class="col-xl-6">
+                            
                             <div class="form-group row">
                               <label class="col-sm-2 col-form-label"
                                 >Type</label

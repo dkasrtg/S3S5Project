@@ -15,18 +15,6 @@
     <div class="sidebar-inner slimscrollleft">
       <div id="sidebar-menu">
         <ul>
-          <li class="menu-title">Reference</li>
-          <li>
-            <a href="/reference" class="waves-effect"
-              ><i class="fas fa-bookmark"></i>
-              <span
-                >Reference
-                <span class="badge badge-pill badge-primary float-right"
-                  ></span
-                ></span
-              ></a
-            >
-          </li>
           <li class="menu-title">Materiau</li>
           <li>
             <a href="/materiau" class="waves-effect"
@@ -44,6 +32,39 @@
               ><i class="fas fa-flask"></i>
               <span
                 >Type
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/entree_materiau" class="waves-effect"
+              ><i class="fas fa-arrow-alt-circle-down"></i>
+              <span
+                >Entree materiau
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/sortie_materiau" class="waves-effect"
+              ><i class="fas fa-arrow-alt-circle-up"></i>
+              <span
+                >Sortie materiau
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/total_reste_materiau" class="waves-effect"
+              ><i class="fas fa-check-circle"></i>
+              <span
+                >Reste materiau
                 <span class="badge badge-pill badge-primary float-right"
                   ></span
                 ></span
@@ -111,6 +132,17 @@
               ><i class="fab fa-mix"></i>
               <span
                 >Meuble contenant materiau
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/fabrication_meuble" class="waves-effect"
+              ><i class="fas fa-wrench"></i>
+              <span
+                >Fabrication Meuble
                 <span class="badge badge-pill badge-primary float-right"
                   ></span
                 ></span

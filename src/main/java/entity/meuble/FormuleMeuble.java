@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FormuleMeuble {
     private Integer id;
@@ -56,20 +58,20 @@ public class FormuleMeuble {
         statement.close();
     }
 
-    public static boolean existByIdMeubleAndTailleMeuble(Connection connection, int idMeuble, int idTailleMeuble)
+    public static int existByIdMeubleAndTailleMeuble(Connection connection, int idMeuble, int idTailleMeuble)
             throws SQLException {
+        int result = -1;
         String query = "SELECT * FROM formule_meuble WHERE id_meuble = ? AND id_taille_meuble = ?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, idMeuble);
         statement.setInt(2, idTailleMeuble);
         ResultSet resultSet = statement.executeQuery();
         if (resultSet.next()) {
-            statement.close();
-            resultSet.close();
-            return true;
+            result = resultSet.getInt("id");
         }
         statement.close();
         resultSet.close();
-        return false;
+        return result;
     }
+
 }
