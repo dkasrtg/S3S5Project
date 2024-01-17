@@ -1,12 +1,14 @@
 <%@ page isErrorPage="true" %>
 <%@ page import="entity.meuble.*" %>
 <%@ page import="entity.materiau.*" %>
+<%@ page import="entity.employe.*" %>
 <%@ page import="java.util.List" %>
 <%
 VMeuble vMeuble = (VMeuble) request.getAttribute("vMeuble");  
 List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = (List<VMateriauPossibleStyleMeuble>) request.getAttribute("vMateriauPossibleStyleMeuble");
 List<VMateriau> vMateriaus = (List<VMateriau>) request.getAttribute("vMateriaus");  
 List<TailleMeuble> tailleMeuble = (List<TailleMeuble>) request.getAttribute("tailleMeuble");  
+List<Employe> employe = (List<Employe>) request.getAttribute("employe");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -111,6 +113,22 @@ List<TailleMeuble> tailleMeuble = (List<TailleMeuble>) request.getAttribute("tai
                             <div class="row" id="append">
                             </div>
                           </div>
+                          <div class="col-xl-12" style="margin-top: 10px;">
+                            <dt class="col-sm-3">Employes utilises<button style="margin-left: 30px;" type="button" class="btn btn-success" onclick="addNewLine2()">+</button> </dt>
+                            <div class="row">
+                              <div class="col-4">
+                                <p>Employe</p>
+                              </div>
+                              <div class="col-4">
+                                <p>Nombre</p>
+                              </div>
+                              <div class="col-4">
+                                <p>Duree</p>
+                              </div>
+                            </div>
+                            <div class="row" id="append2">
+                            </div>
+                          </div>
                           <div class="col-xl-6"></div>
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -176,6 +194,51 @@ List<TailleMeuble> tailleMeuble = (List<TailleMeuble>) request.getAttribute("tai
         });
     }
     addNewLine();
+    
+    function addNewLine2() {
+      var newLine = document.createElement('div');
+      newLine.className = 'col-12';
+      newLine.innerHTML = `
+          <div class="row mb-1">
+            <div class="col-3">
+              <select class="form-control" name="id_employe[]">
+                <%
+                for(Employe e : employe){
+                  %>
+                  <option value="<%= e.getId() %>"><%= e.getNom() %></option>
+                  <%
+                }
+                %>
+              </select>
+            </div>
+            <div class="col-3">
+              <input
+                class="form-control"
+                type="number"
+                id="example-text-input"
+                name="nombre[]"
+              />
+            </div>
+            <div class="col-3">
+              <input
+                class="form-control"
+                type="text"
+                id="example-text-input"
+                name="duree[]"
+              />
+            </div>
+            <div class="col-3">
+                <button class="btn btn-danger" type="button">X</button>
+            </div>
+          </div>
+      `;
+        document.getElementById('append2').appendChild(newLine);
+        var closeButton = newLine.querySelector('.btn-danger');
+        closeButton.addEventListener('click', function() {
+            this.closest('.col-12').remove();
+        });
+    }
+    addNewLine2();
     </script>
     <script src="/js/error.js"></script>
     <script src="/template/assets/js/jquery.min.js"></script>

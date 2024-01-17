@@ -142,7 +142,52 @@
             <a href="/fabrication_meuble" class="waves-effect"
               ><i class="fas fa-wrench"></i>
               <span
-                >Fabrication Meuble
+                >Fabrication meuble
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/prix_de_vente_meuble" class="waves-effect"
+              ><i class="fas fa-tag"></i>
+              <span
+                >Prix de vente meuble
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/benefice_meuble" class="waves-effect"
+              ><i class="fas fa-chart-line"></i>
+              <span
+                >Benefice meuble
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li class="menu-title">Employe</li>
+          <li>
+            <a href="/employe" class="waves-effect"
+              ><i class="fas fa-user"></i>
+              <span
+                >Employe
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/salaire_employe" class="waves-effect"
+              ><i class="fas fa-money-bill"></i>
+              <span
+                >Salaire employe
                 <span class="badge badge-pill badge-primary float-right"
                   ></span
                 ></span

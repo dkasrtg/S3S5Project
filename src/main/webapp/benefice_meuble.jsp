@@ -1,12 +1,11 @@
 <%@ page isErrorPage="true" %>
+<%@ page import="entity.meuble.*" %>
 <%@ page import="entity.materiau.*" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.time.LocalDateTime" %>
-<%@ page import="java.text.DecimalFormat" %>
 <%
-LocalDateTime date = (LocalDateTime) request.getAttribute("date");
-DecimalFormat df = new DecimalFormat("0");
-List<TotalResteMateriau> totalResteMateriau = (List<TotalResteMateriau>) request.getAttribute("totalResteMateriau");
+Double min = (Double) request.getAttribute("min");
+Double max = (Double) request.getAttribute("max");
+List<VBeneficeMeuble> vBeneficeMeubles = (List<VBeneficeMeuble>) request.getAttribute("vBeneficeMeubles");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +16,7 @@ List<TotalResteMateriau> totalResteMateriau = (List<TotalResteMateriau>) request
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"
     />
-    <title>Materiau - Reste</title>
+    <title>Test Affichage</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -62,12 +61,12 @@ List<TotalResteMateriau> totalResteMateriau = (List<TotalResteMateriau>) request
                     <div class="btn-group float-right">
                       <ol class="breadcrumb hide-phone p-0 m-0">
                         <li class="breadcrumb-item">
-                          <a href="#">Materiau</a>
+                          <a href="#">Test Affichage</a>
                         </li>
-                        <li class="breadcrumb-item active">Reste</li>
+                        <li class="breadcrumb-item active">Test Affichage</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Reste materiau</h4>
+                    <h4 class="page-title">Test Affichage</h4>
                   </div>
                 </div>
               </div>
@@ -76,40 +75,57 @@ List<TotalResteMateriau> totalResteMateriau = (List<TotalResteMateriau>) request
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <form action="/total_reste_materiau" method="get">
-                        <div class="row">
-                          <div class="col-xl-6">
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Date</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="datetime-local"
-                                  id="example-text-input"
-                                  name="date"
-                                />
+                        <form action="/benefice_meuble" method="get">
+                            <div class="row">
+                              <div class="col-xl-6">
+                                <div class="form-group row">
+                                  <label
+                                    for="example-text-input"
+                                    class="col-sm-2 col-form-label"
+                                    >Min</label
+                                  >
+                                  <div class="col-sm-10">
+                                    <input
+                                      class="form-control"
+                                      type="text"
+                                      id="example-text-input"
+                                      name="min"
+                                    />
+                                  </div>
+                                </div>
+                                
+                              </div>
+                              <div class="col-xl-6">
+                                <div class="form-group row">
+                                  <label
+                                    for="example-text-input"
+                                    class="col-sm-2 col-form-label"
+                                    >Max</label
+                                  >
+                                  <div class="col-sm-10">
+                                    <input
+                                      class="form-control"
+                                      type="nom"
+                                      id="example-text-input"
+                                      name="max"
+                                    />
+                                  </div>
+                              </div>
+                                <div class="form-group row">
+                                  <div class="col-sm-10"></div>
+                                  <div class="col-sm-2">
+                                    <button
+                                      type="submit"
+                                      class="btn btn-primary waves-effect waves-light"
+                                    >
+                                      Submit
+                                    </button>
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div class="col-xl-6">
-                            <div class="form-group row">
-                              <div class="col-sm-2">
-                                <button
-                                  type="submit"
-                                  class="btn btn-primary waves-effect waves-light"
-                                >
-                                  Submit
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                      <h4 class="mt-0 header-title">Reste materiaux le <%= date %></h4>
+                        </form>
+                      <h4 class="mt-0 header-title">Les meubles dont le benefice est compris entre <%= min %>  et <%= max %></h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive nowrap"
@@ -121,25 +137,27 @@ List<TotalResteMateriau> totalResteMateriau = (List<TotalResteMateriau>) request
                       >
                         <thead>
                           <tr>
-                            <th>Id</th>
-                            <th>Nom</th>
-                            <th>Type</th>
-                            <th>Quantite restant</th>
-                            <th>Prix total</th>
-                            <th>Prix unitaire moyen</th>
+                            <th>Meuble</th>
+                            <th>Taille</th>
+                            <th>Prix de vente</th>
+                            <th>Total materiaux</th>
+                            <th>Total salaires</th>
+                            <th>Prix de revient</th>
+                            <th>Benefice</th>
                           </tr>
                         </thead>
                         <tbody>
                           <%
-                          for(TotalResteMateriau t : totalResteMateriau){
+                          for(VBeneficeMeuble v : vBeneficeMeubles){
                             %>
                             <tr>
-                              <td><%= t.getId() %></td>
-                              <td><%= t.getNom() %></td>
-                              <td><%= t.getNomTypeMateriau() %></td>
-                              <td><%= t.getQuantiteRestant() %></td>
-                              <td><%= df.format(t.getPrixTotal()) %></td>
-                              <td><%= t.getPrixUnitaireMoyen() %></td>
+                              <td><%= v.getNomMeuble()%></td>
+                              <td><%= v.getNomTailleMeuble() %></td>
+                              <td><%= v.getPrixDeVente() %></td>
+                              <td><%= v.getTotalMateriaux() %></td>
+                              <td><%= v.getTotalSalaires() %></td>
+                              <td><%= v.getPrixDeRevient() %></td>
+                              <td><%= v.getBenefice() %></td>
                             </tr>
                             <%
                           }
@@ -149,7 +167,8 @@ List<TotalResteMateriau> totalResteMateriau = (List<TotalResteMateriau>) request
                     </div>
                   </div>
                 </div>
-               </div>
+                <!-- end col -->
+              </div>
               <!-- Test affichage end -->
             </div>
           </div>
@@ -157,7 +176,6 @@ List<TotalResteMateriau> totalResteMateriau = (List<TotalResteMateriau>) request
         <%@ include file="/statics/footer.jsp"%>
       </div>
     </div>
-    <script src="/js/error.js"></script>
     <script src="/template/assets/js/jquery.min.js"></script>
     <script src="/template/assets/js/popper.min.js"></script>
     <script src="/template/assets/js/bootstrap.min.js"></script>

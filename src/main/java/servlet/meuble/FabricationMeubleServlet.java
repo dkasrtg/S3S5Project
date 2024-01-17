@@ -96,7 +96,7 @@ public class FabricationMeubleServlet extends HttpServlet {
                     quantitemateriau = quantitemateriau - q;
                     MouvementMateriau mouvementMateriau = new MouvementMateriau(null, dateFabrication, vDetailFormuleMeubles.get(i).getIdMateriau(), q,
                             vMateriauRestants.get(j).getPrixUnitaire(), MouvementMateriau.SORTIE,
-                            vMateriauRestants.get(j).getId(), "Fabrication meuble",mouvementMeuble.getId());
+                            vMateriauRestants.get(j).getId(), "Fabrication de meuble",mouvementMeuble.getId());
                     mouvementMateriau.insert(connection);
                     prixMateriau += q*vMateriauRestants.get(j).getPrixUnitaire();
                 }

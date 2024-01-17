@@ -155,5 +155,4 @@ public class VFormuleMeuble {
         resultSet.close();
         return formuleMeubles;
     }
-
 }

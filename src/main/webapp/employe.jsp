@@ -1,12 +1,8 @@
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.materiau.*" %>
+<%@ page import="entity.employe.*" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.time.LocalDateTime" %>
-<%@ page import="java.text.DecimalFormat" %>
 <%
-LocalDateTime date = (LocalDateTime) request.getAttribute("date");
-DecimalFormat df = new DecimalFormat("0");
-List<TotalResteMateriau> totalResteMateriau = (List<TotalResteMateriau>) request.getAttribute("totalResteMateriau");
+List<Employe> employe = (List<Employe>) request.getAttribute("employe");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +13,7 @@ List<TotalResteMateriau> totalResteMateriau = (List<TotalResteMateriau>) request
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"
     />
-    <title>Materiau - Reste</title>
+    <title>Employe</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -62,12 +58,12 @@ List<TotalResteMateriau> totalResteMateriau = (List<TotalResteMateriau>) request
                     <div class="btn-group float-right">
                       <ol class="breadcrumb hide-phone p-0 m-0">
                         <li class="breadcrumb-item">
-                          <a href="#">Materiau</a>
+                          <a href="#">Employe</a>
                         </li>
-                        <li class="breadcrumb-item active">Reste</li>
+                        <li class="breadcrumb-item active">Employe</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Reste materiau</h4>
+                    <h4 class="page-title">Employe</h4>
                   </div>
                 </div>
               </div>
@@ -76,21 +72,22 @@ List<TotalResteMateriau> totalResteMateriau = (List<TotalResteMateriau>) request
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <form action="/total_reste_materiau" method="get">
+                      <h4 class="mt-0 header-title">Nouvelle employe</h4>
+                      <form action="/employe" method="post">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
                               <label
                                 for="example-text-input"
                                 class="col-sm-2 col-form-label"
-                                >Date</label
+                                >Nom</label
                               >
                               <div class="col-sm-10">
                                 <input
                                   class="form-control"
-                                  type="datetime-local"
+                                  type="text"
                                   id="example-text-input"
-                                  name="date"
+                                  name="nom"
                                 />
                               </div>
                             </div>
@@ -102,54 +99,37 @@ List<TotalResteMateriau> totalResteMateriau = (List<TotalResteMateriau>) request
                                   type="submit"
                                   class="btn btn-primary waves-effect waves-light"
                                 >
-                                  Submit
+                                  OK
                                 </button>
                               </div>
                             </div>
                           </div>
                         </div>
                       </form>
-                      <h4 class="mt-0 header-title">Reste materiaux le <%= date %></h4>
-                      <table
-                        id="datatable"
-                        class="table table-bordered dt-responsive nowrap"
-                        style="
-                          border-collapse: collapse;
-                          border-spacing: 0;
-                          width: 100%;
-                        "
-                      >
-                        <thead>
-                          <tr>
-                            <th>Id</th>
-                            <th>Nom</th>
-                            <th>Type</th>
-                            <th>Quantite restant</th>
-                            <th>Prix total</th>
-                            <th>Prix unitaire moyen</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <%
-                          for(TotalResteMateriau t : totalResteMateriau){
-                            %>
-                            <tr>
-                              <td><%= t.getId() %></td>
-                              <td><%= t.getNom() %></td>
-                              <td><%= t.getNomTypeMateriau() %></td>
-                              <td><%= t.getQuantiteRestant() %></td>
-                              <td><%= df.format(t.getPrixTotal()) %></td>
-                              <td><%= t.getPrixUnitaireMoyen() %></td>
-                            </tr>
-                            <%
-                          }
-                          %>
-                        </tbody>
-                      </table>
                     </div>
                   </div>
                 </div>
-               </div>
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="mt-0 header-title">Liste des employes</h4>
+                      <p class="text-muted mb-4 font-13"></p>
+                      <div class="row">
+                        <%
+                        for(Employe e : employe){
+                          %>
+                          <div class="col-2">
+                            <p><%= e.getNom() %></p>
+                          </div>
+                          <%
+                        }
+                        %>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <!-- Test affichage end -->
             </div>
           </div>
@@ -157,7 +137,6 @@ List<TotalResteMateriau> totalResteMateriau = (List<TotalResteMateriau>) request
         <%@ include file="/statics/footer.jsp"%>
       </div>
     </div>
-    <script src="/js/error.js"></script>
     <script src="/template/assets/js/jquery.min.js"></script>
     <script src="/template/assets/js/popper.min.js"></script>
     <script src="/template/assets/js/bootstrap.min.js"></script>

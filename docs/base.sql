@@ -181,6 +181,54 @@ create table mouvement_materiau(
     foreign key(id_materiau) references materiau(id)
 );
 
+create table employe(
+    id serial primary key,
+    nom varchar(200)
+);
+
+create table salaire_employe(
+    id serial primary key,
+    id_employe integer,
+    date_debut timestamp,
+    date_fin timestamp,
+    valeur numeric,
+    foreign key(id_employe) references employe(id)
+);
+
+create table detail_employe_meuble(
+    id serial primary key,
+    id_formule_meuble integer,
+    id_employe integer,
+    nombre integer,
+    duree numeric,
+    foreign key(id_formule_meuble) references formule_meuble(id),
+    foreign key(id_employe) references employe(id)
+);
+
+create table prix_de_vente_meuble(
+    id serial primary key,
+    id_formule_meuble integer,
+    date_debut timestamp,
+    date_fin timestamp,
+    valeur numeric,
+    foreign key(id_formule_meuble) references formule_meuble(id)
+);
+
+-- Employe
+INSERT INTO employe (nom) VALUES
+    ('Menuisier'),
+    ('Assembleur'),
+    ('Operateur de machine'),
+    ('Technicien de bois'),
+    ('Technicien en finition');
+
+INSERT INTO salaire_employe(id_employe,date_debut,date_fin,valeur) values
+    (1,'01-01-2023 00:00','12-12-9999 23:59',30000),
+    (2,'01-01-2023 00:00','12-12-9999 23:59',10000),
+    (3,'01-01-2023 00:00','12-12-9999 23:59',20000),
+    (4,'01-01-2023 00:00','12-12-9999 23:59',40000),
+    (5,'01-01-2023 00:00','12-12-9999 23:59',50000);
+
 -- Categorie meuble
 INSERT INTO categorie_meuble(nom ) VALUES ( 'Table');
 INSERT INTO categorie_meuble(nom ) VALUES ( 'Chaise');
@@ -298,14 +346,14 @@ insert into taille_meuble (nom) values('moyen');
 insert into taille_meuble (nom) values('grand');
 
 -- Mouvement materiau
-INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 12:00:00 am', 1, 200, 200000, 1, -1, '', null);
-INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 01:00:00 am', 1, 20, 200000, -1, 1, '', null);
-INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 02:00:00 am', 1, 10, 200000, -1, 1, '', null);
-INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 03:00:00 am', 1, 20, 200000, -1, 1, '', null);
-INSERT INTO formule_meuble(id_meuble, id_taille_meuble ) VALUES (1, 1);
-INSERT INTO detail_formule_meuble(id_formule_meuble, id_materiau, quantite ) VALUES (1, 1, 2);
-INSERT INTO mouvement_meuble(date_mouvement, id_formule_meuble, quantite, type_mouvement, id_mouvement_mere, prix_total, prix_unitaire ) VALUES ('2024-01-01 05:00:00 am', 1, 20, 1, -1, 8000000, 400000);
-INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 05:00:00 am', 1, 40, 200000, -1, 1, 'Fabrication meuble', 1);
+-- INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 12:00:00 am', 1, 200, 200000, 1, -1, '', null);
+-- INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 01:00:00 am', 1, 20, 200000, -1, 1, '', null);
+-- INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 02:00:00 am', 1, 10, 200000, -1, 1, '', null);
+-- INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 03:00:00 am', 1, 20, 200000, -1, 1, '', null);
+-- INSERT INTO formule_meuble(id_meuble, id_taille_meuble ) VALUES (1, 1);
+-- INSERT INTO detail_formule_meuble(id_formule_meuble, id_materiau, quantite ) VALUES (1, 1, 2);
+-- INSERT INTO mouvement_meuble(date_mouvement, id_formule_meuble, quantite, type_mouvement, id_mouvement_mere, prix_total, prix_unitaire ) VALUES ('2024-01-01 05:00:00 am', 1, 20, 1, -1, 8000000, 400000);
+-- INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 05:00:00 am', 1, 40, 200000, -1, 1, 'Fabrication meuble', 1);
 
 
 select fm.*,vm.nom as nom_meuble,vm.id_style_meuble,vm.id_categorie_meuble,vm.description,vm.nom_style_meuble,vm.nom_categorie_meuble,
@@ -404,3 +452,59 @@ as q6)
 as q7
 on v_materiau.id=q7.id_materiau
 ;
+
+
+create or replace view v_salaire_employe as 
+select se.*,e.nom as nom_employe from salaire_employe se 
+join employe e on e.id=se.id_employe
+;
+
+drop view v_prix_de_vente_meuble;
+create or replace view v_prix_de_vente_meuble as
+select
+pdvm.id,pdvm.date_debut,pdvm.date_fin,pdvm.valeur,fm.id as id_formule_meuble,fm.id_meuble,fm.id_taille_meuble,m.nom as nom_meuble,tm.nom as nom_taille_meuble 
+from prix_de_vente_meuble pdvm
+join formule_meuble fm on fm.id=pdvm.id_formule_meuble
+join meuble m on m.id=fm.id_meuble
+join taille_meuble tm on tm.id=fm.id_taille_meuble
+;
+
+
+create or replace view v_benefice_meuble as
+select
+q1.id_meuble,q1.id_taille_meuble,q1.total_materiaux,q2.total_salaires,q3.prix_de_vente,
+m.nom as nom_meuble,tm.nom as nom_taille_meuble,
+(q1.total_materiaux+q2.total_salaires) as prix_de_revient,
+(q3.prix_de_vente-(q1.total_materiaux+q2.total_salaires)) as benefice
+from 
+
+(select q1.id_formule_meuble,fm.id_meuble,fm.id_taille_meuble,q1.total_materiaux
+from formule_meuble fm
+join 
+(select dfm.id_formule_meuble,sum(dfm.quantite*p.prix_unitaire) as total_materiaux from detail_formule_meuble dfm
+join (select id_materiau,avg(prix_unitaire) as prix_unitaire from v_materiau_restant group by id_materiau) as p
+on p.id_materiau = dfm.id_materiau
+group by dfm.id_formule_meuble) as q1
+on q1.id_formule_meuble=fm.id
+) as q1
+
+join
+(select 
+dem.id_formule_meuble,sum(dem.nombre*dem.duree*p.valeur) as total_salaires
+from detail_employe_meuble dem
+join
+(select * from salaire_employe where date_fin='12-12-9999 23:59') as p
+on p.id_employe=dem.id_employe
+group by dem.id_formule_meuble ) as q2
+
+on q1.id_formule_meuble=q2.id_formule_meuble
+
+join 
+(select id_formule_meuble,valeur as prix_de_vente from prix_de_vente_meuble where date_fin='12-12-9999 23:59') as q3
+
+on q2.id_formule_meuble=q3.id_formule_meuble
+
+join meuble m on m.id=q1.id_meuble
+join taille_meuble tm on tm.id=q1.id_taille_meuble
+;
+

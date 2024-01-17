@@ -87,6 +87,15 @@ INSERT INTO mouvement_materiau( id, date_mouvement, id_materiau, quantite, prix_
 INSERT INTO mouvement_materiau( id, date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ( 3, '2024-01-01 02:00:00 am', 1, 10, 200000, -1, 1, '', null);
 INSERT INTO mouvement_materiau( id, date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ( 4, '2024-01-01 03:00:00 am', 1, 20, 200000, -1, 1, '', null);
 INSERT INTO mouvement_materiau( id, date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ( 8, '2024-01-01 05:00:00 am', 1, 40, 200000, -1, 1, 'Fabrication meuble', -1);
+INSERT INTO mouvement_materiau( id, date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ( 9, '2024-01-01 12:00:00 am', 2, 300, 100000, 1, -1, '', -1);
+INSERT INTO mouvement_materiau( id, date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ( 10, '2024-01-01 01:00:00 pm', 1, 250, 250000, 1, -1, '', -1);
+INSERT INTO mouvement_materiau( id, date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ( 12, '2024-01-01 01:00:00 am', 5, 100, 100000, 1, -1, '', -1);
+INSERT INTO mouvement_materiau( id, date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ( 13, '2024-01-01 06:00:00 am', 2, 20, 100000, -1, 9, 'Fabrication de meuble', 3);
+INSERT INTO mouvement_materiau( id, date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ( 14, '2024-01-01 06:00:00 am', 5, 10, 100000, -1, 12, 'Fabrication de meuble', 3);
 INSERT INTO formule_meuble( id, id_meuble, id_taille_meuble ) VALUES ( 1, 1, 1);
+INSERT INTO formule_meuble( id, id_meuble, id_taille_meuble ) VALUES ( 2, 2, 1);
 INSERT INTO mouvement_meuble( id, date_mouvement, id_formule_meuble, quantite, type_mouvement, id_mouvement_mere, prix_total, prix_unitaire ) VALUES ( 1, '2024-01-01 05:00:00 am', 1, 20, 1, -1, 8000000, 400000);
+INSERT INTO mouvement_meuble( id, date_mouvement, id_formule_meuble, quantite, type_mouvement, id_mouvement_mere, prix_total, prix_unitaire ) VALUES ( 3, '2024-01-01 06:00:00 am', 2, 10, 1, -1, 3000000, 300000);
 INSERT INTO detail_formule_meuble( id, id_formule_meuble, id_materiau, quantite ) VALUES ( 1, 1, 1, 2);
+INSERT INTO detail_formule_meuble( id, id_formule_meuble, id_materiau, quantite ) VALUES ( 2, 2, 2, 2);
+INSERT INTO detail_formule_meuble( id, id_formule_meuble, id_materiau, quantite ) VALUES ( 3, 2, 5, 1);
