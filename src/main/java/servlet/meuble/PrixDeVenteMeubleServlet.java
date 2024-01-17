@@ -8,7 +8,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 import database.PG;
-import entity.employe.SalaireEmploye;
 import entity.meuble.FormuleMeuble;
 import entity.meuble.PrixDeVenteMeuble;
 import entity.meuble.TailleMeuble;
@@ -61,18 +60,20 @@ public class PrixDeVenteMeubleServlet extends HttpServlet {
             LocalDateTime date = LocalDateTime.parse(request.getParameter("date"));
             Double valeur = Double.parseDouble(request.getParameter("valeur"));
             int idFormuleMeuble = FormuleMeuble.existByIdMeubleAndTailleMeuble(connection, idMeuble, idTailleMeuble);
-            if (idFormuleMeuble==-1) {
+            if (idFormuleMeuble == -1) {
                 throw new FormuleMeubleTailleNotExistException();
             }
             LocalDate lastDate = LocalDate.of(9999, 12, 12);
             LocalTime lastTime = LocalTime.of(23, 59);
             LocalDateTime lastDateTime = LocalDateTime.of(lastDate, lastTime);
-            PrixDeVenteMeuble lastPrixDeVenteMeuble = PrixDeVenteMeuble.selectByIdFormuleMeubleAndDateFin(connection, idFormuleMeuble, lastDateTime);
-            if (lastPrixDeVenteMeuble!=null) {
+            PrixDeVenteMeuble lastPrixDeVenteMeuble = PrixDeVenteMeuble.selectByIdFormuleMeubleAndDateFin(connection,
+                    idFormuleMeuble, lastDateTime);
+            if (lastPrixDeVenteMeuble != null) {
                 lastPrixDeVenteMeuble.setDateFin(date);
                 lastPrixDeVenteMeuble.update(connection);
             }
-            PrixDeVenteMeuble prixDeVenteMeuble = new PrixDeVenteMeuble(idTailleMeuble, idFormuleMeuble, date, lastDateTime, valeur);
+            PrixDeVenteMeuble prixDeVenteMeuble = new PrixDeVenteMeuble(idTailleMeuble, idFormuleMeuble, date,
+                    lastDateTime, valeur);
             prixDeVenteMeuble.insert(connection);
             connection.commit();
         } catch (Exception e) {

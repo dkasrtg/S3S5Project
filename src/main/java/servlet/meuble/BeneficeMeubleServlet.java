@@ -2,12 +2,10 @@ package servlet.meuble;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import database.PG;
 import entity.meuble.VBeneficeMeuble;
-import entity.meuble.VPrixDeVenteMeuble;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -22,7 +20,7 @@ public class BeneficeMeubleServlet extends HttpServlet {
         try {
             Double min = 0.0;
             Double max = 999999999999.9;
-            if (request.getParameter("min")!=null && request.getParameter("max")!=null) {
+            if (request.getParameter("min") != null && request.getParameter("max") != null) {
                 min = Double.parseDouble(request.getParameter("min"));
                 max = Double.parseDouble(request.getParameter("max"));
             }
