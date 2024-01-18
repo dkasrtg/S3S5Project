@@ -5,7 +5,7 @@
 <%
 List<VMateriau> vMateriaus = (List<VMateriau>) request.getAttribute("vMateriaus");  
 VMateriau vMateriau = (VMateriau) request.getAttribute("vMateriau");  
-List<VFormuleMeuble> vFormuleMeuble = (List<VFormuleMeuble>) request.getAttribute("vFormuleMeuble");  
+List<MeubleContenantMateriau> meubleContenantMateriau = (List<MeubleContenantMateriau>) request.getAttribute("meubleContenantMateriau");  
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -130,7 +130,7 @@ List<VFormuleMeuble> vFormuleMeuble = (List<VFormuleMeuble>) request.getAttribut
                         </thead>
                         <tbody>
                           <%
-                          for(VFormuleMeuble v : vFormuleMeuble) {
+                          for(MeubleContenantMateriau v : meubleContenantMateriau) {
                             %>
                             <tr>
                               <td><%= v.getId() %></td>

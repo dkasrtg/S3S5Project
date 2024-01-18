@@ -532,3 +532,19 @@ utilisation_employe ue
 join employe e
 on e.id=ue.id_employe
 ;
+
+create or replace view v_formule_meuble as
+select fm.id,fm.id_meuble,fm.id_taille_meuble,tm.nom as nom_taille_meuble
+from
+formule_meuble fm
+join taille_meuble tm
+on tm.id=fm.id_taille_meuble
+;
+
+create or replace view v_detail_employe_meuble as
+select dem.*,e.nom as nom_employe
+from detail_employe_meuble dem
+join employe e 
+on e.id=dem.id_employe
+;
+

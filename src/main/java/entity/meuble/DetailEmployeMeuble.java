@@ -74,24 +74,4 @@ public class DetailEmployeMeuble {
             statement.executeUpdate();
         }
     }
-
-    public static List<DetailEmployeMeuble> selectByIdFormuleMeuble(Connection connection, Integer idFormuleMeuble)
-            throws SQLException {
-        List<DetailEmployeMeuble> details = new ArrayList<>();
-        String query = "SELECT * FROM detail_employe_meuble WHERE id_formule_meuble = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, idFormuleMeuble);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Integer id = resultSet.getInt("id");
-                    Integer idEmploye = resultSet.getInt("id_employe");
-                    Integer nombre = resultSet.getInt("nombre");
-                    Double duree = resultSet.getDouble("duree");
-                    DetailEmployeMeuble detail = new DetailEmployeMeuble(id,idFormuleMeuble,idEmploye,nombre,duree);
-                    details.add(detail);
-                }
-            }
-        }
-        return details;
-    }
 }

@@ -13,7 +13,7 @@ public class VDetailFormuleMeuble {
     private Integer idMateriau;
     private Double quantite;
     private String nomMateriau;
-
+    
     public VDetailFormuleMeuble() {
     }
 

@@ -12,10 +12,10 @@ import entity.employe.UtilisationEmploye;
 import entity.employe.VSalaireEmploye;
 import entity.materiau.MouvementMateriau;
 import entity.materiau.VMateriauRestant;
-import entity.meuble.DetailEmployeMeuble;
 import entity.meuble.FormuleMeuble;
 import entity.meuble.MouvementMeuble;
 import entity.meuble.TailleMeuble;
+import entity.meuble.VDetailEmployeMeuble;
 import entity.meuble.VDetailFormuleMeuble;
 import entity.meuble.VMeuble;
 import entity.meuble.VMouvementMeuble;
@@ -119,7 +119,7 @@ public class FabricationMeubleServlet extends HttpServlet {
             }
             //
             double totalSalaires = 0;
-            List<DetailEmployeMeuble> detailEmployeMeubles = DetailEmployeMeuble.selectByIdFormuleMeuble(connection,
+            List<VDetailEmployeMeuble> detailEmployeMeubles = VDetailEmployeMeuble.selectByIdFormuleMeuble(connection,
                     idFormuleMeuble);
             for (int i = 0; i < detailEmployeMeubles.size(); i++) {
                 VSalaireEmploye vSalaireEmploye = VSalaireEmploye.selectByIdEmploye(connection,

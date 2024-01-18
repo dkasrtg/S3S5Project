@@ -10,6 +10,9 @@ import entity.meuble.DetailEmployeMeuble;
 import entity.meuble.DetailFormuleMeuble;
 import entity.meuble.FormuleMeuble;
 import entity.meuble.TailleMeuble;
+import entity.meuble.VDetailEmployeMeuble;
+import entity.meuble.VDetailFormuleMeuble;
+import entity.meuble.VFormuleMeuble;
 import entity.meuble.VMateriauPossibleStyleMeuble;
 import entity.meuble.VMeuble;
 import exception.FormuleMeubleTailleExistException;
@@ -32,10 +35,18 @@ public class NouvelleFormuleMeubleServlet extends HttpServlet {
                     .selectByIdStyleMeuble(connection, vMeuble.getIdStyleMeuble());
             List<TailleMeuble> tailleMeuble = TailleMeuble.list(connection);
             List<Employe> employes = Employe.list(connection);
+            List<VFormuleMeuble> vFormuleMeubles = VFormuleMeuble.selectByIdMeuble(connection, idMeuble);
+            for (VFormuleMeuble vFormuleMeuble : vFormuleMeubles) {
+                List<VDetailFormuleMeuble> vDetailFormuleMeubles = VDetailFormuleMeuble.selectByIdFormuleMeuble(connection, vFormuleMeuble.getId());
+                List<VDetailEmployeMeuble> vDetailEmployeMeubles = VDetailEmployeMeuble.selectByIdFormuleMeuble(connection, vFormuleMeuble.getId());
+                vFormuleMeuble.setvDetailFormuleMeubles(vDetailFormuleMeubles);
+                vFormuleMeuble.setvDetailEmployeMeubles(vDetailEmployeMeubles);
+            }
             request.setAttribute("vMeuble", vMeuble);
             request.setAttribute("vMateriauPossibleStyleMeuble", vMateriauPossibleStyleMeuble);
             request.setAttribute("tailleMeuble", tailleMeuble);
             request.setAttribute("employe", employes);
+            request.setAttribute("vFormuleMeubles", vFormuleMeubles);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

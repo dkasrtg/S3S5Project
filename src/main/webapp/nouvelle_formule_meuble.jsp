@@ -9,6 +9,7 @@ List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = (List<VMateria
 List<VMateriau> vMateriaus = (List<VMateriau>) request.getAttribute("vMateriaus");  
 List<TailleMeuble> tailleMeuble = (List<TailleMeuble>) request.getAttribute("tailleMeuble");  
 List<Employe> employe = (List<Employe>) request.getAttribute("employe");
+List<VFormuleMeuble> vFormuleMeubles = (List<VFormuleMeuble>) request.getAttribute("vFormuleMeubles");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -145,6 +146,85 @@ List<Employe> employe = (List<Employe>) request.getAttribute("employe");
                           </div>
                         </div>
                       </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="mt-0 header-title">Les formules du meuble <i>"<%= vMeuble.getNom() %>"</i></h4>
+                      <%
+                      for (VFormuleMeuble v: vFormuleMeubles){
+                        %>
+                        <div class="row">
+                          <div class="col-12">
+                            <h6>Taille <%= v.getNomTailleMeuble() %></h6>
+                          </div>
+                          <div class="col-5">
+                            <table
+                              class="table table-bordered dt-responsive nowrap"
+                              style="
+                                border-collapse: collapse;
+                                border-spacing: 0;
+                                width: 100%;
+                              "
+                            >
+                              <thead>
+                                <tr>
+                                  <th>Materiau</th>
+                                  <th>Quantite</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <%
+                                for (VDetailFormuleMeuble vdfm: v.getvDetailFormuleMeubles()){
+                                  %>
+                                  <tr>
+                                    <td><%= vdfm.getNomMateriau() %></td>
+                                    <td><%= vdfm.getQuantite() %></td>
+                                  </tr>
+                                  <%
+                                }
+                                %>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="col-7">
+                            <table
+                              class="table table-bordered dt-responsive nowrap"
+                              style="
+                                border-collapse: collapse;
+                                border-spacing: 0;
+                                width: 100%;
+                              "
+                            >
+                              <thead>
+                                <tr>
+                                  <th>Employe</th>
+                                  <th>Nombre</th>
+                                  <th>Duree</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <%
+                                for (VDetailEmployeMeuble vdem: v.getvDetailEmployeMeubles()){
+                                  %>
+                                  <tr>
+                                    <td><%= vdem.getNomEmploye() %></td>
+                                    <td><%= vdem.getNombre() %></td>
+                                    <td><%= vdem.getDuree() %></td>
+                                  </tr>
+                                  <%
+                                }
+                                %>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <%
+                      }
+                      %>
+                      
                     </div>
                   </div>
                 </div>

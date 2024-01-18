@@ -6,7 +6,7 @@ import java.util.List;
 
 import database.PG;
 import entity.materiau.VMateriau;
-import entity.meuble.VFormuleMeuble;
+import entity.meuble.MeubleContenantMateriau;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,16 +20,16 @@ public class MeubleContenantMateriauServlet extends HttpServlet {
         Connection connection = null;
         try {
             connection = PG.getConnection();
-            List<VFormuleMeuble> vFormuleMeuble = VFormuleMeuble.selectByIdMateriau(connection, -1);
+            List<MeubleContenantMateriau> vFormuleMeuble = MeubleContenantMateriau.selectByIdMateriau(connection, -1);
             VMateriau vMateriau = new VMateriau(null, "", null, null, null);
             if (request.getParameter("id_materiau")!=null) {
                 Integer idMateriau = Integer.parseInt(request.getParameter("id_materiau"));
                 vMateriau = VMateriau.selectById(connection, idMateriau);
-                vFormuleMeuble = VFormuleMeuble.selectByIdMateriau(connection, idMateriau);
+                vFormuleMeuble = MeubleContenantMateriau.selectByIdMateriau(connection, idMateriau);
             }
             List<VMateriau> vMateriaus = VMateriau.list(connection);
             request.setAttribute("vMateriau", vMateriau);
-            request.setAttribute("vFormuleMeuble", vFormuleMeuble);
+            request.setAttribute("meubleContenantMateriau", vFormuleMeuble);
             request.setAttribute("vMateriaus", vMateriaus);
         } catch (Exception e) {
             e.printStackTrace();
