@@ -1,16 +1,14 @@
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.meuble.*" %>
-<%@ page import="entity.materiau.*" %>
+<%@ page import="entity.employe.*" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.time.LocalDateTime" %>
 <%@ page import="java.text.DecimalFormat" %>
 <%
-List<TailleMeuble> tailleMeuble = (List<TailleMeuble>) request.getAttribute("tailleMeuble");
-List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
 LocalDateTime dateDebut = (LocalDateTime) request.getAttribute("dateDebut");
 LocalDateTime dateFin = (LocalDateTime) request.getAttribute("dateFin");
 DecimalFormat df = new DecimalFormat("0");
-List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAttribute("vMouvementMeuble");
+List<Employe> employe = (List<Employe>) request.getAttribute("employe");
+List<VUtilisationEmploye> vUtilisationEmployes = (List<VUtilisationEmploye>) request.getAttribute("vUtilisationEmployes");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +19,7 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"
     />
-    <title>Meuble - Fabrication</title>
+    <title>Employe - Utilisation</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -66,12 +64,12 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                     <div class="btn-group float-right">
                       <ol class="breadcrumb hide-phone p-0 m-0">
                         <li class="breadcrumb-item">
-                          <a href="#">Meuble</a>
+                          <a href="#">Employe</a>
                         </li>
-                        <li class="breadcrumb-item active">Fabrication</li>
+                        <li class="breadcrumb-item active">Utilisation</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Fabrication meuble</h4>
+                    <h4 class="page-title">Utilisation</h4>
                   </div>
                 </div>
               </div>
@@ -80,74 +78,89 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Nouvelle fabrication</h4>
-                      <form action="/fabrication_meuble" method="post">
+                      <h4 class="mt-0 header-title">Nouvelle utilisation employe</h4>
+                      <form action="/utilisation_employe" method="post">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label"
-                                  >Meuble</label
-                                >
-                                <div class="col-sm-10">
-                                  <select class="form-control" name="id_meuble">
-                                      <%
-                                      for (VMeuble v : vMeuble){
-                                        %>
-                                        <option value="<%= v.getId() %>"><%= v.getNom() %></option>
-                                        <%
-                                      }
-                                      %>
-                                  </select>
-                                </div>
-                              </div>  
-                              <div class="form-group row">
-                                <label class="col-sm-2 col-form-label"
-                                  >Taille</label
-                                >
-                                <div class="col-sm-10">
-                                  <select class="form-control" name="id_taille_meuble">
-                                    <%
-                                    for(TailleMeuble t : tailleMeuble){
-                                      %>
-                                      <option value="<%= t.getId() %>"><%= t.getNom() %></option>
-                                      <%
-                                    }
+                              <label class="col-sm-2 col-form-label"
+                                >Employe</label
+                              >
+                              <div class="col-sm-10">
+                                <select class="form-control" name="id_employe">
+                                  <%
+                                  for(Employe e : employe){
                                     %>
-                                  </select>
-                                </div>
+                                    <option value="<%= e.getId() %>"><%= e.getNom() %></option>
+                                    <%
+                                  }
+                                  %>
+                                </select>
                               </div>
                           </div>
-                          <div class="col-xl-6">
                             <div class="form-group row">
                               <label
                                 for="example-text-input"
                                 class="col-sm-2 col-form-label"
-                                >Quantite</label
+                                >Date</label
+                              >
+                              <div class="col-sm-10">
+                                <input
+                                  class="form-control"
+                                  type="datetime-local"
+                                  id="example-text-input"
+                                  name="date_utilisation"
+                                />
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label
+                                for="example-text-input"
+                                class="col-sm-2 col-form-label"
+                                >Description</label
                               >
                               <div class="col-sm-10">
                                 <input
                                   class="form-control"
                                   type="text"
                                   id="example-text-input"
-                                  name="quantite"
+                                  name="description"
+                                />
+                              </div>
+                            </div>
+                            
+                          </div>
+                          <div class="col-xl-6">
+                            <div class="form-group row">
+                              <label
+                                for="example-text-input"
+                                class="col-sm-2 col-form-label"
+                                >Nombre</label
+                              >
+                              <div class="col-sm-10">
+                                <input
+                                  class="form-control"
+                                  type="number"
+                                  id="example-text-input"
+                                  name="nombre"
                                 />
                               </div>
                             </div>
                             <div class="form-group row">
-                                <label
-                                  for="example-text-input"
-                                  class="col-sm-2 col-form-label"
-                                  >Date</label
-                                >
-                                <div class="col-sm-10">
-                                  <input
-                                    class="form-control"
-                                    type="datetime-local"
-                                    id="example-text-input"
-                                    name="date_fabrication"
-                                  />
-                                </div>
+                              <label
+                                for="example-text-input"
+                                class="col-sm-2 col-form-label"
+                                >Duree</label
+                              >
+                              <div class="col-sm-10">
+                                <input
+                                  class="form-control"
+                                  type="text"
+                                  id="example-text-input"
+                                  name="duree_utilisation"
+                                />
                               </div>
+                            </div>
                             <div class="form-group row">
                               <div class="col-sm-10"></div>
                               <div class="col-sm-2">
@@ -168,7 +181,7 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <form action="/entree_materiau" method="get">
+                      <form action="/utilisation_materiau" method="get">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -231,33 +244,27 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                           <tr>
                             <th>Id</th>
                             <th>Date</th>
-                            <th>Meuble</th>
-                            <th>Taille</th>
-                            <th>Categorie</th>
-                            <th>Style</th>
-                            <th>Quantite</th>
-                            <th>Total Materiuax</th>
-                            <th>Total Salaires</th>
-                            <th>Prix total</th>
-                            <th>Prix unitaire</th>
+                            <th>Employe</th>
+                            <th>Nombre</th>
+                            <th>Duree</th>
+                            <th>Salaire unitaire</th>
+                            <th>Salaire total</th>
+                            <th>Description</th>
                           </tr>
                         </thead>
                         <tbody>
                           <%
-                          for(VMouvementMeuble v : vMouvementMeuble){
+                          for(VUtilisationEmploye v : vUtilisationEmployes){
                             %>
                             <tr>
                               <td><%= v.getId() %></td>
-                              <td><%= v.getDateMouvement() %></td>
-                              <td><%= v.getNomMeuble() %></td>
-                              <td><%= v.getNomTailleMeuble() %></td>
-                              <td><%= v.getNomCategorieMeuble() %></td>
-                              <td><%= v.getNomStyleMeuble() %></td>
-                              <td><%= v.getQuantite() %></td>
-                              <td><%= df.format(v.getTotalMateriaux()) %></td>
-                              <td><%= df.format(v.getTotalSalaires()) %></td>
-                              <td><%= df.format(v.getPrixTotal()) %></td>
-                              <td><%= df.format(v.getPrixUnitaire()) %></td>
+                              <td><%= v.getDateUtilisation() %></td>
+                              <td><%= v.getNomEmploye() %></td>
+                              <td><%= v.getNombre() %></td>
+                              <td><%= v.getDureeUtilisation() %></td>
+                              <td><%= v.getSalaireUnitaire() %></td>
+                              <td><%= v.getSalaireTotal() %></td>
+                              <td><%= v.getDescription() %></td>
                             </tr>
                             <%
                           }
@@ -267,7 +274,7 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                     </div>
                   </div>
                 </div>
-               </div>
+              </div>
               <!-- Test affichage end -->
             </div>
           </div>

@@ -18,8 +18,8 @@ public class BeneficeMeubleServlet extends HttpServlet {
             throws ServletException, IOException {
         Connection connection = null;
         try {
-            Double min = 0.0;
-            Double max = 999999999999.9;
+            Double min = -999999999999.0;
+            Double max = 999999999999.0;
             if (request.getParameter("min") != null && request.getParameter("max") != null) {
                 min = Double.parseDouble(request.getParameter("min"));
                 max = Double.parseDouble(request.getParameter("max"));

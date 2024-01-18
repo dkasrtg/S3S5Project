@@ -97,6 +97,7 @@ public class VSalaireEmploye {
         resultSet.close();
         return vSalaireEmploye;
     }
+    
     public static List<VSalaireEmploye> selectByIdEmploye(Connection connection, LocalDateTime date)
             throws SQLException {
         List<VSalaireEmploye> vSalaireEmployes = new ArrayList<>();

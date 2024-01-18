@@ -33,10 +33,12 @@ D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\CategorieMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\VMateriauRestant.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\MeubleServlet.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\VBeneficeMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\VMateriauPossibleStyleMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\CategorieMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\FormuleMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\employe\SalaireEmployeServlet.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\employe\VUtilisationEmploye.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\MateriauPossibleStyleMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\NouvelleFormuleMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\FabricationMeubleServlet.java
@@ -47,6 +49,7 @@ D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\refere
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\MouvementMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\StyleMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\exception\DateBeforeLastException.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\employe\UtilisationEmployeServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\Meuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\TailleMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\exception\QuantiteInsufficientException.java
@@ -57,6 +60,7 @@ D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materi
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\materiau\EntreeMateriauServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\MouvementMateriau.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\adapter\Adapter.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\employe\UtilisationEmploye.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\BeneficeMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\reference\DetailsReferenceServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\DetailFormuleMeuble.java

@@ -194,6 +194,17 @@
               ></a
             >
           </li>
+          <li>
+            <a href="/utilisation_employe" class="waves-effect"
+              ><i class="fas fa-user-clock"></i>
+              <span
+                >Utilisation employe
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
         </ul>
       </div>
       <div class="clearfix"></div>

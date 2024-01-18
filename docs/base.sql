@@ -156,6 +156,7 @@ create table detail_formule_meuble(
     foreign key(id_materiau) references materiau(id)
 );
 
+drop table mouvement_meuble cascade;
 create table mouvement_meuble(
     id serial primary key,
     date_mouvement timestamp,
@@ -163,6 +164,8 @@ create table mouvement_meuble(
     quantite numeric,
     type_mouvement integer,
     id_mouvement_mere integer,
+    total_materiaux numeric,
+    total_salaires numeric,
     prix_total numeric,
     prix_unitaire numeric,
     foreign key(id_formule_meuble) references formule_meuble(id)
@@ -213,6 +216,20 @@ create table prix_de_vente_meuble(
     valeur numeric,
     foreign key(id_formule_meuble) references formule_meuble(id)
 );
+
+create table utilisation_employe(
+    id serial primary key,
+    id_mouvement_meuble integer,
+    date_utilisation timestamp,
+    id_employe integer,
+    nombre integer,
+    duree_utilisation numeric,
+    salaire_unitaire numeric,
+    salaire_total numeric,
+    description varchar(200),
+    foreign key(id_employe) references employe(id)
+);
+
 
 -- Employe
 INSERT INTO employe (nom) VALUES
@@ -508,3 +525,10 @@ join meuble m on m.id=q1.id_meuble
 join taille_meuble tm on tm.id=q1.id_taille_meuble
 ;
 
+create or replace view v_utilisation_employe as 
+select ue.*, e.nom as nom_employe
+from
+utilisation_employe ue 
+join employe e
+on e.id=ue.id_employe
+;

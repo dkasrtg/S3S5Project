@@ -2,7 +2,9 @@
 <%@ page import="entity.meuble.*" %>
 <%@ page import="entity.materiau.*" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.text.DecimalFormat" %>
 <%
+DecimalFormat df = new DecimalFormat("0");
 Double min = (Double) request.getAttribute("min");
 Double max = (Double) request.getAttribute("max");
 List<VBeneficeMeuble> vBeneficeMeubles = (List<VBeneficeMeuble>) request.getAttribute("vBeneficeMeubles");
@@ -16,7 +18,7 @@ List<VBeneficeMeuble> vBeneficeMeubles = (List<VBeneficeMeuble>) request.getAttr
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"
     />
-    <title>Test Affichage</title>
+    <title>Meuble - Benefice</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -61,12 +63,12 @@ List<VBeneficeMeuble> vBeneficeMeubles = (List<VBeneficeMeuble>) request.getAttr
                     <div class="btn-group float-right">
                       <ol class="breadcrumb hide-phone p-0 m-0">
                         <li class="breadcrumb-item">
-                          <a href="#">Test Affichage</a>
+                          <a href="#">Meuble</a>
                         </li>
-                        <li class="breadcrumb-item active">Test Affichage</li>
+                        <li class="breadcrumb-item active">Benefice</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Test Affichage</h4>
+                    <h4 class="page-title">Benefice</h4>
                   </div>
                 </div>
               </div>
@@ -82,7 +84,7 @@ List<VBeneficeMeuble> vBeneficeMeubles = (List<VBeneficeMeuble>) request.getAttr
                                   <label
                                     for="example-text-input"
                                     class="col-sm-2 col-form-label"
-                                    >Min</label
+                                    >Minimum</label
                                   >
                                   <div class="col-sm-10">
                                     <input
@@ -100,7 +102,7 @@ List<VBeneficeMeuble> vBeneficeMeubles = (List<VBeneficeMeuble>) request.getAttr
                                   <label
                                     for="example-text-input"
                                     class="col-sm-2 col-form-label"
-                                    >Max</label
+                                    >Maximum</label
                                   >
                                   <div class="col-sm-10">
                                     <input
@@ -125,7 +127,7 @@ List<VBeneficeMeuble> vBeneficeMeubles = (List<VBeneficeMeuble>) request.getAttr
                               </div>
                             </div>
                         </form>
-                      <h4 class="mt-0 header-title">Les meubles dont le benefice est compris entre <%= min %>  et <%= max %></h4>
+                      <h4 class="mt-0 header-title">Les meubles dont le benefice est compris entre <%= df.format(min) %>  et <%= df.format(max) %></h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive nowrap"
