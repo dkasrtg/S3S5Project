@@ -21,7 +21,7 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"
     />
-    <title>Meuble - Fabrication</title>
+    <title>Meuble - Sortie</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -68,10 +68,10 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                         <li class="breadcrumb-item">
                           <a href="#">Meuble</a>
                         </li>
-                        <li class="breadcrumb-item active">Fabrication</li>
+                        <li class="breadcrumb-item active">Sortie</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Fabrication meuble</h4>
+                    <h4 class="page-title">Sortie meuble</h4>
                   </div>
                 </div>
               </div>
@@ -80,8 +80,8 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Nouvelle fabrication</h4>
-                      <form action="/fabrication_meuble" method="post">
+                      <h4 class="mt-0 header-title">Nouvelle sortie</h4>
+                      <form action="/sortie_meuble" method="post">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -116,6 +116,21 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                                   </select>
                                 </div>
                               </div>
+                              <div class="form-group row">
+                                <label
+                                  for="example-text-input"
+                                  class="col-sm-2 col-form-label"
+                                  >Description</label
+                                >
+                                <div class="col-sm-10">
+                                  <input
+                                    class="form-control"
+                                    type="text"
+                                    id="example-text-input"
+                                    name="description"
+                                  />
+                                </div>
+                              </div>
                           </div>
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -144,7 +159,7 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                                     class="form-control"
                                     type="datetime-local"
                                     id="example-text-input"
-                                    name="date_fabrication"
+                                    name="date"
                                   />
                                 </div>
                               </div>
@@ -168,7 +183,7 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <form action="/fabrication_meuble" method="get">
+                      <form action="/sortie_meuble" method="get">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -217,10 +232,10 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                           </div>
                         </div>
                       </form>
-                      <h4 class="mt-0 header-title">Fabrication meubles du <%= dateDebut %> au <%= dateFin %></h4>
+                      <h4 class="mt-0 header-title">Sortie de meubles du <%= dateDebut %> au <%= dateFin %></h4>
                       <table
                         id="datatable"
-                        class="table table-bordered dt-responsive "
+                        class="table table-bordered dt-responsive"
                         style="
                           border-collapse: collapse;
                           border-spacing: 0;
@@ -236,10 +251,9 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                             <th>Categorie</th>
                             <th>Style</th>
                             <th>Quantite</th>
-                            <th>Total Materiuax</th>
-                            <th>Total Salaires</th>
                             <th>Prix total</th>
                             <th>Prix unitaire</th>
+                            <th>Description</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -254,10 +268,9 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                               <td><%= v.getNomCategorieMeuble() %></td>
                               <td><%= v.getNomStyleMeuble() %></td>
                               <td><%= v.getQuantite() %></td>
-                              <td><%= df.format(v.getTotalMateriaux()) %></td>
-                              <td><%= df.format(v.getTotalSalaires()) %></td>
                               <td><%= df.format(v.getPrixTotal()) %></td>
                               <td><%= df.format(v.getPrixUnitaire()) %></td>
+                              <td><%= v.getDescription() %></td>
                             </tr>
                             <%
                           }

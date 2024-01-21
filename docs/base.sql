@@ -156,6 +156,36 @@ create table detail_formule_meuble(
     foreign key(id_materiau) references materiau(id)
 );
 
+create table client(
+    id serial primary key,
+    nom varchar(200),
+    prenom varchar(200),
+    telephone varchar(30)
+);
+
+create table vente_meuble(
+    id serial primary key,
+    date_vente timestamp,
+    id_client integer,
+    prix_ht numeric,
+    remise numeric,
+    taxe numeric,
+    prix_ttc numeric,
+    foreign key (id_client) references client(id)
+);
+
+create table detail_vente_meuble(
+    id serial primary key,
+    id_vente_meuble integer,
+    id_formule_meuble integer,
+    quantite numeric,
+    prix_unitaire numeric,
+    remise numeric,
+    prix_unitaire_avec_remise numeric,
+    prix_total numeric,
+    foreign key(id_formule_meuble) references formule_meuble(id)
+);
+
 drop table mouvement_meuble cascade;
 create table mouvement_meuble(
     id serial primary key,
@@ -168,6 +198,8 @@ create table mouvement_meuble(
     total_salaires numeric,
     prix_total numeric,
     prix_unitaire numeric,
+    id_detail_vente_meuble integer,
+    description varchar(200),
     foreign key(id_formule_meuble) references formule_meuble(id)
 );
 
@@ -229,6 +261,7 @@ create table utilisation_employe(
     description varchar(200),
     foreign key(id_employe) references employe(id)
 );
+
 
 
 -- Employe
@@ -361,17 +394,6 @@ INSERT INTO meuble(nom, id_style_meuble, id_categorie_meuble, description) VALUE
 insert into taille_meuble (nom) values('petit');
 insert into taille_meuble (nom) values('moyen');
 insert into taille_meuble (nom) values('grand');
-
--- Mouvement materiau
--- INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 12:00:00 am', 1, 200, 200000, 1, -1, '', null);
--- INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 01:00:00 am', 1, 20, 200000, -1, 1, '', null);
--- INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 02:00:00 am', 1, 10, 200000, -1, 1, '', null);
--- INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 03:00:00 am', 1, 20, 200000, -1, 1, '', null);
--- INSERT INTO formule_meuble(id_meuble, id_taille_meuble ) VALUES (1, 1);
--- INSERT INTO detail_formule_meuble(id_formule_meuble, id_materiau, quantite ) VALUES (1, 1, 2);
--- INSERT INTO mouvement_meuble(date_mouvement, id_formule_meuble, quantite, type_mouvement, id_mouvement_mere, prix_total, prix_unitaire ) VALUES ('2024-01-01 05:00:00 am', 1, 20, 1, -1, 8000000, 400000);
--- INSERT INTO mouvement_materiau(date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble ) VALUES ('2024-01-01 05:00:00 am', 1, 40, 200000, -1, 1, 'Fabrication meuble', 1);
-
 
 select fm.*,vm.nom as nom_meuble,vm.id_style_meuble,vm.id_categorie_meuble,vm.description,vm.nom_style_meuble,vm.nom_categorie_meuble,
 dfm.quantite,tm.nom as nom_taille_meuble
@@ -548,3 +570,32 @@ join employe e
 on e.id=dem.id_employe
 ;
 
+
+create or replace view v_meuble_restant as
+select id,date_mouvement,id_formule_meuble,prix_unitaire,sum(q_e-q_s) as quantite from
+(select
+mme.id,mme.date_mouvement,mme.id_formule_meuble,mme.q_e,mme.prix_unitaire,coalesce(mms.q_s,0) as q_s
+from 
+(select id,date_mouvement,id_formule_meuble,quantite as q_e,prix_unitaire from mouvement_meuble where type_mouvement=1) as mme
+left join
+(select quantite as q_s,id_mouvement_mere from mouvement_meuble where type_mouvement=-1) as mms
+on mme.id=mms.id_mouvement_mere) as q1
+group by id,date_mouvement,id_formule_meuble,prix_unitaire
+order by date_mouvement asc
+;
+
+
+create or replace view v_meuble_possible_a_vendre as
+select fm.id,fm.id_meuble,fm.id_taille_meuble,m.nom as nom_meuble,tm.nom as nom_taille_meuble,r.quantite
+from
+(select id_formule_meuble,sum(quantite) as quantite from v_meuble_restant group by id_formule_meuble) as r
+join formule_meuble fm on fm.id=r.id_formule_meuble
+join meuble m on m.id=fm.id_meuble
+join taille_meuble tm on tm.id=fm.id_taille_meuble
+;
+
+create or replace view v_vente_meuble as
+select vm.*,c.nom as nom_client,c.prenom as prenom_client,c.telephone as telephone_client 
+from vente_meuble vm
+join client c on c.id=vm.id_client
+;

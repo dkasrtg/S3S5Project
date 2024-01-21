@@ -1,6 +1,8 @@
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\exception\QuantiteNegatifZeroException.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\VenteMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\reference\NouvelleReferenceServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\materiau\TotalResteMateriauServlet.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\VenteMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\VMouvementMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\reference\VReference.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\materiau\SortieMateriauServlet.java
@@ -18,11 +20,13 @@ D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\test\
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\employe\SalaireEmploye.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\exception\DateAfterNowException.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\exception\QuantiteInsufficientForMeubleException.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\client\Client.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\Materiau.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\MeubleContenantMateriauServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\PrixDeVenteMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\database\PG.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\VMouvementMateriau.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\client\ClientServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\reference\DeleteReferenceServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\TailleMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\VMateriau.java
@@ -37,6 +41,7 @@ D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\VMateriauPossibleStyleMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\CategorieMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\FormuleMeuble.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\SortieMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\employe\SalaireEmployeServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\employe\VUtilisationEmploye.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\MateriauPossibleStyleMeuble.java
@@ -48,6 +53,7 @@ D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\exception\For
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\reference\CheckboxReference.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\MouvementMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\StyleMeubleServlet.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\VMeubleRestant.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\exception\DateBeforeLastException.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\employe\UtilisationEmployeServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\Meuble.java
@@ -66,6 +72,10 @@ D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\refer
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\DetailFormuleMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\employe\Employe.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\TotalResteMateriau.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\VMeublePossibleAVendre.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\MeubleContenantMateriau.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\materiau\TypeMateriauServlet.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\VDetailEmployeMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\reference\UpdateReferenceServlet.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\DetailVenteMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\reference\VCheckboxReference.java

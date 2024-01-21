@@ -230,7 +230,7 @@ List<VUtilisationEmploye> vUtilisationEmployes = (List<VUtilisationEmploye>) req
                           </div>
                         </div>
                       </form>
-                      <h4 class="mt-0 header-title">Fabrication meubles du <%= dateDebut %> au <%= dateFin %></h4>
+                      <h4 class="mt-0 header-title">Utilisation employes du <%= dateDebut %> au <%= dateFin %></h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive nowrap"

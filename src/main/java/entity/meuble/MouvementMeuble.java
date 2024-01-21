@@ -22,11 +22,13 @@ public class MouvementMeuble {
     Double prixUnitaire;
     Integer typeMouvement;
     Integer idMouvementMere;
+    Integer idDetailVenteMeuble;
+    String description;
 
     public MouvementMeuble(Integer id, LocalDateTime dateMouvement, Integer idFormuleMeuble, Double quantite,
             Double prixTotal,
             Double prixUnitaire, Integer typeMouvement, Integer idMouvementMere, Double totalMateriaux,
-            Double totalSalaire) throws Exception {
+            Double totalSalaire,Integer idDetailVenteMeuble,String description) throws Exception {
         setId(id);
         setDateMouvement(dateMouvement);
         setidFormuleMeuble(idFormuleMeuble);
@@ -37,6 +39,20 @@ public class MouvementMeuble {
         setIdMouvementMere(idMouvementMere);
         setTotalMateriaux(totalMateriaux);
         setTotalSalaires(totalSalaire);
+        setIdDetailVenteMeuble(idDetailVenteMeuble);
+        setDescription(description);
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public void setIdDetailVenteMeuble(Integer idDetailVenteMeuble) {
+        this.idDetailVenteMeuble = idDetailVenteMeuble;
+    }
+    public Integer getIdDetailVenteMeuble() {
+        return idDetailVenteMeuble;
     }
 
     public Integer getId() {
@@ -123,9 +139,9 @@ public class MouvementMeuble {
     }
 
     public void insert(Connection connection) throws SQLException {
-        String query = "INSERT INTO mouvement_meuble (date_mouvement, id_formule_meuble, quantite, prix_total,prix_unitaire, type_mouvement, id_mouvement_mere, total_materiaux, total_salaires) "
+        String query = "INSERT INTO mouvement_meuble (date_mouvement, id_formule_meuble, quantite, prix_total,prix_unitaire, type_mouvement, id_mouvement_mere, total_materiaux, total_salaires, id_detail_vente_meuble,description) "
                 +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
         try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setObject(1, getDateMouvement());
             statement.setInt(2, getidFormuleMeuble());
@@ -136,6 +152,8 @@ public class MouvementMeuble {
             statement.setInt(7, getIdMouvementMere());
             statement.setDouble(8, getTotalMateriaux());
             statement.setDouble(9, getTotalSalaires());
+            statement.setInt(10, getIdDetailVenteMeuble());
+            statement.setString(11, getDescription());
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -146,7 +164,7 @@ public class MouvementMeuble {
 
     public void update(Connection connection) throws SQLException {
         String query = "UPDATE mouvement_meuble SET date_mouvement = ?, id_formule_meuble = ?, " +
-                "quantite = ?, prix_total = ?, prix_unitaire = ?, type_mouvement = ?, id_mouvement_mere = ?, total_materiaux = ?, total_salaires = ? "
+                "quantite = ?, prix_total = ?, prix_unitaire = ?, type_mouvement = ?, id_mouvement_mere = ?, total_materiaux = ?, total_salaires = ?, id_detail_vente_meuble = ?, description = ? "
                 +
                 "WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -159,9 +177,25 @@ public class MouvementMeuble {
             statement.setInt(7, getIdMouvementMere());
             statement.setDouble(8, getTotalMateriaux());
             statement.setDouble(9, getTotalSalaires());
-            statement.setInt(10, getId());
+            statement.setInt(10, getIdDetailVenteMeuble());
+            statement.setString(11, getDescription());
+            statement.setInt(12, getId());
             statement.executeUpdate();
         }
+    }
+    public static LocalDateTime getLastOutMouvementDate(Connection connection) throws SQLException {
+        String query = "SELECT MAX(date_mouvement) AS last_date FROM mouvement_meuble WHERE type_mouvement=-1";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    LocalDateTime result = resultSet.getObject("last_date", LocalDateTime.class);
+                    if (result != null) {
+                        return result;
+                    }
+                }
+            }
+        }
+        return LocalDateTime.of(1, 1, 1, 0, 0);
     }
 
 }

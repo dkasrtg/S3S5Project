@@ -171,10 +171,32 @@
               ></a
             >
           </li>
+          <li>
+            <a href="/vente_meuble" class="waves-effect"
+              ><i class="fas fa-shopping-cart"></i>
+              <span
+                >Vente meuble
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/sortie_meuble" class="waves-effect"
+              ><i class="fas fa-arrow-alt-circle-up"></i>
+              <span
+                >Sortie meuble
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
           <li class="menu-title">Employe</li>
           <li>
             <a href="/employe" class="waves-effect"
-              ><i class="fas fa-user"></i>
+              ><i class="fas fa-user-tie"></i>
               <span
                 >Employe
                 <span class="badge badge-pill badge-primary float-right"
@@ -199,6 +221,18 @@
               ><i class="fas fa-user-clock"></i>
               <span
                 >Utilisation employe
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li class="menu-title">Client</li>
+          <li>
+            <a href="/client" class="waves-effect"
+              ><i class="fas fa-user"></i>
+              <span
+                >Client
                 <span class="badge badge-pill badge-primary float-right"
                   ></span
                 ></span

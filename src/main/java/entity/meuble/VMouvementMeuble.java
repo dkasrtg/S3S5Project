@@ -27,12 +27,14 @@ public class VMouvementMeuble {
     String nomTailleMeuble;
     Double totalMateriaux;
     Double totalSalaires;
+    Integer idDetailVenteMeuble;
+    String description;
 
     public VMouvementMeuble(Integer id, LocalDateTime dateMouvement, Integer idFormuleMeuble, Double quantite,
             Double prixTotal, Double prixUnitaire, Integer typeMouvement, Integer idMouvementMere, Integer idMeuble,
             String nomMeuble, Integer idStyleMeuble, Integer idCategorieMeuble, String nomStyleMeuble,
             String nomCategorieMeuble, Integer idTailleMeuble, String nomTailleMeuble, Double totalMateriaux,
-            Double totalSalaires) {
+            Double totalSalaires,Integer idDetailVenteMeuble,String description) {
         this.id = id;
         this.dateMouvement = dateMouvement;
         this.idFormuleMeuble = idFormuleMeuble;
@@ -51,6 +53,8 @@ public class VMouvementMeuble {
         this.nomTailleMeuble = nomTailleMeuble;
         this.totalMateriaux = totalMateriaux;
         this.totalSalaires = totalSalaires;
+        this.idDetailVenteMeuble = idDetailVenteMeuble;
+        this.description = description;
     }
 
     public Integer getId() {
@@ -197,6 +201,20 @@ public class VMouvementMeuble {
         return totalSalaires;
     }
 
+    public void setIdDetailVenteMeuble(Integer idDetailVenteMeuble) {
+        this.idDetailVenteMeuble = idDetailVenteMeuble;
+    }
+
+    public Integer getIdDetailVenteMeuble() {
+        return idDetailVenteMeuble;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public String getDescription() {
+        return description;
+    }
+
     public static List<VMouvementMeuble> selectByTypeMouvement(Connection connection, Integer typeMouvement,
             LocalDateTime dateDebut, LocalDateTime dateFin) throws SQLException {
         List<VMouvementMeuble> mouvements = new ArrayList<>();
@@ -227,12 +245,14 @@ public class VMouvementMeuble {
                     String nomTailleMeuble = resultSet.getString("nom_taille_meuble");
                     Double totalMateriaux = resultSet.getDouble("total_materiaux");
                     Double totalSalaires = resultSet.getDouble("total_salaires");
+                    Integer idDetailVenteMeuble = resultSet.getInt("id_detail_vente_meuble");
+                    String description = resultSet.getString("description");
 
                     VMouvementMeuble mouvement = new VMouvementMeuble(
                             id, dateMouvement, idFormuleMeuble, quantite, prixTotal, prixUnitaire,
                             typeMouvementResult, idMouvementMere, idMeuble, nomMeuble, idStyleMeuble,
                             idCategorieMeuble, nomStyleMeuble, nomCategorieMeuble, idTailleMeuble,
-                            nomTailleMeuble,totalMateriaux,totalSalaires);
+                            nomTailleMeuble,totalMateriaux,totalSalaires,idDetailVenteMeuble,description);
                     mouvements.add(mouvement);
                 }
             }

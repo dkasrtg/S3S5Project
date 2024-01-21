@@ -90,7 +90,7 @@ public class FabricationMeubleServlet extends HttpServlet {
             List<VDetailFormuleMeuble> vDetailFormuleMeubles = VDetailFormuleMeuble.selectByIdFormuleMeuble(connection,
                     idFormuleMeuble);
             MouvementMeuble mouvementMeuble = new MouvementMeuble(null, dateFabrication, idFormuleMeuble, quantite, 0.0,
-                    0.0, MouvementMeuble.ENTREE, -1, 0.0, 0.0);
+                    0.0, MouvementMeuble.ENTREE, -1, 0.0, 0.0,-1,"");
             mouvementMeuble.insert(connection);
             for (int i = 0; i < vDetailFormuleMeubles.size(); i++) {
                 Double quantitemateriau = quantite * vDetailFormuleMeubles.get(i).getQuantite();
@@ -135,7 +135,6 @@ public class FabricationMeubleServlet extends HttpServlet {
                         "Fabrication de meuble");
                 utilisationEmploye.insert(connection);
             }
-            //
             double prixTotal = totalMateriaux + totalSalaires;
             double prixUnitaire = prixTotal / quantite;
             mouvementMeuble.setPrixTotal(prixTotal);
