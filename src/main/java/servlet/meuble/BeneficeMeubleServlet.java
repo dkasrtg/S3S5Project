@@ -39,5 +39,4 @@ public class BeneficeMeubleServlet extends HttpServlet {
         }
         request.getRequestDispatcher("benefice_meuble.jsp").forward(request, response);
     }
-
 }

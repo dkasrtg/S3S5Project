@@ -193,6 +193,17 @@
               ></a
             >
           </li>
+          <li>
+            <a href="/suggestion_production_meuble" class="waves-effect"
+              ><i class="fas fa-question-circle"></i>
+              <span
+                >Suggestion production
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
           <li class="menu-title">Employe</li>
           <li>
             <a href="/employe" class="waves-effect"

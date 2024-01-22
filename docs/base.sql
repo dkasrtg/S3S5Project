@@ -508,10 +508,10 @@ join meuble m on m.id=fm.id_meuble
 join taille_meuble tm on tm.id=fm.id_taille_meuble
 ;
 
-
+drop view v_benefice_meuble;
 create or replace view v_benefice_meuble as
 select
-q1.id_meuble,q1.id_taille_meuble,q1.total_materiaux,q2.total_salaires,q3.prix_de_vente,
+q1.id_formule_meuble,q1.id_meuble,q1.id_taille_meuble,q1.total_materiaux,q2.total_salaires,q3.prix_de_vente,
 m.nom as nom_meuble,tm.nom as nom_taille_meuble,
 (q1.total_materiaux+q2.total_salaires) as prix_de_revient,
 (q3.prix_de_vente-(q1.total_materiaux+q2.total_salaires)) as benefice
@@ -599,3 +599,5 @@ select vm.*,c.nom as nom_client,c.prenom as prenom_client,c.telephone as telepho
 from vente_meuble vm
 join client c on c.id=vm.id_client
 ;
+
+select id_materiau,sum(quantite) as quantite from v_materiau_restant group by id_materiau;

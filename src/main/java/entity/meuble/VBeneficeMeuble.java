@@ -17,10 +17,11 @@ public class VBeneficeMeuble {
     Double totalSalaires;
     Double prixDeRevient;
     Double benefice;
+    Integer idFormuleMeuble;
 
     public VBeneficeMeuble(Integer idMeuble, Integer idTailleMeuble, String nomMeuble, String nomTailleMeuble,
             Double prixDeVente, Double totalMateriaux,
-            Double totalSalaires, Double prixDeRevient, Double benefice) {
+            Double totalSalaires, Double prixDeRevient, Double benefice,Integer idFormuleMeuble) {
         setIdMeuble(idMeuble);
         setIdTailleMeuble(idTailleMeuble);
         setPrixDeRevient(prixDeRevient);
@@ -30,6 +31,15 @@ public class VBeneficeMeuble {
         setBenefice(benefice);
         setNomMeuble(nomMeuble);
         setNomTailleMeuble(nomTailleMeuble);
+        setIdFormuleMeuble(idFormuleMeuble);
+    }
+
+    public void setIdFormuleMeuble(Integer idFormuleMeuble) {
+        this.idFormuleMeuble = idFormuleMeuble;
+    }
+
+    public Integer getIdFormuleMeuble() {
+        return idFormuleMeuble;
     }
 
     public Integer getIdMeuble() {
@@ -122,9 +132,37 @@ public class VBeneficeMeuble {
                     Double totalSalaires = resultSet.getDouble("total_salaires");
                     Double prixDeRevient = resultSet.getDouble("prix_de_revient");
                     Double benefice = resultSet.getDouble("benefice");
+                    Integer idFormuleMeuble = resultSet.getInt("id_formule_meuble");
                     VBeneficeMeuble beneficeMeuble = new VBeneficeMeuble(idMeuble, idTailleMeuble, nomMeuble,
                             nomTailleMeuble,
-                            prixDeVente, totalMateriaux, totalSalaires, prixDeRevient, benefice);
+                            prixDeVente, totalMateriaux, totalSalaires, prixDeRevient, benefice,idFormuleMeuble);
+                    benefices.add(beneficeMeuble);
+                }
+
+            }
+        }
+        return benefices;
+    }
+
+    public static List<VBeneficeMeuble> list(Connection connection) throws SQLException {
+        List<VBeneficeMeuble> benefices = new ArrayList<>();
+        String query = "SELECT * FROM v_benefice_meuble order by benefice desc";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Integer idMeuble = resultSet.getInt("id_meuble");
+                    Integer idTailleMeuble = resultSet.getInt("id_taille_meuble");
+                    String nomMeuble = resultSet.getString("nom_meuble");
+                    String nomTailleMeuble = resultSet.getString("nom_taille_meuble");
+                    Double prixDeVente = resultSet.getDouble("prix_de_vente");
+                    Double totalMateriaux = resultSet.getDouble("total_materiaux");
+                    Double totalSalaires = resultSet.getDouble("total_salaires");
+                    Double prixDeRevient = resultSet.getDouble("prix_de_revient");
+                    Double benefice = resultSet.getDouble("benefice");
+                    Integer idFormuleMeuble = resultSet.getInt("id_formule_meuble");
+                    VBeneficeMeuble beneficeMeuble = new VBeneficeMeuble(idMeuble, idTailleMeuble, nomMeuble,
+                            nomTailleMeuble,
+                            prixDeVente, totalMateriaux, totalSalaires, prixDeRevient, benefice,idFormuleMeuble);
                     benefices.add(beneficeMeuble);
                 }
 
