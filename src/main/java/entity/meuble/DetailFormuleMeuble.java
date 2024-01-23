@@ -2,7 +2,6 @@ package entity.meuble;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 public class DetailFormuleMeuble {
     private Integer id;
@@ -52,7 +51,7 @@ public class DetailFormuleMeuble {
         this.quantite = quantite;
     }
 
-    public void insert(Connection connection) throws SQLException {
+    public void insert(Connection connection) throws Exception {
         String query = "INSERT INTO detail_formule_meuble (id_formule_meuble, id_materiau, quantite) VALUES (?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, getIdFormuleMeuble());

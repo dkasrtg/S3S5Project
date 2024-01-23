@@ -3,12 +3,10 @@ package entity.materiau;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class VMateriauRestant {
     Integer id;
@@ -67,40 +65,39 @@ public class VMateriauRestant {
     }
 
     public static List<VMateriauRestant> selectByIdMateriauWhereDateMouvementBefore(Connection connection,
-            Integer idMateriau, LocalDateTime date) throws SQLException {
+            Integer idMateriau, LocalDateTime date) throws Exception {
         List<VMateriauRestant> materiauxRestants = new ArrayList<>();
         String query = "SELECT * FROM v_materiau_restant WHERE id_materiau = ? AND date_mouvement < ?";
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, idMateriau);
-            statement.setObject(2, date);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Integer id = resultSet.getInt("id");
-                    LocalDateTime dateMouvement = resultSet.getObject("date_mouvement", LocalDateTime.class);
-                    Double quantite = resultSet.getDouble("quantite");
-                    Double prixUnitaire = resultSet.getDouble("prix_unitaire");
-                    VMateriauRestant materiauRestant = new VMateriauRestant(id, dateMouvement, idMateriau, quantite,
-                            prixUnitaire);
-                    materiauxRestants.add(materiauRestant);
-                }
-            }
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, idMateriau);
+        statement.setObject(2, date);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            Integer id = resultSet.getInt("id");
+            LocalDateTime dateMouvement = resultSet.getObject("date_mouvement", LocalDateTime.class);
+            Double quantite = resultSet.getDouble("quantite");
+            Double prixUnitaire = resultSet.getDouble("prix_unitaire");
+            VMateriauRestant materiauRestant = new VMateriauRestant(id, dateMouvement, idMateriau, quantite,
+                    prixUnitaire);
+            materiauxRestants.add(materiauRestant);
         }
+        statement.close();
+        resultSet.close();
         return materiauxRestants;
     }
 
-    public static HashMap<Integer, Double> getGlobalRest(Connection connection) throws SQLException {
+    public static HashMap<Integer, Double> getGlobalRest(Connection connection) throws Exception {
         HashMap<Integer, Double> globalRestMap = new HashMap<>();
         String query = "SELECT id_materiau, SUM(quantite) as quantite FROM v_materiau_restant GROUP BY id_materiau";
-        try (PreparedStatement statement = connection.prepareStatement(query);
-                ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                int idMateriau = resultSet.getInt("id_materiau");
-                double quantite = resultSet.getDouble("quantite");
-                globalRestMap.put(idMateriau, quantite);
-            }
+        PreparedStatement statement = connection.prepareStatement(query);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            int idMateriau = resultSet.getInt("id_materiau");
+            double quantite = resultSet.getDouble("quantite");
+            globalRestMap.put(idMateriau, quantite);
         }
+        statement.close();
+        resultSet.close();
         return globalRestMap;
     }
 

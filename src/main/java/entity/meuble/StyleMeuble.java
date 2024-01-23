@@ -44,7 +44,7 @@ public class StyleMeuble {
         statement.close();
     }
 
-    public static List<StyleMeuble> list(Connection connection) throws SQLException {
+    public static List<StyleMeuble> list(Connection connection) throws Exception {
         List<StyleMeuble> styleMeubleList = new ArrayList<>();
         String query = "SELECT * FROM style_meuble";
         Statement statement = connection.createStatement();
@@ -60,7 +60,7 @@ public class StyleMeuble {
         return styleMeubleList;
     }
 
-    public static StyleMeuble selectById(Connection connection, int id) throws SQLException {
+    public static StyleMeuble selectById(Connection connection, int id) throws Exception {
         String query = "SELECT * FROM style_meuble WHERE id = ?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, id);

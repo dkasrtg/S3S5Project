@@ -3,7 +3,6 @@ package entity.meuble;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DetailVenteMeuble {
@@ -92,24 +91,24 @@ public class DetailVenteMeuble {
         this.prixTotal = prixTotal;
     }
 
-    public void insert(Connection connection) throws SQLException {
+    public void insert(Connection connection) throws Exception {
         String query = "INSERT INTO detail_vente_meuble (id_vente_meuble, id_formule_meuble, quantite, prix_unitaire, remise, prix_unitaire_avec_remise, prix_total) "
                 +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setInt(1, getIdVenteMeuble());
-            statement.setInt(2, getIdFormuleMeuble());
-            statement.setDouble(3, getQuantite());
-            statement.setDouble(4, getPrixUnitaire());
-            statement.setDouble(5, getRemise());
-            statement.setDouble(6, getPrixUnitaireAvecRemise());
-            statement.setDouble(7, getPrixTotal());
-            statement.executeUpdate();
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    setId(generatedKeys.getInt(1));
-                }
-            }
+        PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        statement.setInt(1, getIdVenteMeuble());
+        statement.setInt(2, getIdFormuleMeuble());
+        statement.setDouble(3, getQuantite());
+        statement.setDouble(4, getPrixUnitaire());
+        statement.setDouble(5, getRemise());
+        statement.setDouble(6, getPrixUnitaireAvecRemise());
+        statement.setDouble(7, getPrixTotal());
+        statement.executeUpdate();
+        ResultSet generatedKeys = statement.getGeneratedKeys();
+        if (generatedKeys.next()) {
+            setId(generatedKeys.getInt(1));
         }
+        statement.close();
+        generatedKeys.close();
     }
 }

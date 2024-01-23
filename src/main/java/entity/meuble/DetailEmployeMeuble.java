@@ -2,10 +2,6 @@ package entity.meuble;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DetailEmployeMeuble {
     Integer id;
@@ -62,16 +58,15 @@ public class DetailEmployeMeuble {
         this.duree = duree;
     }
 
-    public void insert(Connection connection) throws SQLException {
+    public void insert(Connection connection) throws Exception {
         String query = "INSERT INTO detail_employe_meuble (id_formule_meuble, id_employe, nombre, duree) " +
                 "VALUES (?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, getIdFormuleMeuble());
-            statement.setInt(2, getIdEmploye());
-            statement.setInt(3, getNombre());
-            statement.setDouble(4, getDuree());
-
-            statement.executeUpdate();
-        }
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, getIdFormuleMeuble());
+        statement.setInt(2, getIdEmploye());
+        statement.setInt(3, getNombre());
+        statement.setDouble(4, getDuree());
+        statement.executeUpdate();
+        statement.close();
     }
 }

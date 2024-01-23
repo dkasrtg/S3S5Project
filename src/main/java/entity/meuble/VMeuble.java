@@ -1,6 +1,9 @@
 package entity.meuble;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +86,7 @@ public class VMeuble {
         this.nomCategorieMeuble = nomCategorieMeuble;
     }
 
-    public static List<VMeuble> list(Connection connection) throws SQLException {
+    public static List<VMeuble> list(Connection connection) throws Exception {
         List<VMeuble> vMeubleList = new ArrayList<>();
         String query = "SELECT * FROM v_meuble";
 
@@ -108,7 +111,7 @@ public class VMeuble {
         return vMeubleList;
     }
 
-    public static VMeuble selectById(Connection connection, Integer id) throws SQLException {
+    public static VMeuble selectById(Connection connection, Integer id) throws Exception {
         String query = "SELECT * FROM v_meuble WHERE id = ?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, id);

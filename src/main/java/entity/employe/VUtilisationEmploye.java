@@ -3,7 +3,6 @@ package entity.employe;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,32 +120,29 @@ public class VUtilisationEmploye {
     }
 
     public static List<VUtilisationEmploye> selectByDateRange(Connection connection,
-            LocalDateTime startDate, LocalDateTime endDate) throws SQLException {
+            LocalDateTime startDate, LocalDateTime endDate) throws Exception {
         List<VUtilisationEmploye> utilisations = new ArrayList<>();
         String query = "SELECT * FROM v_utilisation_employe WHERE date_utilisation>= ? AND date_utilisation<= ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setObject(1, startDate);
-            statement.setObject(2, endDate);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    // Extract data and create VUtilisationEmploye objects
-                    Integer id = resultSet.getInt("id");
-                    Integer idMouvementMeuble = resultSet.getInt("id_mouvement_meuble");
-                    LocalDateTime dateUtilisation = resultSet.getTimestamp("date_utilisation").toLocalDateTime();
-                    Integer idEmploye = resultSet.getInt("id_employe");
-                    Integer nombre = resultSet.getInt("nombre");
-                    Double dureeUtilisation = resultSet.getDouble("duree_utilisation");
-                    Double salaireUnitaire = resultSet.getDouble("salaire_unitaire");
-                    Double salaireTotal = resultSet.getDouble("salaire_total");
-                    String description = resultSet.getString("description");
-                    String nomEmploye = resultSet.getString("nom_employe");
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setObject(1, startDate);
+        statement.setObject(2, endDate);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            Integer id = resultSet.getInt("id");
+            Integer idMouvementMeuble = resultSet.getInt("id_mouvement_meuble");
+            LocalDateTime dateUtilisation = resultSet.getTimestamp("date_utilisation").toLocalDateTime();
+            Integer idEmploye = resultSet.getInt("id_employe");
+            Integer nombre = resultSet.getInt("nombre");
+            Double dureeUtilisation = resultSet.getDouble("duree_utilisation");
+            Double salaireUnitaire = resultSet.getDouble("salaire_unitaire");
+            Double salaireTotal = resultSet.getDouble("salaire_total");
+            String description = resultSet.getString("description");
+            String nomEmploye = resultSet.getString("nom_employe");
 
-                    VUtilisationEmploye utilisation = new VUtilisationEmploye(
-                            id, idMouvementMeuble, dateUtilisation, idEmploye, nombre, dureeUtilisation,
-                            salaireUnitaire, salaireTotal, description, nomEmploye);
-                    utilisations.add(utilisation);
-                }
-            }
+            VUtilisationEmploye utilisation = new VUtilisationEmploye(
+                    id, idMouvementMeuble, dateUtilisation, idEmploye, nombre, dureeUtilisation,
+                    salaireUnitaire, salaireTotal, description, nomEmploye);
+            utilisations.add(utilisation);
         }
         return utilisations;
     }

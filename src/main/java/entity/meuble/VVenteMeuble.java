@@ -3,7 +3,6 @@ package entity.meuble;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,7 +114,7 @@ public class VVenteMeuble {
     }
 
     public static List<VVenteMeuble> list(Connection connection, LocalDateTime dateDebut, LocalDateTime dateFin)
-            throws SQLException {
+            throws Exception {
         List<VVenteMeuble> ventes = new ArrayList<>();
         String query = "SELECT * FROM v_vente_meuble where date_vente>= ? and date_vente<= ? order by date_vente asc";
         PreparedStatement statement = connection.prepareStatement(query);
@@ -140,26 +139,27 @@ public class VVenteMeuble {
         return ventes;
     }
 
-    public static VVenteMeuble selectById(Connection connection, Integer id) throws SQLException {
+    public static VVenteMeuble selectById(Connection connection, Integer id) throws Exception {
         String query = "SELECT * FROM v_vente_meuble WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    String dateVente = resultSet.getString("date_vente");
-                    Integer idClient = resultSet.getInt("id_client");
-                    Double prixHT = resultSet.getDouble("prix_ht");
-                    Double remise = resultSet.getDouble("remise");
-                    Double taxe = resultSet.getDouble("taxe");
-                    Double prixTTC = resultSet.getDouble("prix_ttc");
-                    String nomClient = resultSet.getString("nom_client");
-                    String prenomClient = resultSet.getString("prenom_client");
-                    String telephoneClient = resultSet.getString("telephone_client");
-                    return new VVenteMeuble(id, dateVente, idClient, prixHT, remise, taxe, prixTTC,
-                            nomClient, prenomClient, telephoneClient);
-                }
-            }
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, id);
+        ResultSet resultSet = statement.executeQuery();
+        VVenteMeuble vVenteMeuble = null;
+        if (resultSet.next()) {
+            String dateVente = resultSet.getString("date_vente");
+            Integer idClient = resultSet.getInt("id_client");
+            Double prixHT = resultSet.getDouble("prix_ht");
+            Double remise = resultSet.getDouble("remise");
+            Double taxe = resultSet.getDouble("taxe");
+            Double prixTTC = resultSet.getDouble("prix_ttc");
+            String nomClient = resultSet.getString("nom_client");
+            String prenomClient = resultSet.getString("prenom_client");
+            String telephoneClient = resultSet.getString("telephone_client");
+            vVenteMeuble = new VVenteMeuble(id, dateVente, idClient, prixHT, remise, taxe, prixTTC,
+                    nomClient, prenomClient, telephoneClient);
         }
-        return null;
+        statement.close();
+        resultSet.close();
+        return vVenteMeuble;
     }
 }

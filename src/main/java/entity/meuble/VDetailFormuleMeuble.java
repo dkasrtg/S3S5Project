@@ -3,7 +3,6 @@ package entity.meuble;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,11 +12,12 @@ public class VDetailFormuleMeuble {
     private Integer idMateriau;
     private Double quantite;
     private String nomMateriau;
-    
+
     public VDetailFormuleMeuble() {
     }
 
-    public VDetailFormuleMeuble(Integer id,Integer idFormuleMeuble, Integer idMateriau, Double quantite,String nomMateriau) {
+    public VDetailFormuleMeuble(Integer id, Integer idFormuleMeuble, Integer idMateriau, Double quantite,
+            String nomMateriau) {
         setId(id);
         setIdFormuleMeuble(idFormuleMeuble);
         setIdMateriau(idMateriau);
@@ -66,26 +66,23 @@ public class VDetailFormuleMeuble {
     }
 
     public static List<VDetailFormuleMeuble> selectByIdFormuleMeuble(Connection connection, Integer idFormuleMeuble)
-            throws SQLException {
+            throws Exception {
         List<VDetailFormuleMeuble> vDetailFormuleMeubles = new ArrayList<>();
         String query = "SELECT * FROM v_detail_formule_meuble WHERE id_formule_meuble = ?";
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, idFormuleMeuble);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Integer id = resultSet.getInt("id");
-                    Integer idMateriau = resultSet.getInt("id_materiau");
-                    Double quantite = resultSet.getDouble("quantite");
-                    String nomMateriau = resultSet.getString("nom_materiau");
-                    VDetailFormuleMeuble vDetailFormuleMeuble = new VDetailFormuleMeuble(id, idFormuleMeuble, idMateriau,
-                            quantite, nomMateriau);
-                    vDetailFormuleMeubles.add(vDetailFormuleMeuble);
-                }
-            }
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, idFormuleMeuble);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            Integer id = resultSet.getInt("id");
+            Integer idMateriau = resultSet.getInt("id_materiau");
+            Double quantite = resultSet.getDouble("quantite");
+            String nomMateriau = resultSet.getString("nom_materiau");
+            VDetailFormuleMeuble vDetailFormuleMeuble = new VDetailFormuleMeuble(id, idFormuleMeuble, idMateriau,
+                    quantite, nomMateriau);
+            vDetailFormuleMeubles.add(vDetailFormuleMeuble);
         }
-
+        statement.close();
+        resultSet.close();
         return vDetailFormuleMeubles;
     }
 }

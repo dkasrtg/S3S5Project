@@ -3,7 +3,6 @@ package entity.meuble;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class VMateriauPossibleStyleMeuble {
     }
 
     public VMateriauPossibleStyleMeuble(Integer id, Integer idStyleMeuble, Integer idMateriau,
-                                       String nomMateriau, Integer idTypeMateriau, String nomTypeMateriau) {
+            String nomMateriau, Integer idTypeMateriau, String nomTypeMateriau) {
         setId(id);
         setIdStyleMeuble(idStyleMeuble);
         setIdMateriau(idMateriau);
@@ -39,6 +38,7 @@ public class VMateriauPossibleStyleMeuble {
     public Integer getIdTypeMateriau() {
         return idTypeMateriau;
     }
+
     public String getNomTypeMateriau() {
         return nomTypeMateriau;
     }
@@ -75,7 +75,8 @@ public class VMateriauPossibleStyleMeuble {
         this.nomTypeMateriau = nomTypeMateriau;
     }
 
-    public static List<VMateriauPossibleStyleMeuble> selectByIdStyleMeuble(Connection connection, int idStyleMeuble) throws SQLException {
+    public static List<VMateriauPossibleStyleMeuble> selectByIdStyleMeuble(Connection connection, int idStyleMeuble)
+            throws Exception {
         List<VMateriauPossibleStyleMeuble> materiauList = new ArrayList<>();
         String query = "SELECT * FROM v_materiau_possible_style_meuble WHERE id_style_meuble = ?";
         PreparedStatement statement = connection.prepareStatement(query);
@@ -87,8 +88,8 @@ public class VMateriauPossibleStyleMeuble {
             String nomMateriau = resultSet.getString("nom_materiau");
             Integer idTypeMateriau = resultSet.getInt("id_type_materiau");
             String nomTypeMateriau = resultSet.getString("nom_type_materiau");
-
-            VMateriauPossibleStyleMeuble materiau = new VMateriauPossibleStyleMeuble(id, idStyleMeuble, idMateriau, nomMateriau, idTypeMateriau, nomTypeMateriau);
+            VMateriauPossibleStyleMeuble materiau = new VMateriauPossibleStyleMeuble(id, idStyleMeuble, idMateriau,
+                    nomMateriau, idTypeMateriau, nomTypeMateriau);
             materiauList.add(materiau);
         }
         statement.close();

@@ -3,7 +3,6 @@ package entity.materiau;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 
@@ -118,37 +117,36 @@ public class MouvementMateriau {
         return idMouvementMeuble;
     }
 
-    public void insert(Connection connection) throws SQLException {
+    public void insert(Connection connection) throws Exception {
         String query = "INSERT INTO mouvement_materiau (date_mouvement, id_materiau, quantite, prix_unitaire, type_mouvement, id_mouvement_mere, description, id_mouvement_meuble) "
                 +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setObject(1, getDateMouvement());
-            statement.setInt(2, getIdMateriau());
-            statement.setDouble(3, getQuantite());
-            statement.setDouble(4, getPrixUnitaire());
-            statement.setInt(5, getTypeMouvement());
-            statement.setInt(6, getIdMouvementMere());
-            statement.setString(7, getDescription());
-            statement.setInt(8, getIdMouvementMeuble());
-            statement.executeUpdate();
-            ResultSet generatedKeys = statement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                setId(generatedKeys.getInt(1));
-            }
+        PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        statement.setObject(1, getDateMouvement());
+        statement.setInt(2, getIdMateriau());
+        statement.setDouble(3, getQuantite());
+        statement.setDouble(4, getPrixUnitaire());
+        statement.setInt(5, getTypeMouvement());
+        statement.setInt(6, getIdMouvementMere());
+        statement.setString(7, getDescription());
+        statement.setInt(8, getIdMouvementMeuble());
+        statement.executeUpdate();
+        ResultSet generatedKeys = statement.getGeneratedKeys();
+        if (generatedKeys.next()) {
+            setId(generatedKeys.getInt(1));
         }
+        statement.close();
+        generatedKeys.close();
     }
 
-    public static LocalDateTime getLastOutMouvementDate(Connection connection) throws SQLException {
+    public static LocalDateTime getLastOutMouvementDate(Connection connection) throws Exception {
         String query = "SELECT MAX(date_mouvement) AS last_date FROM mouvement_materiau WHERE type_mouvement=-1";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    LocalDateTime result = resultSet.getObject("last_date", LocalDateTime.class);
-                    if (result != null) {
-                        return result;
-                    }
-                }
+        PreparedStatement statement = connection.prepareStatement(query);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            LocalDateTime result = resultSet.getObject("last_date", LocalDateTime.class);
+            if (result != null) {
+                return result;
             }
         }
         return LocalDateTime.of(1, 1, 1, 0, 0);

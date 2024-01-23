@@ -76,7 +76,7 @@ public class VSalaireEmploye {
     }
 
     public static VSalaireEmploye selectByIdEmploye(Connection connection, Integer idEmploye, LocalDateTime date)
-            throws SQLException {
+            throws Exception {
         VSalaireEmploye vSalaireEmploye = null;
         String query = "SELECT * FROM v_salaire_employe WHERE id_employe = ? AND date_debut <= ? AND date_fin > ?";
         PreparedStatement statement = connection.prepareStatement(query);
@@ -90,7 +90,6 @@ public class VSalaireEmploye {
             LocalDateTime dateDebut = resultSet.getTimestamp("date_debut").toLocalDateTime();
             LocalDateTime dateFin = resultSet.getTimestamp("date_fin").toLocalDateTime();
             Double valeur = resultSet.getDouble("valeur");
-
             vSalaireEmploye = new VSalaireEmploye(id, idEmploye, nomEmploye, dateDebut, dateFin, valeur);
         }
         statement.close();
@@ -98,8 +97,8 @@ public class VSalaireEmploye {
         return vSalaireEmploye;
     }
     
-    public static List<VSalaireEmploye> selectByIdEmploye(Connection connection, LocalDateTime date)
-            throws SQLException {
+    public static List<VSalaireEmploye> selectByDate(Connection connection, LocalDateTime date)
+            throws Exception {
         List<VSalaireEmploye> vSalaireEmployes = new ArrayList<>();
         String query = "SELECT * FROM v_salaire_employe WHERE date_debut <= ? AND date_fin > ?";
         PreparedStatement statement = connection.prepareStatement(query);

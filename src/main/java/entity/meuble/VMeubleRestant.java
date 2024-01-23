@@ -3,7 +3,6 @@ package entity.meuble;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,24 +64,23 @@ public class VMeubleRestant {
     }
 
     public static List<VMeubleRestant> selectByIdFormuleMeuble(Connection connection, Integer idFormuleMeuble)
-            throws SQLException {
+            throws Exception {
         List<VMeubleRestant> meublesRestants = new ArrayList<>();
         String query = "SELECT * FROM v_meuble_restant WHERE id_formule_meuble = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, idFormuleMeuble);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Integer id = resultSet.getInt("id");
-                    LocalDateTime dateMouvement = resultSet.getTimestamp("date_mouvement").toLocalDateTime();
-                    Double prixUnitaire = resultSet.getDouble("prix_unitaire");
-                    Double quantite = resultSet.getDouble("quantite");
-
-                    VMeubleRestant meubleRestant = new VMeubleRestant(id, dateMouvement, idFormuleMeuble, prixUnitaire,
-                            quantite);
-                    meublesRestants.add(meubleRestant);
-                }
-            }
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, idFormuleMeuble);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            Integer id = resultSet.getInt("id");
+            LocalDateTime dateMouvement = resultSet.getTimestamp("date_mouvement").toLocalDateTime();
+            Double prixUnitaire = resultSet.getDouble("prix_unitaire");
+            Double quantite = resultSet.getDouble("quantite");
+            VMeubleRestant meubleRestant = new VMeubleRestant(id, dateMouvement, idFormuleMeuble, prixUnitaire,
+                    quantite);
+            meublesRestants.add(meubleRestant);
         }
+        statement.close();
+        resultSet.close();
         return meublesRestants;
     }
 }

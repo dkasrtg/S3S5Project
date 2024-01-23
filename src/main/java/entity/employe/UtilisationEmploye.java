@@ -2,7 +2,6 @@ package entity.employe;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class UtilisationEmploye {
@@ -102,22 +101,20 @@ public class UtilisationEmploye {
         this.description = description;
     }
 
-    public void insert(Connection connection) throws SQLException {
+    public void insert(Connection connection) throws Exception {
         String query = "INSERT INTO utilisation_employe (id_mouvement_meuble, date_utilisation, id_employe, " +
-                       "nombre, duree_utilisation, salaire_unitaire, salaire_total, description) " +
-                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, getIdMouvementMeuble());
-            statement.setObject(2, getDateUtilisation());
-            statement.setInt(3, getIdEmploye());
-            statement.setInt(4, getNombre());
-            statement.setDouble(5, getDureeUtilisation());
-            statement.setDouble(6, getSalaireUnitaire());
-            statement.setDouble(7, getSalaireTotal());
-            statement.setString(8, getDescription());
-
-            statement.executeUpdate();
-        }
+                "nombre, duree_utilisation, salaire_unitaire, salaire_total, description) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, getIdMouvementMeuble());
+        statement.setObject(2, getDateUtilisation());
+        statement.setInt(3, getIdEmploye());
+        statement.setInt(4, getNombre());
+        statement.setDouble(5, getDureeUtilisation());
+        statement.setDouble(6, getSalaireUnitaire());
+        statement.setDouble(7, getSalaireTotal());
+        statement.setString(8, getDescription());
+        statement.executeUpdate();
+        statement.close();
     }
 }

@@ -3,7 +3,6 @@ package entity.meuble;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class FormuleMeuble {
     private Integer id;
@@ -43,7 +42,7 @@ public class FormuleMeuble {
         this.idTailleMeuble = idTailleMeuble;
     }
 
-    public void insert(Connection connection) throws SQLException {
+    public void insert(Connection connection) throws Exception {
         String query = "INSERT INTO formule_meuble (id_meuble, id_taille_meuble) VALUES (?, ?) RETURNING id";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, getIdMeuble());
@@ -57,7 +56,7 @@ public class FormuleMeuble {
     }
 
     public static int existByIdMeubleAndTailleMeuble(Connection connection, int idMeuble, int idTailleMeuble)
-            throws SQLException {
+            throws Exception {
         int result = -1;
         String query = "SELECT * FROM formule_meuble WHERE id_meuble = ? AND id_taille_meuble = ?";
         PreparedStatement statement = connection.prepareStatement(query);

@@ -3,7 +3,6 @@ package entity.meuble;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class Meuble {
     private Integer id;
@@ -63,7 +62,7 @@ public class Meuble {
         this.description = description;
     }
 
-    public void insert(Connection connection) throws SQLException {
+    public void insert(Connection connection) throws Exception {
         String query = "INSERT INTO meuble (nom, id_style_meuble, id_categorie_meuble, description) VALUES (?, ?, ?, ?) RETURNING id";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, getNom());

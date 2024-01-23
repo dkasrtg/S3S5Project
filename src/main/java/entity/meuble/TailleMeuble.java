@@ -3,7 +3,6 @@ package entity.meuble;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,7 @@ public class TailleMeuble {
         this.nom = nom;
     }
 
-    public void insert(Connection connection) throws SQLException {
+    public void insert(Connection connection) throws Exception {
         String query = "INSERT INTO taille_meuble (nom) VALUES (?)";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, this.nom);
@@ -45,7 +44,7 @@ public class TailleMeuble {
         statement.close();
     }
 
-    public static List<TailleMeuble> list(Connection connection) throws SQLException {
+    public static List<TailleMeuble> list(Connection connection) throws Exception {
         List<TailleMeuble> tailleMeubleList = new ArrayList<>();
         String query = "SELECT * FROM taille_meuble";
         Statement statement = connection.createStatement();
@@ -53,9 +52,11 @@ public class TailleMeuble {
         while (resultSet.next()) {
             Integer id = resultSet.getInt("id");
             String nom = resultSet.getString("nom");
-            TailleMeuble tailleMeuble = new TailleMeuble(id,nom);
+            TailleMeuble tailleMeuble = new TailleMeuble(id, nom);
             tailleMeubleList.add(tailleMeuble);
         }
+        statement.close();
+        resultSet.close();
         return tailleMeubleList;
     }
 }

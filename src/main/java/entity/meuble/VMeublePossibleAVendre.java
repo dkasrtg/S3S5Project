@@ -3,7 +3,6 @@ package entity.meuble;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,24 +72,25 @@ public class VMeublePossibleAVendre {
         this.quantite = quantite;
     }
 
-    public static List<VMeublePossibleAVendre> list(Connection connection) throws SQLException {
+    public static List<VMeublePossibleAVendre> list(Connection connection) throws Exception {
         List<VMeublePossibleAVendre> meublesAVendre = new ArrayList<>();
         String query = "SELECT * FROM v_meuble_possible_a_vendre";
-        try (PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                Integer id = resultSet.getInt("id");
-                Integer idMeuble = resultSet.getInt("id_meuble");
-                Integer idTailleMeuble = resultSet.getInt("id_taille_meuble");
-                String nomMeuble = resultSet.getString("nom_meuble");
-                String nomTailleMeuble = resultSet.getString("nom_taille_meuble");
-                Double quantite = resultSet.getDouble("quantite");
+        PreparedStatement statement = connection.prepareStatement(query);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            Integer id = resultSet.getInt("id");
+            Integer idMeuble = resultSet.getInt("id_meuble");
+            Integer idTailleMeuble = resultSet.getInt("id_taille_meuble");
+            String nomMeuble = resultSet.getString("nom_meuble");
+            String nomTailleMeuble = resultSet.getString("nom_taille_meuble");
+            Double quantite = resultSet.getDouble("quantite");
 
-                VMeublePossibleAVendre meubleAVendre = new VMeublePossibleAVendre(
-                        id, idMeuble, idTailleMeuble, nomMeuble, nomTailleMeuble, quantite);
-                meublesAVendre.add(meubleAVendre);
-            }
+            VMeublePossibleAVendre meubleAVendre = new VMeublePossibleAVendre(
+                    id, idMeuble, idTailleMeuble, nomMeuble, nomTailleMeuble, quantite);
+            meublesAVendre.add(meubleAVendre);
         }
+        statement.close();
+        resultSet.close();
         return meublesAVendre;
     }
 }

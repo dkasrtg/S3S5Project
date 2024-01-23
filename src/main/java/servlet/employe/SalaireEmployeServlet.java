@@ -29,7 +29,7 @@ public class SalaireEmployeServlet extends HttpServlet {
             }
             connection = PG.getConnection();
             List<Employe> employes = Employe.list(connection);
-            List<VSalaireEmploye> vSalaireEmployes = VSalaireEmploye.selectByIdEmploye(connection, date);
+            List<VSalaireEmploye> vSalaireEmployes = VSalaireEmploye.selectByDate(connection, date);
             request.setAttribute("employe", employes);
             request.setAttribute("vSalaireEmploye", vSalaireEmployes);
             request.setAttribute("date", date);

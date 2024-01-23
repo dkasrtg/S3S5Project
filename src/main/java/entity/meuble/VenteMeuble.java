@@ -3,7 +3,6 @@ package entity.meuble;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 
@@ -83,37 +82,37 @@ public class VenteMeuble {
         this.prixTTC = prixTTC;
     }
 
-    public void insert(Connection connection) throws SQLException {
+    public void insert(Connection connection) throws Exception {
         String query = "INSERT INTO vente_meuble (date_vente, id_client, prix_ht, remise, taxe, prix_ttc) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setObject(1, getDateVente());
-            statement.setInt(2, getIdClient());
-            statement.setDouble(3, getPrixHT());
-            statement.setDouble(4, getRemise());
-            statement.setDouble(5, getTaxe());
-            statement.setDouble(6, getPrixTTC());
-            statement.executeUpdate();
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    setId(generatedKeys.getInt(1));
-                }
-            }
+        PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        statement.setObject(1, getDateVente());
+        statement.setInt(2, getIdClient());
+        statement.setDouble(3, getPrixHT());
+        statement.setDouble(4, getRemise());
+        statement.setDouble(5, getTaxe());
+        statement.setDouble(6, getPrixTTC());
+        statement.executeUpdate();
+        ResultSet generatedKeys = statement.getGeneratedKeys();
+        if (generatedKeys.next()) {
+            setId(generatedKeys.getInt(1));
         }
+        statement.close();
+        generatedKeys.close();
     }
 
-    public void update(Connection connection) throws SQLException {
+    public void update(Connection connection) throws Exception {
         String query = "UPDATE vente_meuble SET date_vente = ?, prix_ht = ?, remise = ?, taxe = ?, prix_ttc = ? " +
                 "WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setObject(1, getDateVente());
-            statement.setDouble(2, getPrixHT());
-            statement.setDouble(3, getRemise());
-            statement.setDouble(4, getTaxe());
-            statement.setDouble(5, getPrixTTC());
-            statement.setInt(6, getId());
-            statement.executeUpdate();
-        }
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setObject(1, getDateVente());
+        statement.setDouble(2, getPrixHT());
+        statement.setDouble(3, getRemise());
+        statement.setDouble(4, getTaxe());
+        statement.setDouble(5, getPrixTTC());
+        statement.setInt(6, getId());
+        statement.executeUpdate();
+        statement.close();
     }
 
 }

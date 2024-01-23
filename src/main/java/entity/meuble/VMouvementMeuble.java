@@ -3,7 +3,6 @@ package entity.meuble;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class VMouvementMeuble {
             Double prixTotal, Double prixUnitaire, Integer typeMouvement, Integer idMouvementMere, Integer idMeuble,
             String nomMeuble, Integer idStyleMeuble, Integer idCategorieMeuble, String nomStyleMeuble,
             String nomCategorieMeuble, Integer idTailleMeuble, String nomTailleMeuble, Double totalMateriaux,
-            Double totalSalaires,Integer idDetailVenteMeuble,String description) {
+            Double totalSalaires, Integer idDetailVenteMeuble, String description) {
         this.id = id;
         this.dateMouvement = dateMouvement;
         this.idFormuleMeuble = idFormuleMeuble;
@@ -208,56 +207,55 @@ public class VMouvementMeuble {
     public Integer getIdDetailVenteMeuble() {
         return idDetailVenteMeuble;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public String getDescription() {
         return description;
     }
 
     public static List<VMouvementMeuble> selectByTypeMouvement(Connection connection, Integer typeMouvement,
-            LocalDateTime dateDebut, LocalDateTime dateFin) throws SQLException {
+            LocalDateTime dateDebut, LocalDateTime dateFin) throws Exception {
         List<VMouvementMeuble> mouvements = new ArrayList<>();
         String query = "SELECT * FROM v_mouvement_meuble WHERE type_mouvement = ? AND date_mouvement >= ? AND date_mouvement <= ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, typeMouvement);
+        statement.setObject(2, dateDebut);
+        statement.setObject(3, dateFin);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            Integer id = resultSet.getInt("id");
+            LocalDateTime dateMouvement = resultSet.getTimestamp("date_mouvement").toLocalDateTime();
+            Integer idFormuleMeuble = resultSet.getInt("id_formule_meuble");
+            Double quantite = resultSet.getDouble("quantite");
+            Double prixTotal = resultSet.getDouble("prix_total");
+            Double prixUnitaire = resultSet.getDouble("prix_unitaire");
+            Integer typeMouvementResult = resultSet.getInt("type_mouvement");
+            Integer idMouvementMere = resultSet.getInt("id_mouvement_mere");
+            Integer idMeuble = resultSet.getInt("id_meuble");
+            String nomMeuble = resultSet.getString("nom_meuble");
+            Integer idStyleMeuble = resultSet.getInt("id_style_meuble");
+            Integer idCategorieMeuble = resultSet.getInt("id_categorie_meuble");
+            String nomStyleMeuble = resultSet.getString("nom_style_meuble");
+            String nomCategorieMeuble = resultSet.getString("nom_categorie_meuble");
+            Integer idTailleMeuble = resultSet.getInt("id_taille_meuble");
+            String nomTailleMeuble = resultSet.getString("nom_taille_meuble");
+            Double totalMateriaux = resultSet.getDouble("total_materiaux");
+            Double totalSalaires = resultSet.getDouble("total_salaires");
+            Integer idDetailVenteMeuble = resultSet.getInt("id_detail_vente_meuble");
+            String description = resultSet.getString("description");
 
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, typeMouvement);
-            statement.setObject(2, dateDebut);
-            statement.setObject(3, dateFin);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Integer id = resultSet.getInt("id");
-                    LocalDateTime dateMouvement = resultSet.getTimestamp("date_mouvement").toLocalDateTime();
-                    Integer idFormuleMeuble = resultSet.getInt("id_formule_meuble");
-                    Double quantite = resultSet.getDouble("quantite");
-                    Double prixTotal = resultSet.getDouble("prix_total");
-                    Double prixUnitaire = resultSet.getDouble("prix_unitaire");
-                    Integer typeMouvementResult = resultSet.getInt("type_mouvement");
-                    Integer idMouvementMere = resultSet.getInt("id_mouvement_mere");
-                    Integer idMeuble = resultSet.getInt("id_meuble");
-                    String nomMeuble = resultSet.getString("nom_meuble");
-                    Integer idStyleMeuble = resultSet.getInt("id_style_meuble");
-                    Integer idCategorieMeuble = resultSet.getInt("id_categorie_meuble");
-                    String nomStyleMeuble = resultSet.getString("nom_style_meuble");
-                    String nomCategorieMeuble = resultSet.getString("nom_categorie_meuble");
-                    Integer idTailleMeuble = resultSet.getInt("id_taille_meuble");
-                    String nomTailleMeuble = resultSet.getString("nom_taille_meuble");
-                    Double totalMateriaux = resultSet.getDouble("total_materiaux");
-                    Double totalSalaires = resultSet.getDouble("total_salaires");
-                    Integer idDetailVenteMeuble = resultSet.getInt("id_detail_vente_meuble");
-                    String description = resultSet.getString("description");
-
-                    VMouvementMeuble mouvement = new VMouvementMeuble(
-                            id, dateMouvement, idFormuleMeuble, quantite, prixTotal, prixUnitaire,
-                            typeMouvementResult, idMouvementMere, idMeuble, nomMeuble, idStyleMeuble,
-                            idCategorieMeuble, nomStyleMeuble, nomCategorieMeuble, idTailleMeuble,
-                            nomTailleMeuble,totalMateriaux,totalSalaires,idDetailVenteMeuble,description);
-                    mouvements.add(mouvement);
-                }
-            }
+            VMouvementMeuble mouvement = new VMouvementMeuble(
+                    id, dateMouvement, idFormuleMeuble, quantite, prixTotal, prixUnitaire,
+                    typeMouvementResult, idMouvementMere, idMeuble, nomMeuble, idStyleMeuble,
+                    idCategorieMeuble, nomStyleMeuble, nomCategorieMeuble, idTailleMeuble,
+                    nomTailleMeuble, totalMateriaux, totalSalaires, idDetailVenteMeuble, description);
+            mouvements.add(mouvement);
         }
-
+        statement.close();
+        resultSet.close();
         return mouvements;
     }
 

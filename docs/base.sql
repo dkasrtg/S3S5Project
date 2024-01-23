@@ -572,6 +572,7 @@ on e.id=dem.id_employe
 
 
 create or replace view v_meuble_restant as
+select * from (
 select id,date_mouvement,id_formule_meuble,prix_unitaire,sum(q_e-q_s) as quantite from
 (select
 mme.id,mme.date_mouvement,mme.id_formule_meuble,mme.q_e,mme.prix_unitaire,coalesce(mms.q_s,0) as q_s
@@ -581,7 +582,8 @@ left join
 (select quantite as q_s,id_mouvement_mere from mouvement_meuble where type_mouvement=-1) as mms
 on mme.id=mms.id_mouvement_mere) as q1
 group by id,date_mouvement,id_formule_meuble,prix_unitaire
-order by date_mouvement asc
+order by date_mouvement asc ) as q2
+where quantite>0
 ;
 
 
@@ -601,3 +603,20 @@ join client c on c.id=vm.id_client
 ;
 
 select id_materiau,sum(quantite) as quantite from v_materiau_restant group by id_materiau;
+
+
+create or replace view v_prix_fabrication_meuble as
+select 
+q2.*, m.nom as nom_meuble, tm.nom as nom_taille_meuble
+from
+(select q1.id_formule_meuble,fm.id_meuble,fm.id_taille_meuble,q1.prix_fabrication
+from formule_meuble fm
+join 
+(select dfm.id_formule_meuble,sum(dfm.quantite*p.prix_unitaire) as prix_fabrication from detail_formule_meuble dfm
+join (select id_materiau,avg(prix_unitaire) as prix_unitaire from v_materiau_restant group by id_materiau) as p
+on p.id_materiau = dfm.id_materiau
+group by dfm.id_formule_meuble) as q1
+on q1.id_formule_meuble=fm.id) as q2
+join meuble m on m.id=q2.id_meuble
+join taille_meuble tm on tm.id=q2.id_taille_meuble
+;

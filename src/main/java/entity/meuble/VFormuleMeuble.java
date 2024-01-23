@@ -3,7 +3,6 @@ package entity.meuble;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,6 @@ public class VFormuleMeuble {
     private String nomTailleMeuble;
     private List<VDetailFormuleMeuble> vDetailFormuleMeubles;
     private List<VDetailEmployeMeuble> vDetailEmployeMeubles;
-
 
     public VFormuleMeuble() {
     }
@@ -74,21 +72,21 @@ public class VFormuleMeuble {
         return vDetailFormuleMeubles;
     }
 
-    public static List<VFormuleMeuble> selectByIdMeuble(Connection connection, Integer idMeuble) throws SQLException {
+    public static List<VFormuleMeuble> selectByIdMeuble(Connection connection, Integer idMeuble) throws Exception {
         List<VFormuleMeuble> formules = new ArrayList<>();
         String query = "SELECT * FROM v_formule_meuble WHERE id_meuble = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, idMeuble);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Integer id = resultSet.getInt("id");
-                    Integer idTailleMeuble = resultSet.getInt("id_taille_meuble");
-                    String nomTailleMeuble = resultSet.getString("nom_taille_meuble");
-                    VFormuleMeuble formule = new VFormuleMeuble(id, idMeuble, idTailleMeuble, nomTailleMeuble);
-                    formules.add(formule);
-                }
-            }
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, idMeuble);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            Integer id = resultSet.getInt("id");
+            Integer idTailleMeuble = resultSet.getInt("id_taille_meuble");
+            String nomTailleMeuble = resultSet.getString("nom_taille_meuble");
+            VFormuleMeuble formule = new VFormuleMeuble(id, idMeuble, idTailleMeuble, nomTailleMeuble);
+            formules.add(formule);
         }
+        statement.close();
+        resultSet.close();
         return formules;
     }
 }
