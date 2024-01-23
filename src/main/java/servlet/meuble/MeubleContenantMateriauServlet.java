@@ -2,11 +2,12 @@ package servlet.meuble;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 import database.PG;
 import entity.materiau.VMateriau;
-import entity.meuble.MeubleContenantMateriau;
+import entity.meuble.VMeubleContenantMateriau;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,17 +21,17 @@ public class MeubleContenantMateriauServlet extends HttpServlet {
         Connection connection = null;
         try {
             connection = PG.getConnection();
-            List<MeubleContenantMateriau> vFormuleMeuble = MeubleContenantMateriau.selectByIdMateriau(connection, -1);
+            List<VMeubleContenantMateriau> vMeubleContenantMateriaus = new ArrayList<>();
             VMateriau vMateriau = new VMateriau(null, "", null, null, null);
             if (request.getParameter("id_materiau")!=null) {
                 Integer idMateriau = Integer.parseInt(request.getParameter("id_materiau"));
-                vMateriau = VMateriau.selectById(connection, idMateriau);
-                vFormuleMeuble = MeubleContenantMateriau.selectByIdMateriau(connection, idMateriau);
+                vMateriau = VMateriau.selectById(connection, idMateriau);  
+                vMeubleContenantMateriaus = VMeubleContenantMateriau.selectByIdMateriau(connection, idMateriau);
             }
             List<VMateriau> vMateriaus = VMateriau.list(connection);
             request.setAttribute("vMateriau", vMateriau);
-            request.setAttribute("meubleContenantMateriau", vFormuleMeuble);
             request.setAttribute("vMateriaus", vMateriaus);
+            request.setAttribute("vMeubleContenantMateriaus", vMeubleContenantMateriaus);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

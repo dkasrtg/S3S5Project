@@ -395,13 +395,13 @@ insert into taille_meuble (nom) values('petit');
 insert into taille_meuble (nom) values('moyen');
 insert into taille_meuble (nom) values('grand');
 
-select fm.*,vm.nom as nom_meuble,vm.id_style_meuble,vm.id_categorie_meuble,vm.description,vm.nom_style_meuble,vm.nom_categorie_meuble,
-dfm.quantite,tm.nom as nom_taille_meuble
-from detail_formule_meuble dfm 
+create or replace view v_meuble_contenant_materiau as 
+select fm.*,vm.nom as nom_meuble,vm.id_style_meuble,vm.id_categorie_meuble,vm.nom_style_meuble,vm.nom_categorie_meuble,
+dfm.quantite,dfm.id_materiau,tm.nom as nom_taille_meuble
+from detail_formule_meuble dfm
 join formule_meuble fm on fm.id=dfm.id_formule_meuble 
 join v_meuble vm on vm.id=fm.id_meuble
-join taille_meuble tm on tm.id=fm.id_taille_meuble
-where dfm.id_materiau = 1;
+join taille_meuble tm on tm.id=fm.id_taille_meuble;
 
 DROP view v_mouvement_materiau;
 create or replace view v_mouvement_materiau as 

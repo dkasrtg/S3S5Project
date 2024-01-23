@@ -139,6 +139,17 @@
             >
           </li>
           <li>
+            <a href="/prix_fabrication_meuble" class="waves-effect"
+              ><i class="fas fa-alipay"></i>
+              <span
+                >Prix de fabrication meuble
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
             <a href="/fabrication_meuble" class="waves-effect"
               ><i class="fas fa-wrench"></i>
               <span

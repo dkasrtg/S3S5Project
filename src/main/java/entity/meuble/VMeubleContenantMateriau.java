@@ -3,39 +3,42 @@ package entity.meuble;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MeubleContenantMateriau {
+public class VMeubleContenantMateriau {
     private Integer id;
     private Integer idMeuble;
     private Integer idTailleMeuble;
     private String nomMeuble;
     private Integer idStyleMeuble;
     private Integer idCategorieMeuble;
-    private String nomCategorieMeuble;
     private String nomStyleMeuble;
-    private String nomTailleMeuble;
+    private String nomCategorieMeuble;
     private Double quantite;
+    private Integer idMateriau;
+    private String nomTailleMeuble;
 
-    public MeubleContenantMateriau() {
+    public VMeubleContenantMateriau() {
     }
 
-    public MeubleContenantMateriau(Integer id, Integer idMeuble, Integer idTailleMeuble, String nomMeuble,
-            Integer idStyleMeuble, Integer idCategorieMeuble, String nomCategorieMeuble,
-            String nomStyleMeuble, String nomTailleMeuble, Double quantite) {
+    public VMeubleContenantMateriau(Integer id, Integer idMeuble, Integer idTailleMeuble, String nomMeuble,
+            Integer idStyleMeuble, Integer idCategorieMeuble, String nomStyleMeuble,
+            String nomCategorieMeuble, Double quantite, Integer idMateriau,
+            String nomTailleMeuble) {
         setId(id);
         setIdMeuble(idMeuble);
+        setIdMateriau(idMateriau);
         setIdTailleMeuble(idTailleMeuble);
         setNomMeuble(nomMeuble);
-        setIdStyleMeuble(idStyleMeuble);
-        setIdCategorieMeuble(idCategorieMeuble);
         setNomCategorieMeuble(nomCategorieMeuble);
         setNomStyleMeuble(nomStyleMeuble);
-        setNomTailleMeuble(nomTailleMeuble);
         setQuantite(quantite);
+        setIdStyleMeuble(idStyleMeuble);
+        setIdCategorieMeuble(idCategorieMeuble);
     }
+
+    
 
     public Integer getId() {
         return id;
@@ -85,6 +88,14 @@ public class MeubleContenantMateriau {
         this.idCategorieMeuble = idCategorieMeuble;
     }
 
+    public String getNomStyleMeuble() {
+        return nomStyleMeuble;
+    }
+
+    public void setNomStyleMeuble(String nomStyleMeuble) {
+        this.nomStyleMeuble = nomStyleMeuble;
+    }
+
     public String getNomCategorieMeuble() {
         return nomCategorieMeuble;
     }
@@ -93,12 +104,20 @@ public class MeubleContenantMateriau {
         this.nomCategorieMeuble = nomCategorieMeuble;
     }
 
-    public String getNomStyleMeuble() {
-        return nomStyleMeuble;
+    public Double getQuantite() {
+        return quantite;
     }
 
-    public void setNomStyleMeuble(String nomStyleMeuble) {
-        this.nomStyleMeuble = nomStyleMeuble;
+    public void setQuantite(Double quantite) {
+        this.quantite = quantite;
+    }
+
+    public Integer getIdMateriau() {
+        return idMateriau;
+    }
+
+    public void setIdMateriau(Integer idMateriau) {
+        this.idMateriau = idMateriau;
     }
 
     public String getNomTailleMeuble() {
@@ -109,31 +128,13 @@ public class MeubleContenantMateriau {
         this.nomTailleMeuble = nomTailleMeuble;
     }
 
-    public void setQuantite(Double quantite) {
-        this.quantite = quantite;
-    }
-
-    public Double getQuantite() {
-        return quantite;
-    }
-
-    public static List<MeubleContenantMateriau> selectByIdMateriau(Connection connection, Integer idMateriau)
-            throws SQLException {
-        List<MeubleContenantMateriau> formuleMeubles = new ArrayList<>();
-        String query = "select fm.*,vm.nom as nom_meuble,vm.id_style_meuble,vm.id_categorie_meuble,vm.description,vm.nom_style_meuble,vm.nom_categorie_meuble,\r\n" + //
-                "dfm.quantite,tm.nom as nom_taille_meuble\r\n" + //
-                "from detail_formule_meuble dfm \r\n" + //
-                "join formule_meuble fm on fm.id=dfm.id_formule_meuble \r\n" + //
-                "join v_meuble vm on vm.id=fm.id_meuble\r\n" + //
-                "join taille_meuble tm on tm.id=fm.id_taille_meuble\r\n" + //
-                "where dfm.id_materiau = ?;\r\n" + //
-                "\r\n" + //
-                "";
-
+    public static List<VMeubleContenantMateriau> selectByIdMateriau(Connection connection, Integer idMateriau)
+            throws Exception {
+        List<VMeubleContenantMateriau> meubles = new ArrayList<>();
+        String query = "SELECT * FROM v_meuble_contenant_materiau WHERE id_materiau = ?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, idMateriau);
         ResultSet resultSet = statement.executeQuery();
-
         while (resultSet.next()) {
             Integer id = resultSet.getInt("id");
             Integer idMeuble = resultSet.getInt("id_meuble");
@@ -141,18 +142,19 @@ public class MeubleContenantMateriau {
             String nomMeuble = resultSet.getString("nom_meuble");
             Integer idStyleMeuble = resultSet.getInt("id_style_meuble");
             Integer idCategorieMeuble = resultSet.getInt("id_categorie_meuble");
-            String nomCategorieMeuble = resultSet.getString("nom_categorie_meuble");
             String nomStyleMeuble = resultSet.getString("nom_style_meuble");
-            String nomTailleMeuble = resultSet.getString("nom_taille_meuble");
+            String nomCategorieMeuble = resultSet.getString("nom_categorie_meuble");
             Double quantite = resultSet.getDouble("quantite");
+            String nomTailleMeuble = resultSet.getString("nom_taille_meuble");
 
-            MeubleContenantMateriau formuleMeuble = new MeubleContenantMateriau(id, idMeuble, idTailleMeuble, nomMeuble, idStyleMeuble,
-                    idCategorieMeuble, nomCategorieMeuble, nomStyleMeuble, nomTailleMeuble,quantite);
-            formuleMeubles.add(formuleMeuble);
+            VMeubleContenantMateriau meuble = new VMeubleContenantMateriau(
+                    id, idMeuble, idTailleMeuble, nomMeuble, idStyleMeuble, idCategorieMeuble,
+                    nomStyleMeuble, nomCategorieMeuble, quantite, idMateriau, nomTailleMeuble);
+
+            meubles.add(meuble);
         }
-
         statement.close();
         resultSet.close();
-        return formuleMeubles;
+        return meubles;
     }
 }
