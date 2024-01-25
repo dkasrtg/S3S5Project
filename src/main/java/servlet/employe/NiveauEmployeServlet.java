@@ -2,31 +2,25 @@ package servlet.employe;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import database.PG;
-import entity.client.Genre;
-import entity.employe.Employe;
-import entity.employe.VEmploye;
+import entity.employe.Niveau;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/employe")
-public class EmployeServlet extends HttpServlet {
+@WebServlet("/niveau_employe")
+public class NiveauEmployeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Connection connection = null;
         try {
             connection = PG.getConnection();
-            List<Genre> genres = Genre.selectAll(Genre.class, "", connection);
-            List<VEmploye> vEmployes = VEmploye.selectAll(VEmploye.class, "", connection);
-            request.setAttribute("genres", genres);
-            request.setAttribute("vEmployes", vEmployes);
+            List<Niveau> niveaus = Niveau.selectAll(Niveau.class, "", connection);
+            request.setAttribute("niveaus", niveaus);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -35,7 +29,7 @@ public class EmployeServlet extends HttpServlet {
             } catch (Exception e) {
             }
         }
-        request.getRequestDispatcher("employe.jsp").forward(request, response);
+        request.getRequestDispatcher("niveau_employe.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -44,13 +38,10 @@ public class EmployeServlet extends HttpServlet {
         String error = "";
         try {
             String nom = request.getParameter("nom");
-            String prenom = request.getParameter("prenom");
-            LocalDate dateNaissance = LocalDate.parse(request.getParameter("date_naissance"));
-            LocalDateTime dateEntree = LocalDateTime.parse(request.getParameter("date_entree"));
-            Integer idGenre = Integer.parseInt(request.getParameter("id_genre"));
+            Integer ordre = Integer.parseInt(request.getParameter("ordre"));
+            Niveau niveau = new Niveau(null, nom, ordre);
             connection = PG.getConnection();
-            Employe employe = new Employe(null, nom, prenom, dateNaissance, idGenre, dateEntree);
-            employe.insert(connection);
+            niveau.insert(connection);
             connection.commit();
         } catch (Exception e) {
             error = "?error=" + e.getMessage();
@@ -60,6 +51,6 @@ public class EmployeServlet extends HttpServlet {
             } catch (Exception e) {
             }
         }
-        response.sendRedirect("/employe" + error);
+        response.sendRedirect("/niveau_employe" + error);
     }
 }

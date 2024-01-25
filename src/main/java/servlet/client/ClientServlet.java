@@ -8,7 +8,6 @@ import database.PG;
 import entity.client.Client;
 import entity.client.Genre;
 import entity.client.VClient;
-import entity.employe.Employe;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

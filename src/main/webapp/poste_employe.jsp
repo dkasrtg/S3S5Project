@@ -9,7 +9,7 @@
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"
     />
-    <title>Employe</title>
+    <title>Employe - Poste</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -56,10 +56,10 @@
                         <li class="breadcrumb-item">
                           <a href="#">Employe</a>
                         </li>
-                        <li class="breadcrumb-item active">Employe</li>
+                        <li class="breadcrumb-item active">Poste</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Employe</h4>
+                    <h4 class="page-title">Poste</h4>
                   </div>
                 </div>
               </div>
@@ -68,8 +68,8 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Nouveau Employe</h4>
-                      <form action="/employe" method="post">
+                      <h4 class="mt-0 header-title">Nouveau poste</h4>
+                      <form action="/poste_employe" method="post">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -88,70 +88,9 @@
                                 />
                               </div>
                             </div>
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Prenom</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  id="example-text-input"
-                                  name="prenom"
-                                  value=""
-                                />
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Date naissance</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="date"
-                                  id="example-text-input"
-                                  name="date_naissance"
-                                  value=""
-                                />
-                              </div>
-                            </div>
                           </div>
-                          <div class="col-xl-6"> 
+                          <div class="col-xl-6">                            
                             <div class="form-group row">
-                              <label class="col-sm-2 col-form-label"
-                                >Genre</label
-                              >
-                              <div class="col-sm-10">
-                                <select class="form-control" name="id_genre">
-                                  <c:forEach var="c" items="${genres}">
-                                      <option value="${c.id}">${c.nom}</option>
-                                  </c:forEach>
-                                </select>
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Date entree</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="datetime-local"
-                                  id="example-text-input"
-                                  name="date_entree"
-                                  value=""
-                                />
-                              </div>
-                            </div>                      
-                            <div class="form-group row">
-                              <div class="col-sm-10"></div>
                               <div class="col-sm-2">
                                 <button
                                   type="submit"
@@ -170,7 +109,7 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Liste des Employes</h4>
+                      <h4 class="mt-0 header-title">Liste des postes</h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive nowrap"
@@ -184,21 +123,13 @@
                           <tr>
                             <th>Id</th>
                             <th>Nom</th>
-                            <th>Prenom</th>
-                            <th>Date naissance</th>
-                            <th>Genre</th>
-                            <th>Date entree</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <c:forEach var="c" items="${vEmployes}">
+                          <c:forEach var="c" items="${postes}">
                               <tr>
                                   <td>${c.id}</td>
                                   <td>${c.nom}</td>
-                                  <td>${c.prenom}</td>
-                                  <td>${c.dateNaissance}</td>
-                                  <td>${c.genre}</td>
-                                  <td>${c.dateEntree}</td>
                               </tr>
                           </c:forEach>
                         </tbody>

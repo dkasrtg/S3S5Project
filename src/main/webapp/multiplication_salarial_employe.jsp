@@ -56,10 +56,10 @@
                         <li class="breadcrumb-item">
                           <a href="#">Employe</a>
                         </li>
-                        <li class="breadcrumb-item active">Employe</li>
+                        <li class="breadcrumb-item active">Multiplication salarial</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Employe</h4>
+                    <h4 class="page-title">Multiplication salarial</h4>
                   </div>
                 </div>
               </div>
@@ -68,88 +68,80 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Nouveau Employe</h4>
-                      <form action="/employe" method="post">
+                      <h4 class="mt-0 header-title">Nouveau multiplication salarial</h4>
+                      <form action="/multiplication_salarial_employe" method="post">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
                               <label
                                 for="example-text-input"
                                 class="col-sm-2 col-form-label"
-                                >Nom</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  id="example-text-input"
-                                  name="nom"
-                                  value=""
-                                />
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Prenom</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  id="example-text-input"
-                                  name="prenom"
-                                  value=""
-                                />
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Date naissance</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="date"
-                                  id="example-text-input"
-                                  name="date_naissance"
-                                  value=""
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-xl-6"> 
-                            <div class="form-group row">
-                              <label class="col-sm-2 col-form-label"
-                                >Genre</label
-                              >
-                              <div class="col-sm-10">
-                                <select class="form-control" name="id_genre">
-                                  <c:forEach var="c" items="${genres}">
-                                      <option value="${c.id}">${c.nom}</option>
-                                  </c:forEach>
-                                </select>
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Date entree</label
+                                >Date debut</label
                               >
                               <div class="col-sm-10">
                                 <input
                                   class="form-control"
                                   type="datetime-local"
                                   id="example-text-input"
-                                  name="date_entree"
+                                  name="date_debut"
                                   value=""
                                 />
                               </div>
-                            </div>                      
+                            </div>
+                            <div class="form-group row">
+                              <label
+                                for="example-text-input"
+                                class="col-sm-2 col-form-label"
+                                >Multipliant</label
+                              >
+                              <div class="col-sm-10">
+                                <input
+                                  class="form-control"
+                                  type="text"
+                                  id="example-text-input"
+                                  name="multipliant"
+                                  value=""
+                                />
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label class="col-sm-2 col-form-label"
+                                >Poste</label
+                              >
+                              <div class="col-sm-10">
+                                <select class="form-control" name="id_poste">
+                                  <c:forEach var="c" items="${postes}">
+                                      <option value="${c.id}">${c.nom}</option>
+                                  </c:forEach>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6"> 
+                            <div class="form-group row">
+                              <label class="col-sm-2 col-form-label"
+                                >Niveau depart</label
+                              >
+                              <div class="col-sm-10">
+                                <select class="form-control" name="id_niveau_depart">
+                                  <c:forEach var="c" items="${niveaus}">
+                                      <option value="${c.id}">${c.nom}</option>
+                                  </c:forEach>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label class="col-sm-2 col-form-label"
+                                >Niveau arrive</label
+                              >
+                              <div class="col-sm-10">
+                                <select class="form-control" name="id_niveau_arrive">
+                                  <c:forEach var="c" items="${niveaus}">
+                                      <option value="${c.id}">${c.nom}</option>
+                                  </c:forEach>
+                                </select>
+                              </div>
+                            </div>            
                             <div class="form-group row">
                               <div class="col-sm-10"></div>
                               <div class="col-sm-2">
@@ -170,7 +162,40 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Liste des Employes</h4>
+                      <form action="/multiplication_salarial_employe" method="get">
+                        <div class="row">
+                          <div class="col-xl-6">
+                            <div class="form-group row">
+                              <label
+                                for="example-text-input"
+                                class="col-sm-2 col-form-label"
+                                >Date</label
+                              >
+                              <div class="col-sm-10">
+                                <input
+                                  class="form-control"
+                                  type="datetime-local"
+                                  id="example-text-input"
+                                  name="date"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6">
+                            <div class="form-group row">
+                              <div class="col-sm-2">
+                                <button
+                                  type="submit"
+                                  class="btn btn-primary waves-effect waves-light"
+                                >
+                                  Submit
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                      <h4 class="mt-0 header-title">Liste des montees en niveau le ${date}</h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive nowrap"
@@ -183,22 +208,24 @@
                         <thead>
                           <tr>
                             <th>Id</th>
-                            <th>Nom</th>
-                            <th>Prenom</th>
-                            <th>Date naissance</th>
-                            <th>Genre</th>
-                            <th>Date entree</th>
+                            <th>Poste</th>
+                            <th>Niveau depart</th>
+                            <th>Niveau Arrive</th>
+                            <th>Multipliant</th>
+                            <th>Date debut</th>
+                            <th>Date fin</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <c:forEach var="c" items="${vEmployes}">
+                          <c:forEach var="c" items="${multiplicationSalarialEmployes}">
                               <tr>
                                   <td>${c.id}</td>
-                                  <td>${c.nom}</td>
-                                  <td>${c.prenom}</td>
-                                  <td>${c.dateNaissance}</td>
-                                  <td>${c.genre}</td>
-                                  <td>${c.dateEntree}</td>
+                                  <td>${c.nomPoste}</td>
+                                  <td>${c.nomNiveauDepart}</td>
+                                  <td>${c.nomNiveauArrive}</td>
+                                  <td>${c.multipliant}</td>
+                                  <td>${c.dateDebut}</td>
+                                  <td>${c.dateFin}</td>
                               </tr>
                           </c:forEach>
                         </tbody>

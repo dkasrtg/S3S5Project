@@ -6,8 +6,8 @@
     "password": "doda"
   },
   "models" : {
-    "packageName" : "entity.meuble",
-    "tables" : ["v_total_vente_produit_genre"],
-    "outputDirectory" : "D:/Projects/Visual Studio Code/S3-S5Prep/S3S5Project/src/main/java/entity/meuble"
+    "packageName" : "entity.employe",
+    "tables" : ["v_multiplication_salarial_employe", "multiplication_salarial_employe"],
+    "outputDirectory" : "D:/Projects/Visual Studio Code/S3-S5Prep/S3S5Project/src/main/java/entity/employe"
   }
 }

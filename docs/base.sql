@@ -637,100 +637,17 @@ create table poste(
 
 create table niveau(
     id serial primary key,
-    nom varchar(200)
+    nom varchar(200),
+    ordre integer
 );
 
-create table personnel(
+create table employe(
     id serial primary key,
     nom varchar(200),
-    prenom varchar(200)
+    prenom varchar(200),
+    date_naissance date,
+
 );
-
-create table personnel_poste_niveau(
-    id serial primary key,
-    id_personnel integer,
-    id_poste integer,
-    id_niveau integer,
-    date_debut timestamp,
-    date_fin timestamp,
-    foreign key(id_personnel) references personnel(id),
-    foreign key(id_poste) references poste(id),
-    foreign key(id_niveau) references niveau(id)
-);
-
-create table taux_horaire_poste(
-    id serial primary key,
-    id_poste integer,
-    date_debut timestamp,
-    date_fin timestamp,
-    valeur double precision,
-    foreign key(id_poste) references poste(id)
-);
-
-create table multiplicite_taux_horaire_niveau(
-    id serial primary key,
-    id_niveau integer,
-    valeur double precision,
-    foreign key(id_niveau) references niveau(id)
-);
-
-create table changement_niveau(
-    id serial primary key,
-    id_niveau_depart integer,
-    id_niveau_arrive integer,
-    duree double precision,
-    foreign key(id_niveau_arrive) references niveau(id),
-    foreign key(id_niveau_depart) references niveau(id)
-);
-
-insert into poste(nom) values('Menuisier');
-insert into poste(nom) values('Assembleur');
-insert into poste(nom) values('Technicien en finition');
-insert into poste(nom) values('Technicien de bois');
-insert into poste(nom) values('Operateur de machine');
-
-insert into niveau(nom) values('ouvrier');
-insert into niveau(nom) values('senior');
-insert into niveau(nom) values('expert');
-
-insert into changement_niveau(id_niveau_depart,id_niveau_arrive,duree) values(1,2,2);
-insert into changement_niveau(id_niveau_depart,id_niveau_arrive,duree) values(2,3,3);
-
-insert into multiplicite_taux_horaire_niveau(id_niveau,valeur) values(1,1);
-insert into multiplicite_taux_horaire_niveau(id_niveau,valeur) values(2,2);
-insert into multiplicite_taux_horaire_niveau(id_niveau,valeur) values(3,3);
-
-insert into taux_horaire_poste(id_poste,date_debut,date_fin,valeur) values(1,'01-01-2024 00:00','31-12-9999 23:59',1000);
-insert into taux_horaire_poste(id_poste,date_debut,date_fin,valeur) values(2,'01-01-2024 00:00','31-12-9999 23:59',1000);
-insert into taux_horaire_poste(id_poste,date_debut,date_fin,valeur) values(3,'01-01-2024 00:00','31-12-9999 23:59',1000);
-insert into taux_horaire_poste(id_poste,date_debut,date_fin,valeur) values(4,'01-01-2024 00:00','31-12-9999 23:59',1000);
-insert into taux_horaire_poste(id_poste,date_debut,date_fin,valeur) values(5,'01-01-2024 00:00','31-12-9999 23:59',1000);
-
-insert into personnel(nom,prenom) VALUES('NP1','PP1');
-insert into personnel(nom,prenom) VALUES('NP2','PP2');
-
-insert into personnel_poste_niveau(id_personnel,id_poste,id_niveau,date_debut,date_fin) values(1,1,1,'01-01-2024 00:00','01-01-2026 00:00');
-insert into personnel_poste_niveau(id_personnel,id_poste,id_niveau,date_debut,date_fin) values(1,1,2,'01-01-2026 00:00','01-01-2029 00:00');
-insert into personnel_poste_niveau(id_personnel,id_poste,id_niveau,date_debut,date_fin) values(1,1,3,'01-01-2029 00:00','31-12-9999 23:59');
-insert into personnel_poste_niveau(id_personnel,id_poste,id_niveau,date_debut,date_fin) values(2,2,2,'01-01-2024 00:00','01-01-2027 00:00');
-insert into personnel_poste_niveau(id_personnel,id_poste,id_niveau,date_debut,date_fin) values(2,2,3,'01-01-2027 00:00','31-12-9999 23:59');
-
-
-create or replace view v_taux_horaire_personnel as
-select q1.*,(q1.valeur*q1.multi) as taux_horaire from 
-(select 
-ppn.*,p.nom as nom_personnel,p.prenom as prenom_personnel, 
-po.nom as nom_poste,n.nom as nom_niveau,
-thp.valeur as valeur,mthn.valeur as multi
-from 
-personnel_poste_niveau ppn
-join personnel p on p.id = ppn.id_personnel
-join poste po on po.id = ppn.id_poste
-join niveau n on n.id = ppn.id_niveau
-join (select * from taux_horaire_poste where date_debut <= NOW() and date_fin >= NOW()) as thp on thp.id_poste = ppn.id_poste
-join multiplicite_taux_horaire_niveau mthn on mthn.id_niveau = ppn.id_niveau ) as q1
-;
-
 
 select * from multiplicite_taux_horaire_niveau;
 select * from taux_horaire_poste ;
@@ -816,4 +733,73 @@ on vve.id_formule_meuble = vmg.id_formule_meuble and vve.id_genre=vmg.id_genre
 join taille_meuble tm on tm.id=vmg.id_taille_meuble
 join meuble m on m.id = vmg.id_meuble
 ;
+
+
+
+create table employe(
+    id serial primary key,
+    nom varchar(200),
+    prenom varchar(200),
+    date_naissance date,
+    id_genre integer,
+    date_entree timestamp,
+    foreign key(id_genre) references genre(id)
+);
+
+create or replace view v_employe as 
+select
+e.*,g.nom as genre
+from 
+employe e 
+join genre g on g.id=e.id_genre
+; 
+
+
+create table montee_niveau_employe(
+    id serial primary key,
+    id_poste integer,
+    id_niveau_depart integer,
+    id_niveau_arrive integer,
+    duree double precision,
+    date_debut timestamp,
+    date_fin timestamp,
+    foreign key(id_poste) references poste(id),
+    foreign key(id_niveau_depart) references niveau(id),
+    foreign key(id_niveau_arrive) references niveau(id)
+);
+
+create or replace view v_montee_niveau_employe as
+select
+mne.*,p.nom as nom_poste,n1.nom as nom_niveau_depart,n2.nom as nom_niveau_arrive
+from
+montee_niveau_employe mne 
+join poste p on p.id=mne.id_poste
+join niveau n1 on n1.id = mne.id_niveau_depart
+join niveau n2 on n2.id = mne.id_niveau_arrive
+;
+
+
+create table multiplication_salarial_employe(
+    id serial primary key,
+    id_poste integer,
+    id_niveau_depart integer,
+    id_niveau_arrive integer,
+    multipliant double precision,
+    date_debut timestamp,
+    date_fin timestamp,
+    foreign key(id_poste) references poste(id),
+    foreign key(id_niveau_depart) references niveau(id),
+    foreign key(id_niveau_arrive) references niveau(id)
+);
+
+create or replace view v_multiplication_salarial_employe as
+select
+mne.*,p.nom as nom_poste,n1.nom as nom_niveau_depart,n2.nom as nom_niveau_arrive
+from
+multiplication_salarial_employe mne 
+join poste p on p.id=mne.id_poste
+join niveau n1 on n1.id = mne.id_niveau_depart
+join niveau n2 on n2.id = mne.id_niveau_arrive
+;
+
 

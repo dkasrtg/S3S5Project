@@ -189,40 +189,6 @@
               ></a
             >
           </li> -->
-        <!-- <li class="menu-title">Employe</li>
-          <li>
-            <a href="/employe" class="waves-effect"
-              ><i class="fas fa-user-tie"></i>
-              <span
-                >Employe
-                <span class="badge badge-pill badge-primary float-right"
-                  ></span
-                ></span
-              ></a
-            >
-          </li>
-          <li>
-            <a href="/salaire_employe" class="waves-effect"
-              ><i class="fas fa-money-bill"></i>
-              <span
-                >Salaire employe
-                <span class="badge badge-pill badge-primary float-right"
-                  ></span
-                ></span
-              ></a
-            >
-          </li>
-          <li>
-            <a href="/utilisation_employe" class="waves-effect"
-              ><i class="fas fa-user-clock"></i>
-              <span
-                >Utilisation employe
-                <span class="badge badge-pill badge-primary float-right"
-                  ></span
-                ></span
-              ></a
-            >
-          </li> -->
         <li>
           <a href="/vente_meuble" class="waves-effect"
             ><i class="fas fa-shopping-cart"></i>
@@ -243,6 +209,73 @@
               ></span></span
           ></a>
         </li>
+        <li class="menu-title">Employe</li>
+          <li>
+            <a href="/employe" class="waves-effect"
+              ><i class="fas fa-user-tie"></i>
+              <span
+                >Employe
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/poste_employe" class="waves-effect"
+              ><i class="fas fa-briefcase"></i>
+              <span
+                >Poste
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/niveau_employe" class="waves-effect"
+              ><i class="fas fa-graduation-cap"></i>
+              <span
+                >Niveau
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/montee_niveau_employe" class="waves-effect"
+              ><i class="fas fa-trophy"></i>
+              <span
+                >Regle de montee en niveau
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/multiplication_salarial_employe" class="waves-effect"
+              ><i class="fas fa-calculator"></i>
+              <span
+                >Regle de multiplication salariale
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/liste_actuelle_employe" class="waves-effect"
+              ><i class="fas fa-users"></i>
+              <span
+                >Liste actuelle
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
         <li class="menu-title">Client</li>
         <li>
           <a href="/client" class="waves-effect"
