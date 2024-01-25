@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import database.PG;
+import entity.meuble.CategorieMeuble;
 import entity.meuble.FormuleMeuble;
 import entity.meuble.MouvementMeuble;
 import entity.meuble.TailleMeuble;
@@ -40,8 +41,8 @@ public class SortieMeubleServlet extends HttpServlet {
                 dateFin = LocalDateTime.parse(request.getParameter("date_fin"));
             }
             connection = PG.getConnection();
-            List<VMeuble> vMeubles = VMeuble.list(connection);
-            List<TailleMeuble> tailleMeubles = TailleMeuble.list(connection);
+            List<VMeuble> vMeubles = VMeuble.selectAll(VMeuble.class, "", connection);
+            List<TailleMeuble> tailleMeubles = TailleMeuble.selectAll(TailleMeuble.class, "", connection);
             List<VMouvementMeuble> vMouvementMeubles = VMouvementMeuble.selectByTypeMouvement(connection,
                     MouvementMeuble.SORTIE, dateDebut, dateFin);
             request.setAttribute("vMeuble", vMeubles);

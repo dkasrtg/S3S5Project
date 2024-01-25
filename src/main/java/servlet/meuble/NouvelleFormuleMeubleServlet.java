@@ -6,6 +6,7 @@ import java.util.List;
 
 import database.PG;
 import entity.employe.Employe;
+import entity.meuble.CategorieMeuble;
 import entity.meuble.DetailEmployeMeuble;
 import entity.meuble.DetailFormuleMeuble;
 import entity.meuble.FormuleMeuble;
@@ -30,10 +31,10 @@ public class NouvelleFormuleMeubleServlet extends HttpServlet {
         try {
             connection = PG.getConnection();
             Integer idMeuble = Integer.parseInt(request.getParameter("id_meuble"));
-            VMeuble vMeuble = VMeuble.selectById(connection, idMeuble);
+            VMeuble vMeuble = VMeuble.selectById(VMeuble.class,connection, idMeuble);
             List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = VMateriauPossibleStyleMeuble
                     .selectByIdStyleMeuble(connection, vMeuble.getIdStyleMeuble());
-            List<TailleMeuble> tailleMeuble = TailleMeuble.list(connection);
+            List<TailleMeuble> tailleMeuble = TailleMeuble.selectAll(TailleMeuble.class, "", connection);
             List<Employe> employes = Employe.list(connection);
             List<VFormuleMeuble> vFormuleMeubles = VFormuleMeuble.selectByIdMeuble(connection, idMeuble);
             for (VFormuleMeuble vFormuleMeuble : vFormuleMeubles) {

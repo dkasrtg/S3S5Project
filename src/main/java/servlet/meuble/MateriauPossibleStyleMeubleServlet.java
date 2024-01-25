@@ -7,6 +7,7 @@ import java.util.List;
 
 import database.PG;
 import entity.materiau.VMateriau;
+import entity.meuble.CategorieMeuble;
 import entity.meuble.MateriauPossibleStyleMeuble;
 import entity.meuble.StyleMeuble;
 import entity.meuble.VMateriauPossibleStyleMeuble;
@@ -23,13 +24,13 @@ public class MateriauPossibleStyleMeubleServlet extends HttpServlet {
         Connection connection = null;
         try {
             connection = PG.getConnection();
-            List<StyleMeuble> styleMeubles = StyleMeuble.list(connection);
-            List<VMateriau> vMateriau = VMateriau.list(connection);
+            List<StyleMeuble> styleMeubles = StyleMeuble.selectAll(StyleMeuble.class, "", connection);;
+            List<VMateriau> vMateriau = VMateriau.selectAll(VMateriau.class, "", connection);
             request.setAttribute("styleMeubles", styleMeubles);
             request.setAttribute("vMateriau", vMateriau);
             if (request.getParameter("id_style_meuble") != null) {
                 Integer idStyleMeuble = Integer.parseInt(request.getParameter("id_style_meuble"));
-                StyleMeuble styleMeuble = StyleMeuble.selectById(connection, idStyleMeuble);
+                StyleMeuble styleMeuble = StyleMeuble.selectById(StyleMeuble.class,connection, idStyleMeuble);
                 List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = VMateriauPossibleStyleMeuble
                         .selectByIdStyleMeuble(connection, idStyleMeuble);
                 request.setAttribute("styleMeuble", styleMeuble);

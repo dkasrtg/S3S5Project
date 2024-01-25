@@ -6,6 +6,7 @@ import java.util.List;
 
 import database.PG;
 import entity.materiau.VMateriau;
+import entity.meuble.CategorieMeuble;
 import entity.meuble.StyleMeuble;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,8 +20,8 @@ public class StyleMeubleServlet extends HttpServlet {
         Connection connection = null;
         try {
             connection = PG.getConnection();
-            List<StyleMeuble> styleMeuble = StyleMeuble.list(connection);
-            List<VMateriau> vMateriau = VMateriau.list(connection);
+            List<StyleMeuble> styleMeuble = StyleMeuble.selectAll(StyleMeuble.class, "", connection);
+            List<VMateriau> vMateriau = VMateriau.selectAll(VMateriau.class, "", connection);
             request.setAttribute("styleMeuble", styleMeuble);
             request.setAttribute("vMateriau", vMateriau);
         } catch (Exception e) {

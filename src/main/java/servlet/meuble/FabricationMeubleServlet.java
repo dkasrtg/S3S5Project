@@ -12,6 +12,7 @@ import entity.employe.UtilisationEmploye;
 import entity.employe.VSalaireEmploye;
 import entity.materiau.MouvementMateriau;
 import entity.materiau.VMateriauRestant;
+import entity.meuble.CategorieMeuble;
 import entity.meuble.FormuleMeuble;
 import entity.meuble.MouvementMeuble;
 import entity.meuble.TailleMeuble;
@@ -44,8 +45,8 @@ public class FabricationMeubleServlet extends HttpServlet {
                 dateFin = LocalDateTime.parse(request.getParameter("date_fin"));
             }
             connection = PG.getConnection();
-            List<VMeuble> vMeubles = VMeuble.list(connection);
-            List<TailleMeuble> tailleMeubles = TailleMeuble.list(connection);
+            List<VMeuble> vMeubles = VMeuble.selectAll(VMeuble.class, "", connection);;
+            List<TailleMeuble> tailleMeubles = TailleMeuble.selectAll(TailleMeuble.class, "", connection);
             List<VMouvementMeuble> vMouvementMeubles = VMouvementMeuble.selectByTypeMouvement(connection,
                     MouvementMeuble.ENTREE, dateDebut, dateFin);
             request.setAttribute("vMeuble", vMeubles);

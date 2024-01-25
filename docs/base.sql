@@ -31,7 +31,7 @@ CREATE TABLE reference(
     heure_simple time,
     date_heure timestamp,
     entier integer,
-    pas_entier numeric,
+    pas_entier double precision,
     id_option_reference integer,
     id_radio_reference integer,
     foreign key(id_option_reference) references option_reference(id),
@@ -66,7 +66,7 @@ CREATE TABLE details_reference(
     id serial primary key,
     id_reference integer,
     details text,
-    note numeric,
+    note double precision,
     foreign key(id_reference) references reference(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -151,26 +151,38 @@ create table detail_formule_meuble(
     id serial primary key,
     id_formule_meuble integer,
     id_materiau integer,
-    quantite numeric,
+    quantite double precision,
     foreign key(id_formule_meuble) references formule_meuble(id),
     foreign key(id_materiau) references materiau(id)
 );
+
+create table genre(
+    id serial primary key,
+    nom varchar(200)
+);
+insert into genre(nom) values('Homme');
+insert into genre(nom) values('Femme');
+
 
 create table client(
     id serial primary key,
     nom varchar(200),
     prenom varchar(200),
-    telephone varchar(30)
+    telephone varchar(30),
+    id_genre integer,
+    foreign key(id_genre) references genre(id)
 );
+
+create or replace view v_client as 
+select c.*, g.nom as genre
+from client c join genre g on g.id=c.id_genre; 
+
 
 create table vente_meuble(
     id serial primary key,
     date_vente timestamp,
     id_client integer,
-    prix_ht numeric,
-    remise numeric,
-    taxe numeric,
-    prix_ttc numeric,
+    prix_total double precision,
     foreign key (id_client) references client(id)
 );
 
@@ -178,11 +190,9 @@ create table detail_vente_meuble(
     id serial primary key,
     id_vente_meuble integer,
     id_formule_meuble integer,
-    quantite numeric,
-    prix_unitaire numeric,
-    remise numeric,
-    prix_unitaire_avec_remise numeric,
-    prix_total numeric,
+    quantite double precision,
+    prix_unitaire double precision,
+    prix_total double precision,
     foreign key(id_formule_meuble) references formule_meuble(id)
 );
 
@@ -191,13 +201,13 @@ create table mouvement_meuble(
     id serial primary key,
     date_mouvement timestamp,
     id_formule_meuble integer,
-    quantite numeric,
+    quantite double precision,
     type_mouvement integer,
     id_mouvement_mere integer,
-    total_materiaux numeric,
-    total_salaires numeric,
-    prix_total numeric,
-    prix_unitaire numeric,
+    total_materiaux double precision,
+    total_salaires double precision,
+    prix_total double precision,
+    prix_unitaire double precision,
     id_detail_vente_meuble integer,
     description varchar(200),
     foreign key(id_formule_meuble) references formule_meuble(id)
@@ -207,8 +217,8 @@ create table mouvement_materiau(
     id serial primary key,
     date_mouvement timestamp,
     id_materiau integer,
-    quantite numeric,
-    prix_unitaire numeric,
+    quantite double precision,
+    prix_unitaire double precision,
     type_mouvement integer,
     id_mouvement_mere integer,
     description varchar(200),
@@ -226,7 +236,7 @@ create table salaire_employe(
     id_employe integer,
     date_debut timestamp,
     date_fin timestamp,
-    valeur numeric,
+    valeur double precision,
     foreign key(id_employe) references employe(id)
 );
 
@@ -235,7 +245,7 @@ create table detail_employe_meuble(
     id_formule_meuble integer,
     id_employe integer,
     nombre integer,
-    duree numeric,
+    duree double precision,
     foreign key(id_formule_meuble) references formule_meuble(id),
     foreign key(id_employe) references employe(id)
 );
@@ -245,7 +255,7 @@ create table prix_de_vente_meuble(
     id_formule_meuble integer,
     date_debut timestamp,
     date_fin timestamp,
-    valeur numeric,
+    valeur double precision,
     foreign key(id_formule_meuble) references formule_meuble(id)
 );
 
@@ -255,13 +265,12 @@ create table utilisation_employe(
     date_utilisation timestamp,
     id_employe integer,
     nombre integer,
-    duree_utilisation numeric,
-    salaire_unitaire numeric,
-    salaire_total numeric,
+    duree_utilisation double precision,
+    salaire_unitaire double precision,
+    salaire_total double precision,
     description varchar(200),
     foreign key(id_employe) references employe(id)
 );
-
 
 
 -- Employe
@@ -620,3 +629,191 @@ on q1.id_formule_meuble=fm.id) as q2
 join meuble m on m.id=q2.id_meuble
 join taille_meuble tm on tm.id=q2.id_taille_meuble
 ;
+
+create table poste(
+    id serial primary key,
+    nom varchar(200)
+);
+
+create table niveau(
+    id serial primary key,
+    nom varchar(200)
+);
+
+create table personnel(
+    id serial primary key,
+    nom varchar(200),
+    prenom varchar(200)
+);
+
+create table personnel_poste_niveau(
+    id serial primary key,
+    id_personnel integer,
+    id_poste integer,
+    id_niveau integer,
+    date_debut timestamp,
+    date_fin timestamp,
+    foreign key(id_personnel) references personnel(id),
+    foreign key(id_poste) references poste(id),
+    foreign key(id_niveau) references niveau(id)
+);
+
+create table taux_horaire_poste(
+    id serial primary key,
+    id_poste integer,
+    date_debut timestamp,
+    date_fin timestamp,
+    valeur double precision,
+    foreign key(id_poste) references poste(id)
+);
+
+create table multiplicite_taux_horaire_niveau(
+    id serial primary key,
+    id_niveau integer,
+    valeur double precision,
+    foreign key(id_niveau) references niveau(id)
+);
+
+create table changement_niveau(
+    id serial primary key,
+    id_niveau_depart integer,
+    id_niveau_arrive integer,
+    duree double precision,
+    foreign key(id_niveau_arrive) references niveau(id),
+    foreign key(id_niveau_depart) references niveau(id)
+);
+
+insert into poste(nom) values('Menuisier');
+insert into poste(nom) values('Assembleur');
+insert into poste(nom) values('Technicien en finition');
+insert into poste(nom) values('Technicien de bois');
+insert into poste(nom) values('Operateur de machine');
+
+insert into niveau(nom) values('ouvrier');
+insert into niveau(nom) values('senior');
+insert into niveau(nom) values('expert');
+
+insert into changement_niveau(id_niveau_depart,id_niveau_arrive,duree) values(1,2,2);
+insert into changement_niveau(id_niveau_depart,id_niveau_arrive,duree) values(2,3,3);
+
+insert into multiplicite_taux_horaire_niveau(id_niveau,valeur) values(1,1);
+insert into multiplicite_taux_horaire_niveau(id_niveau,valeur) values(2,2);
+insert into multiplicite_taux_horaire_niveau(id_niveau,valeur) values(3,3);
+
+insert into taux_horaire_poste(id_poste,date_debut,date_fin,valeur) values(1,'01-01-2024 00:00','31-12-9999 23:59',1000);
+insert into taux_horaire_poste(id_poste,date_debut,date_fin,valeur) values(2,'01-01-2024 00:00','31-12-9999 23:59',1000);
+insert into taux_horaire_poste(id_poste,date_debut,date_fin,valeur) values(3,'01-01-2024 00:00','31-12-9999 23:59',1000);
+insert into taux_horaire_poste(id_poste,date_debut,date_fin,valeur) values(4,'01-01-2024 00:00','31-12-9999 23:59',1000);
+insert into taux_horaire_poste(id_poste,date_debut,date_fin,valeur) values(5,'01-01-2024 00:00','31-12-9999 23:59',1000);
+
+insert into personnel(nom,prenom) VALUES('NP1','PP1');
+insert into personnel(nom,prenom) VALUES('NP2','PP2');
+
+insert into personnel_poste_niveau(id_personnel,id_poste,id_niveau,date_debut,date_fin) values(1,1,1,'01-01-2024 00:00','01-01-2026 00:00');
+insert into personnel_poste_niveau(id_personnel,id_poste,id_niveau,date_debut,date_fin) values(1,1,2,'01-01-2026 00:00','01-01-2029 00:00');
+insert into personnel_poste_niveau(id_personnel,id_poste,id_niveau,date_debut,date_fin) values(1,1,3,'01-01-2029 00:00','31-12-9999 23:59');
+insert into personnel_poste_niveau(id_personnel,id_poste,id_niveau,date_debut,date_fin) values(2,2,2,'01-01-2024 00:00','01-01-2027 00:00');
+insert into personnel_poste_niveau(id_personnel,id_poste,id_niveau,date_debut,date_fin) values(2,2,3,'01-01-2027 00:00','31-12-9999 23:59');
+
+
+create or replace view v_taux_horaire_personnel as
+select q1.*,(q1.valeur*q1.multi) as taux_horaire from 
+(select 
+ppn.*,p.nom as nom_personnel,p.prenom as prenom_personnel, 
+po.nom as nom_poste,n.nom as nom_niveau,
+thp.valeur as valeur,mthn.valeur as multi
+from 
+personnel_poste_niveau ppn
+join personnel p on p.id = ppn.id_personnel
+join poste po on po.id = ppn.id_poste
+join niveau n on n.id = ppn.id_niveau
+join (select * from taux_horaire_poste where date_debut <= NOW() and date_fin >= NOW()) as thp on thp.id_poste = ppn.id_poste
+join multiplicite_taux_horaire_niveau mthn on mthn.id_niveau = ppn.id_niveau ) as q1
+;
+
+
+select * from multiplicite_taux_horaire_niveau;
+select * from taux_horaire_poste ;
+
+select * from personnel_poste_niveau;
+
+create or replace view v_formule_meuble_complet as 
+select 
+fm.id,fm.id_meuble,fm.id_taille_meuble,m.nom as nom_meuble,tm.nom as nom_taille_meuble
+from formule_meuble fm join meuble m on m.id=fm.id_meuble
+join taille_meuble tm on tm.id=fm.id_taille_meuble;
+
+
+
+
+insert into formule_meuble(id_meuble,id_taille_meuble) values(1,2);
+insert into formule_meuble(id_meuble,id_taille_meuble) values(2,2);
+insert into formule_meuble(id_meuble,id_taille_meuble) values(3,2);
+insert into formule_meuble(id_meuble,id_taille_meuble) values(4,2);
+insert into formule_meuble(id_meuble,id_taille_meuble) values(5,2);
+
+
+
+create or replace view v_vente_meuble as 
+select 
+vm.*,c.nom as nom_client,c.prenom as prenom_client
+from vente_meuble vm join client c on c.id=vm.id_client;
+
+
+create or replace view v_vente_global_genre as
+select q2.*,g.nom as genre from (
+select id_genre,sum(quantite) as quantite from 
+(select 
+dvm.id_formule_meuble, dvm.quantite,vc.id_genre
+from detail_vente_meuble dvm
+join vente_meuble vm on vm.id = dvm.id_vente_meuble
+join v_client vc on vc.id=vm.id_client) as q1
+group by id_genre ) as q2
+join genre g on g.id = q2.id_genre
+;
+
+
+select 
+*
+from formule_meuble
+
+create or replace view v_vente_enregistre as
+select 
+dvm.id_formule_meuble, sum(dvm.quantite) as quantite,vc.id_genre
+from detail_vente_meuble dvm
+join vente_meuble vm on vm.id = dvm.id_vente_meuble
+join v_client vc on vc.id=vm.id_client
+group by dvm.id_formule_meuble,vc.id_genre
+;
+
+
+
+select 
+fm.id,fm.id_meuble,fm.id_taille_meuble,coalesce(vve.quantite,0) as  quantite,vve.id_genre
+from formule_meuble fm 
+left join v_vente_enregistre vve
+on vve.id_formule_meuble = fm.id
+;
+
+
+
+create or replace view v_map_genre as
+SELECT fm.id as id_formule_meuble,fm.id_taille_meuble,fm.id_meuble, g.id as id_genre,g.nom as genre
+FROM formule_meuble fm
+CROSS JOIN genre g
+;
+
+
+select * from v_vente_enregistre;
+
+
+create or replace view v_total_vente_produit_genre as
+select
+vmg.*,coalesce(vve.quantite,0) as quantite , tm.nom as nom_taille_meuble, m.nom as nom_meuble
+from v_map_genre vmg 
+left join v_vente_enregistre vve 
+on vve.id_formule_meuble = vmg.id_formule_meuble and vve.id_genre=vmg.id_genre
+join taille_meuble tm on tm.id=vmg.id_taille_meuble
+join meuble m on m.id = vmg.id_meuble
+;
+

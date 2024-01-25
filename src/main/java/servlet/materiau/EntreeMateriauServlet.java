@@ -31,7 +31,7 @@ public class EntreeMateriauServlet extends HttpServlet {
                 dateFin = LocalDateTime.parse(request.getParameter("date_fin"));
             }
             connection = PG.getConnection();
-            List<VMateriau> vMateriau = VMateriau.list(connection);
+            List<VMateriau> vMateriau = VMateriau.selectAll(VMateriau.class, "", connection);
             List<VMouvementMateriau> vMouvementMateriau = VMouvementMateriau.selectByTypeMouvement(connection,
                     MouvementMateriau.ENTREE,
                     dateDebut, dateFin);

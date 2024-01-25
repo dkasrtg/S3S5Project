@@ -23,10 +23,10 @@ public class MeubleServlet extends HttpServlet {
         Connection connection = null;
         try {
             connection = PG.getConnection();
-            List<CategorieMeuble> categorieMeuble = CategorieMeuble.list(connection);
-            List<StyleMeuble> styleMeuble = StyleMeuble.list(connection);
-            List<TypeMateriau> typeMateriau = TypeMateriau.list(connection);
-            List<VMeuble> vMeuble = VMeuble.list(connection);
+            List<CategorieMeuble> categorieMeuble = CategorieMeuble.selectAll(CategorieMeuble.class, "", connection);
+            List<StyleMeuble> styleMeuble = StyleMeuble.selectAll(StyleMeuble.class, "", connection);
+            List<TypeMateriau> typeMateriau = TypeMateriau.selectAll(TypeMateriau.class, "", connection);
+            List<VMeuble> vMeuble = VMeuble.selectAll(VMeuble.class, "", connection);
             request.setAttribute("styleMeuble", styleMeuble);
             request.setAttribute("typeMateriau", typeMateriau);
             request.setAttribute("categorieMeuble", categorieMeuble);

@@ -1,9 +1,5 @@
+<!-- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> -->
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.client.*" %>
-<%@ page import="java.util.List" %>
-<%
-List<Client> clients = (List<Client>) request.getAttribute("clients");
-%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -127,6 +123,18 @@ List<Client> clients = (List<Client>) request.getAttribute("clients");
                               </div>
                             </div>
                             <div class="form-group row">
+                              <label class="col-sm-2 col-form-label"
+                                >Genre</label
+                              >
+                              <div class="col-sm-10">
+                                <select class="form-control" name="id_genre">
+                                  <c:forEach var="c" items="${genres}">
+                                      <option value="${c.id}">${c.nom}</option>
+                                  </c:forEach>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="form-group row">
                               <div class="col-sm-10"></div>
                               <div class="col-sm-2">
                                 <button
@@ -162,21 +170,19 @@ List<Client> clients = (List<Client>) request.getAttribute("clients");
                             <th>Nom</th>
                             <th>Prenom</th>
                             <th>Telephone</th>
+                            <th>Genre</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <%
-                          for(Client c : clients){
-                            %>
-                            <tr>
-                              <td><%= c.getId() %></td>
-                              <td><%= c.getNom() %></td>
-                              <td><%= c.getPrenom() %></td>
-                              <td><%= c.getTelephone() %></td>
-                            </tr>
-                            <%
-                          }
-                          %>
+                          <c:forEach var="c" items="${clients}">
+                              <tr>
+                                  <td>${c.id}</td>
+                                  <td>${c.nom}</td>
+                                  <td>${c.prenom}</td>
+                                  <td>${c.telephone}</td>
+                                  <td>${c.genre}</td>
+                              </tr>
+                          </c:forEach>
                         </tbody>
                       </table>
                     </div>

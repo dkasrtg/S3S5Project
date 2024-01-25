@@ -19,7 +19,7 @@ public class CategorieMeubleServlet extends HttpServlet {
         Connection connection = null;
         try {
             connection = PG.getConnection();
-            List<CategorieMeuble> categorieMeuble = CategorieMeuble.list(connection);
+            List<CategorieMeuble> categorieMeuble = CategorieMeuble.selectAll(CategorieMeuble.class, "", connection);
             request.setAttribute("categorieMeuble", categorieMeuble);
         } catch (Exception e) {
             e.printStackTrace();

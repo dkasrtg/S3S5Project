@@ -25,10 +25,10 @@ public class MeubleContenantMateriauServlet extends HttpServlet {
             VMateriau vMateriau = new VMateriau(null, "", null, null, null);
             if (request.getParameter("id_materiau")!=null) {
                 Integer idMateriau = Integer.parseInt(request.getParameter("id_materiau"));
-                vMateriau = VMateriau.selectById(connection, idMateriau);  
+                vMateriau = VMateriau.selectById(VMateriau.class, connection, idMateriau);  
                 vMeubleContenantMateriaus = VMeubleContenantMateriau.selectByIdMateriau(connection, idMateriau);
             }
-            List<VMateriau> vMateriaus = VMateriau.list(connection);
+            List<VMateriau> vMateriaus = VMateriau.selectAll(VMateriau.class, "", connection);
             request.setAttribute("vMateriau", vMateriau);
             request.setAttribute("vMateriaus", vMateriaus);
             request.setAttribute("vMeubleContenantMateriaus", vMeubleContenantMateriaus);

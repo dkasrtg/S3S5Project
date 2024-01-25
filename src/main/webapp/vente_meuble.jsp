@@ -1,3 +1,4 @@
+<!-- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> -->
 <%@ page isErrorPage="true" %>
 <%@ page import="entity.meuble.*" %>
 <%@ page import="entity.materiau.*" %>
@@ -10,8 +11,6 @@ LocalDateTime dateDebut = (LocalDateTime) request.getAttribute("dateDebut");
 LocalDateTime dateFin = (LocalDateTime) request.getAttribute("dateFin");
 DecimalFormat df = new DecimalFormat("0");
 List<Client> clients = (List<Client>) request.getAttribute("clients");
-List<VMeublePossibleAVendre>  vMeublePossibleAVendres = (List<VMeublePossibleAVendre>) request.getAttribute("vMeublePossibleAVendres");
-List<VVenteMeuble> vVenteMeubles = (List<VVenteMeuble>) request.getAttribute("vVenteMeubles"); 
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -101,21 +100,6 @@ List<VVenteMeuble> vVenteMeubles = (List<VVenteMeuble>) request.getAttribute("vV
                                 </select>
                               </div>
                             </div>
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Taxes</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  id="example-text-input"
-                                  name="taxes"
-                                />
-                              </div>
-                            </div>
                           </div>
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -129,22 +113,7 @@ List<VVenteMeuble> vVenteMeubles = (List<VVenteMeuble>) request.getAttribute("vV
                                   class="form-control"
                                   type="datetime-local"
                                   id="example-text-input"
-                                  name="date"
-                                />
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Remise</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  id="example-text-input"
-                                  name="remise"
+                                  name="date_vente"
                                 />
                               </div>
                             </div>
@@ -152,14 +121,11 @@ List<VVenteMeuble> vVenteMeubles = (List<VVenteMeuble>) request.getAttribute("vV
                           <div class="col-xl-12" style="margin-top: 10px;">
                             <dt class="col-sm-3">Meubles a vendre<button style="margin-left: 30px;" type="button" class="btn btn-success" onclick="addNewLine()">+</button> </dt>
                             <div class="row">
-                              <div class="col-3">
+                              <div class="col-4">
                                 <p>Meuble</p>
                               </div>
-                              <div class="col-3">
+                              <div class="col-4">
                                 <p>Quantite</p>
-                              </div>
-                              <div class="col-3">
-                                <p>Remise</p>
                               </div>
                             </div>
                             <div class="row" id="append">
@@ -187,7 +153,7 @@ List<VVenteMeuble> vVenteMeubles = (List<VVenteMeuble>) request.getAttribute("vV
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <form action="/vente_meuble" method="get">
+                      <!-- <form action="/vente_meuble" method="get">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -235,8 +201,8 @@ List<VVenteMeuble> vVenteMeubles = (List<VVenteMeuble>) request.getAttribute("vV
                             </div>
                           </div>
                         </div>
-                      </form>
-                      <h4 class="mt-0 header-title">Vente de meubles du <%= dateDebut %> au <%= dateFin %></h4>
+                      </form> -->
+                      <h4 class="mt-0 header-title">Vente de meubles </h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive "
@@ -251,28 +217,18 @@ List<VVenteMeuble> vVenteMeubles = (List<VVenteMeuble>) request.getAttribute("vV
                             <th>Id</th>
                             <th>Date</th>
                             <th>Client</th>
-                            <th>Total HT</th>
-                            <th>Remise</th>
-                            <th>Taxes</th>
-                            <th>Total TTC</th>
+                            <th>Total</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <%
-                          for(VVenteMeuble v : vVenteMeubles){
-                            %>
-                            <tr>
-                              <td><%= v.getId() %></td>
-                              <td><%= v.getDateVente() %></td>
-                              <td><%= v.getNomClient() %> <%= v.getPrenomClient() %></td>
-                              <td><%= v.getPrixHT() %></td>
-                              <td><%= v.getRemise() %></td>
-                              <td><%= v.getTaxe() %></td>
-                              <td><%= v.getPrixTTC() %></td>
-                            </tr>
-                            <%
-                          }
-                          %>
+                          <c:forEach var="c" items="${vVenteMeubles}">
+                              <tr>
+                                <td>${c.id}</td>
+                                <td>${c.dateVente}</td>
+                                <td>${c.nomClient}</td>
+                                <td>${c.prixTotal}</td>
+                              </tr>
+                          </c:forEach>
                         </tbody>
                       </table>
                     </div>
@@ -292,18 +248,14 @@ List<VVenteMeuble> vVenteMeubles = (List<VVenteMeuble>) request.getAttribute("vV
         newLine.className = 'col-12';
         newLine.innerHTML = `
             <div class="row mb-1">
-              <div class="col-3">
+              <div class="col-4">
                 <select class="form-control" name="id_formule_meuble[]">
-                  <%
-                  for(VMeublePossibleAVendre v : vMeublePossibleAVendres){
-                    %>
-                    <option value="<%= v.getId() %>"><%= v.getNomMeuble() %> - <%= v.getNomTailleMeuble() %> - <%= v.getQuantite()%></option>
-                    <%
-                  }
-                  %>
+                  <c:forEach var="c" items="${vFormuleMeubleComplets}">
+                      <option value="${c.id}">${c.nomMeuble}  - ${c.nomTailleMeuble}</option>
+                  </c:forEach>
                 </select>
               </div>
-              <div class="col-3">
+              <div class="col-4">
                 <input
                   class="form-control"
                   type="text"
@@ -311,15 +263,8 @@ List<VVenteMeuble> vVenteMeubles = (List<VVenteMeuble>) request.getAttribute("vV
                   name="quantite[]"
                 />
               </div>
-              <div class="col-3">
-                <input
-                  class="form-control"
-                  type="text"
-                  id="example-text-input"
-                  name="remise[]"
-                />
-              </div>
-              <div class="col-3">
+              
+              <div class="col-4">
                   <button class="btn btn-danger" type="button">X</button>
               </div>
             </div>

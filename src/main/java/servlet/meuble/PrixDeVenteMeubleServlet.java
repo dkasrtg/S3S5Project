@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import database.PG;
+import entity.meuble.CategorieMeuble;
 import entity.meuble.FormuleMeuble;
 import entity.meuble.PrixDeVenteMeuble;
 import entity.meuble.TailleMeuble;
@@ -31,8 +32,8 @@ public class PrixDeVenteMeubleServlet extends HttpServlet {
                 date = LocalDateTime.parse(request.getParameter("date"));
             }
             connection = PG.getConnection();
-            List<VMeuble> vMeubles = VMeuble.list(connection);
-            List<TailleMeuble> tailleMeubles = TailleMeuble.list(connection);
+            List<VMeuble> vMeubles = VMeuble.selectAll(VMeuble.class, "", connection);
+            List<TailleMeuble> tailleMeubles = TailleMeuble.selectAll(TailleMeuble.class, "", connection);
             List<VPrixDeVenteMeuble> vPrixDeVenteMeubles = VPrixDeVenteMeuble.selectWhereDateInRange(connection, date);
             request.setAttribute("vMeuble", vMeubles);
             request.setAttribute("tailleMeuble", tailleMeubles);

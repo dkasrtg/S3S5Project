@@ -19,7 +19,7 @@ public class DetailsMeubleServlet extends HttpServlet {
         Connection connection = null;
         try {
             connection = PG.getConnection();
-            VMeuble vMeuble = VMeuble.selectById(connection, id);
+            VMeuble vMeuble = VMeuble.selectById(VMeuble.class,connection, id);
             request.setAttribute("vMeuble", vMeuble);
         } catch (Exception e) {
         } finally {

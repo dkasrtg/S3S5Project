@@ -31,6 +31,16 @@
       <artifactId>gson</artifactId>
       <version>2.10.1</version>
     </dependency>
+    <dependency>
+      <groupId>com.DodaDAO</groupId>
+      <artifactId>DodaDAO</artifactId>
+      <version>1</version>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.servlet.jsp.jstl</groupId>
+      <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+      <version>3.0.0</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>s3s5</finalName>

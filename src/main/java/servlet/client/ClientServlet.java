@@ -6,6 +6,8 @@ import java.util.List;
 
 import database.PG;
 import entity.client.Client;
+import entity.client.Genre;
+import entity.client.VClient;
 import entity.employe.Employe;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,8 +22,10 @@ public class ClientServlet extends HttpServlet {
         Connection connection = null;
         try {
             connection = PG.getConnection();
-            List<Client> clients = Client.list(connection);
-            request.setAttribute("clients", clients);
+            List<VClient> vClients = VClient.selectAll(VClient.class, "", connection);
+            List<Genre> genres = Genre.selectAll(Genre.class, "", connection);
+            request.setAttribute("genres", genres);
+            request.setAttribute("clients", vClients);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -41,7 +45,8 @@ public class ClientServlet extends HttpServlet {
             String nom = request.getParameter("nom");
             String prenom = request.getParameter("prenom");
             String telephone = request.getParameter("telephone");
-            Client client = new Client(null, nom, prenom, telephone);
+            Integer idGenre = Integer.parseInt(request.getParameter("id_genre"));
+            Client client = new Client(null, nom, prenom, telephone,idGenre);
             connection = PG.getConnection();
             client.insert(connection);
             connection.commit();
