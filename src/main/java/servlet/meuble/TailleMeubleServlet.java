@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.util.List;
 
 import database.PG;
-import entity.meuble.CategorieMeuble;
 import entity.meuble.TailleMeuble;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -21,7 +20,7 @@ public class TailleMeubleServlet extends HttpServlet {
         try {
             connection = PG.getConnection();
             List<TailleMeuble> tailleMeuble = TailleMeuble.selectAll(TailleMeuble.class, "", connection);
-            request.setAttribute("tailleMeuble", tailleMeuble);
+            request.setAttribute("tailleMeubles", tailleMeuble);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

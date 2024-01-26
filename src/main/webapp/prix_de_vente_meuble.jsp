@@ -1,17 +1,5 @@
+<!-- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> -->
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.meuble.*" %>
-<%@ page import="entity.materiau.*" %>
-<%@ page import="entity.employe.*" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.time.LocalDateTime" %>
-<%@ page import="java.text.DecimalFormat" %>
-<%
-LocalDateTime date = (LocalDateTime) request.getAttribute("date");
-DecimalFormat df = new DecimalFormat("0");
-List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");  
-List<TailleMeuble> tailleMeuble = (List<TailleMeuble>) request.getAttribute("tailleMeuble");  
-List<VPrixDeVenteMeuble> vPrixDeVenteMeuble = (List<VPrixDeVenteMeuble>) request.getAttribute("vPrixDeVenteMeuble");
- %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -90,13 +78,9 @@ List<VPrixDeVenteMeuble> vPrixDeVenteMeuble = (List<VPrixDeVenteMeuble>) request
                                 >
                                 <div class="col-sm-10">
                                   <select class="form-control" name="id_meuble">
-                                    <%
-                                    for( VMeuble v : vMeuble){
-                                      %>
-                                      <option value="<%= v.getId() %>"><%= v.getNom() %></option>
-                                      <%
-                                    }
-                                    %>
+                                    <c:forEach var="c" items="${vMeubles}">
+                                      <option value="${c.id}">${c.nom}</option>
+                                    </c:forEach>
                                   </select>
                                 </div>
                             </div>
@@ -106,13 +90,9 @@ List<VPrixDeVenteMeuble> vPrixDeVenteMeuble = (List<VPrixDeVenteMeuble>) request
                                 >
                                 <div class="col-sm-10">
                                   <select class="form-control" name="id_taille_meuble">
-                                    <%
-                                    for( TailleMeuble t : tailleMeuble){
-                                      %>
-                                      <option value="<%= t.getId() %>"><%= t.getNom() %></option>
-                                      <%
-                                    }
-                                    %>
+                                    <c:forEach var="c" items="${tailleMeubles}">
+                                      <option value="${c.id}">${c.nom}</option>
+                                    </c:forEach>
                                   </select>
                                 </div>
                             </div>
@@ -201,7 +181,7 @@ List<VPrixDeVenteMeuble> vPrixDeVenteMeuble = (List<VPrixDeVenteMeuble>) request
                           </div>
                         </div>
                       </form>
-                      <h4 class="mt-0 header-title">Prix de vente des meubles le <%= date %></h4>
+                      <h4 class="mt-0 header-title">Prix de vente des meubles le ${date}</h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive nowrap"
@@ -222,20 +202,16 @@ List<VPrixDeVenteMeuble> vPrixDeVenteMeuble = (List<VPrixDeVenteMeuble>) request
                           </tr>
                         </thead>
                         <tbody>
-                          <%
-                          for(VPrixDeVenteMeuble v : vPrixDeVenteMeuble){
-                            %>
+                          <c:forEach var="c" items="${vPrixDeVenteMeubles}">
                             <tr>
-                              <td><%= v.getId() %></td>
-                              <td><%= v.getNomMeuble() %></td>
-                              <td><%= v.getNomTailleMeuble() %></td>
-                              <td><%= v.getDateDebut() %></td>
-                              <td><%= v.getDateFin() %></td>
-                              <td><%= df.format(v.getValeur()) %></td>
+                              <td>${c.id}</td>
+                              <td>${c.nomMeuble}</td>
+                              <td>${c.nomTailleMeuble}</td>
+                              <td>${c.dateDebut}</td>
+                              <td>${c.dateFin}</td>
+                              <td>${c.valeur}</td>
                             </tr>
-                            <%
-                          }
-                          %>
+                          </c:forEach>
                         </tbody>
                       </table>
                     </div>

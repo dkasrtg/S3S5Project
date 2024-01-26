@@ -128,10 +128,10 @@
           ></a>
         </li>
         <li>
-          <a href="/prix_fabrication_meuble" class="waves-effect"
+          <a href="/prix_materiau_fabrication_meuble" class="waves-effect"
             ><i class="fas fa-cogs"></i>
             <span
-              >Prix de fabrication meuble
+              >Prix de materiau au fabrication
               <span
                 class="badge badge-pill badge-primary float-right"
               ></span></span

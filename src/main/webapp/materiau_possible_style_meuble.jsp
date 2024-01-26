@@ -1,13 +1,5 @@
+<!-- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> -->
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.meuble.*" %>
-<%@ page import="entity.materiau.*" %>
-<%@ page import="java.util.List" %>
-<%
-List<StyleMeuble> styleMeubles = (List<StyleMeuble>) request.getAttribute("styleMeubles");
-StyleMeuble styleMeuble = (StyleMeuble) request.getAttribute("styleMeuble");
-List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
-List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = (List<VMateriauPossibleStyleMeuble>) request.getAttribute("vMateriauPossibleStyleMeuble");
-%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -87,13 +79,9 @@ List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = (List<VMateria
                               >
                               <div class="col-sm-10">
                                 <select class="form-control" name="id_materiau">
-                                  <%
-                                  for( VMateriau v : vMateriau){
-                                    %>
-                                    <option value="<%= v.getId() %>"><%= v.getNom() %></option>
-                                    <%
-                                  }
-                                  %>
+                                  <c:forEach var="c" items="${vMateriaus}">
+                                      <option value="${c.id}">${c.nom}</option>
+                                    </c:forEach>
                                 </select>
                               </div>
                             </div>
@@ -105,13 +93,9 @@ List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = (List<VMateria
                               >
                               <div class="col-sm-10">
                                 <select class="form-control" name="id_style_meuble">
-                                  <%
-                                  for( StyleMeuble s : styleMeubles) {
-                                    %>
-                                    <option value="<%= s.getId() %>"><%= s.getNom() %></option>
-                                    <%
-                                  }
-                                  %>
+                                  <c:forEach var="c" items="${styleMeubles}">
+                                      <option value="${c.id}">${c.nom}</option>
+                                    </c:forEach>
                                 </select>
                               </div>
                             </div>
@@ -144,13 +128,9 @@ List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = (List<VMateria
                               >
                               <div class="col-sm-10">
                                 <select class="form-control" name="id_style_meuble">
-                                  <%
-                                  for( StyleMeuble s : styleMeubles) {
-                                    %>
-                                    <option value="<%= s.getId() %>"><%= s.getNom() %></option>
-                                    <%
-                                  }
-                                  %>
+                                  <c:forEach var="c" items="${styleMeubles}">
+                                      <option value="${c.id}">${c.nom}</option>
+                                    </c:forEach>
                                 </select>
                               </div>
                             </div>
@@ -169,7 +149,7 @@ List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = (List<VMateria
                           </div>
                         </div>
                       </form>
-                      <h4 class="mt-0 header-title">Les materiaux associes aux style <i>"<%= styleMeuble.getNom() %>"</i> </h4>
+                      <h4 class="mt-0 header-title">Les materiaux associes aux style <i>"${styleMeuble.nom}"</i> </h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive nowrap"
@@ -187,18 +167,13 @@ List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = (List<VMateria
                           </tr>
                         </thead>
                         <tbody>
-                          <%
-                          for (VMateriauPossibleStyleMeuble v : vMateriauPossibleStyleMeuble) {
-                            %>
+                          <c:forEach var="c" items="${vMateriauPossibleStyleMeubles}">
                             <tr>
-                              <td><%= v.getIdMateriau()  %></td>
-                              <td><%= v.getNomMateriau() %></td>
-                              <td><%= v.getNomTypeMateriau() %></td>
-                            </tr>
-                            <%
-                          }
-                          %>
-                          
+                              <td>${c.idMateriau}</td>
+                              <td>${c.nomMateriau}</td>
+                              <td>${c.nomTypeMateriau}</td>
+                            </tr>  
+                        </c:forEach>
                         </tbody>
                       </table>
                     </div>

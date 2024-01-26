@@ -2,19 +2,32 @@ package entity.meuble;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 
-public class VFormuleMeuble {
+import com.genericdao.GenericDAO;
+import com.genericdao.annotation.Column;
+import com.genericdao.annotation.Table;
+
+@Table(name = "v_formule_meuble")
+public class VFormuleMeuble extends GenericDAO {
+
+    @Column(name = "id")
     private Integer id;
+
+    @Column(name = "id_meuble")
     private Integer idMeuble;
+
+    @Column(name = "id_taille_meuble")
     private Integer idTailleMeuble;
+
+    @Column(name = "nom_taille_meuble")
     private String nomTailleMeuble;
+
     private List<VDetailFormuleMeuble> vDetailFormuleMeubles;
     private List<VDetailEmployeMeuble> vDetailEmployeMeubles;
 
     public VFormuleMeuble() {
+
     }
 
     public VFormuleMeuble(Integer id, Integer idMeuble, Integer idTailleMeuble, String nomTailleMeuble) {
@@ -22,46 +35,39 @@ public class VFormuleMeuble {
         setIdMeuble(idMeuble);
         setIdTailleMeuble(idTailleMeuble);
         setNomTailleMeuble(nomTailleMeuble);
-    }
 
-    public Integer getId() {
-        return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public Integer getIdMeuble() {
-        return idMeuble;
+    public Integer getId() {
+        return id;
     }
 
     public void setIdMeuble(Integer idMeuble) {
         this.idMeuble = idMeuble;
     }
 
-    public Integer getIdTailleMeuble() {
-        return idTailleMeuble;
+    public Integer getIdMeuble() {
+        return idMeuble;
     }
 
     public void setIdTailleMeuble(Integer idTailleMeuble) {
         this.idTailleMeuble = idTailleMeuble;
     }
 
-    public String getNomTailleMeuble() {
-        return nomTailleMeuble;
+    public Integer getIdTailleMeuble() {
+        return idTailleMeuble;
     }
 
     public void setNomTailleMeuble(String nomTailleMeuble) {
         this.nomTailleMeuble = nomTailleMeuble;
     }
 
-    public void setvDetailEmployeMeubles(List<VDetailEmployeMeuble> vDetailEmployeMeubles) {
-        this.vDetailEmployeMeubles = vDetailEmployeMeubles;
-    }
-
-    public List<VDetailEmployeMeuble> getvDetailEmployeMeubles() {
-        return vDetailEmployeMeubles;
+    public String getNomTailleMeuble() {
+        return nomTailleMeuble;
     }
 
     public void setvDetailFormuleMeubles(List<VDetailFormuleMeuble> vDetailFormuleMeubles) {
@@ -72,21 +78,19 @@ public class VFormuleMeuble {
         return vDetailFormuleMeubles;
     }
 
+    public void setvDetailEmployeMeubles(List<VDetailEmployeMeuble> vDetailEmployeMeubles) {
+        this.vDetailEmployeMeubles = vDetailEmployeMeubles;
+    }
+
+    public List<VDetailEmployeMeuble> getvDetailEmployeMeubles() {
+        return vDetailEmployeMeubles;
+    }
+
     public static List<VFormuleMeuble> selectByIdMeuble(Connection connection, Integer idMeuble) throws Exception {
-        List<VFormuleMeuble> formules = new ArrayList<>();
         String query = "SELECT * FROM v_formule_meuble WHERE id_meuble = ?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, idMeuble);
-        ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()) {
-            Integer id = resultSet.getInt("id");
-            Integer idTailleMeuble = resultSet.getInt("id_taille_meuble");
-            String nomTailleMeuble = resultSet.getString("nom_taille_meuble");
-            VFormuleMeuble formule = new VFormuleMeuble(id, idMeuble, idTailleMeuble, nomTailleMeuble);
-            formules.add(formule);
-        }
-        statement.close();
-        resultSet.close();
-        return formules;
+        return VFormuleMeuble.selectMultipleByPreparedStatement(VFormuleMeuble.class, statement, connection);
     }
+
 }

@@ -7,7 +7,6 @@ import java.util.List;
 
 import database.PG;
 import entity.materiau.VMateriau;
-import entity.meuble.CategorieMeuble;
 import entity.meuble.MateriauPossibleStyleMeuble;
 import entity.meuble.StyleMeuble;
 import entity.meuble.VMateriauPossibleStyleMeuble;
@@ -24,22 +23,23 @@ public class MateriauPossibleStyleMeubleServlet extends HttpServlet {
         Connection connection = null;
         try {
             connection = PG.getConnection();
-            List<StyleMeuble> styleMeubles = StyleMeuble.selectAll(StyleMeuble.class, "", connection);;
+            List<StyleMeuble> styleMeubles = StyleMeuble.selectAll(StyleMeuble.class, "", connection);
+            ;
             List<VMateriau> vMateriau = VMateriau.selectAll(VMateriau.class, "", connection);
             request.setAttribute("styleMeubles", styleMeubles);
-            request.setAttribute("vMateriau", vMateriau);
+            request.setAttribute("vMateriaus", vMateriau);
             if (request.getParameter("id_style_meuble") != null) {
                 Integer idStyleMeuble = Integer.parseInt(request.getParameter("id_style_meuble"));
-                StyleMeuble styleMeuble = StyleMeuble.selectById(StyleMeuble.class,connection, idStyleMeuble);
+                StyleMeuble styleMeuble = StyleMeuble.selectById(StyleMeuble.class, connection, idStyleMeuble);
                 List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = VMateriauPossibleStyleMeuble
                         .selectByIdStyleMeuble(connection, idStyleMeuble);
                 request.setAttribute("styleMeuble", styleMeuble);
-                request.setAttribute("vMateriauPossibleStyleMeuble", vMateriauPossibleStyleMeuble);
+                request.setAttribute("vMateriauPossibleStyleMeubles", vMateriauPossibleStyleMeuble);
             } else {
                 StyleMeuble styleMeuble = new StyleMeuble(null, "");
                 request.setAttribute("styleMeuble", styleMeuble);
                 List<VMateriauPossibleStyleMeuble> vMateriauPossibleStyleMeuble = new ArrayList<>();
-                request.setAttribute("vMateriauPossibleStyleMeuble", vMateriauPossibleStyleMeuble);
+                request.setAttribute("vMateriauPossibleStyleMeubles", vMateriauPossibleStyleMeuble);
             }
         } catch (Exception e) {
             e.printStackTrace();

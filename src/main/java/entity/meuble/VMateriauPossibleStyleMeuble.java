@@ -2,99 +2,102 @@ package entity.meuble;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 
-public class VMateriauPossibleStyleMeuble {
-    private Integer id;
-    private Integer idStyleMeuble;
-    private Integer idMateriau;
-    private String nomMateriau;
-    private Integer idTypeMateriau;
-    private String nomTypeMateriau;
+import com.genericdao.GenericDAO;
+import com.genericdao.annotation.Column;
+import com.genericdao.annotation.Table;
 
-    public VMateriauPossibleStyleMeuble() {
-    }
+@Table(name = "v_materiau_possible_style_meuble")
+public class VMateriauPossibleStyleMeuble extends GenericDAO {
 
-    public VMateriauPossibleStyleMeuble(Integer id, Integer idStyleMeuble, Integer idMateriau,
-            String nomMateriau, Integer idTypeMateriau, String nomTypeMateriau) {
-        setId(id);
-        setIdStyleMeuble(idStyleMeuble);
-        setIdMateriau(idMateriau);
-        setNomMateriau(nomMateriau);
-        setIdTypeMateriau(idTypeMateriau);
-        setNomTypeMateriau(nomTypeMateriau);
-    }
+	@Column(name = "id")
+	private Integer id;
 
-    public Integer getIdMateriau() {
-        return idMateriau;
-    }
+	@Column(name = "id_style_meuble")
+	private Integer idStyleMeuble;
 
-    public Integer getIdStyleMeuble() {
-        return idStyleMeuble;
-    }
+	@Column(name = "id_materiau")
+	private Integer idMateriau;
 
-    public Integer getIdTypeMateriau() {
-        return idTypeMateriau;
-    }
+	@Column(name = "nom_materiau")
+	private String nomMateriau;
 
-    public String getNomTypeMateriau() {
-        return nomTypeMateriau;
-    }
+	@Column(name = "id_type_materiau")
+	private Integer idTypeMateriau;
 
-    public String getNomMateriau() {
-        return nomMateriau;
-    }
+	@Column(name = "nom_type_materiau")
+	private String nomTypeMateriau;
 
-    public Integer getId() {
-        return id;
-    }
+	public VMateriauPossibleStyleMeuble() {
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	}
 
-    public void setIdMateriau(Integer idMateriau) {
-        this.idMateriau = idMateriau;
-    }
+	public VMateriauPossibleStyleMeuble(Integer id, Integer idStyleMeuble, Integer idMateriau, String nomMateriau,
+			Integer idTypeMateriau, String nomTypeMateriau) {
+		setId(id);
+		setIdStyleMeuble(idStyleMeuble);
+		setIdMateriau(idMateriau);
+		setNomMateriau(nomMateriau);
+		setIdTypeMateriau(idTypeMateriau);
+		setNomTypeMateriau(nomTypeMateriau);
 
-    public void setIdStyleMeuble(Integer idStyleMeuble) {
-        this.idStyleMeuble = idStyleMeuble;
-    }
+	}
 
-    public void setIdTypeMateriau(Integer idTypeMateriau) {
-        this.idTypeMateriau = idTypeMateriau;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setNomMateriau(String nomMateriau) {
-        this.nomMateriau = nomMateriau;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setNomTypeMateriau(String nomTypeMateriau) {
-        this.nomTypeMateriau = nomTypeMateriau;
-    }
+	public void setIdStyleMeuble(Integer idStyleMeuble) {
+		this.idStyleMeuble = idStyleMeuble;
+	}
 
-    public static List<VMateriauPossibleStyleMeuble> selectByIdStyleMeuble(Connection connection, int idStyleMeuble)
-            throws Exception {
-        List<VMateriauPossibleStyleMeuble> materiauList = new ArrayList<>();
-        String query = "SELECT * FROM v_materiau_possible_style_meuble WHERE id_style_meuble = ?";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, idStyleMeuble);
-        ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()) {
-            Integer id = resultSet.getInt("id");
-            Integer idMateriau = resultSet.getInt("id_materiau");
-            String nomMateriau = resultSet.getString("nom_materiau");
-            Integer idTypeMateriau = resultSet.getInt("id_type_materiau");
-            String nomTypeMateriau = resultSet.getString("nom_type_materiau");
-            VMateriauPossibleStyleMeuble materiau = new VMateriauPossibleStyleMeuble(id, idStyleMeuble, idMateriau,
-                    nomMateriau, idTypeMateriau, nomTypeMateriau);
-            materiauList.add(materiau);
-        }
-        statement.close();
-        resultSet.close();
-        return materiauList;
-    }
+	public Integer getIdStyleMeuble() {
+		return idStyleMeuble;
+	}
+
+	public void setIdMateriau(Integer idMateriau) {
+		this.idMateriau = idMateriau;
+	}
+
+	public Integer getIdMateriau() {
+		return idMateriau;
+	}
+
+	public void setNomMateriau(String nomMateriau) {
+		this.nomMateriau = nomMateriau;
+	}
+
+	public String getNomMateriau() {
+		return nomMateriau;
+	}
+
+	public void setIdTypeMateriau(Integer idTypeMateriau) {
+		this.idTypeMateriau = idTypeMateriau;
+	}
+
+	public Integer getIdTypeMateriau() {
+		return idTypeMateriau;
+	}
+
+	public void setNomTypeMateriau(String nomTypeMateriau) {
+		this.nomTypeMateriau = nomTypeMateriau;
+	}
+
+	public String getNomTypeMateriau() {
+		return nomTypeMateriau;
+	}
+
+	public static List<VMateriauPossibleStyleMeuble> selectByIdStyleMeuble(Connection connection, int idStyleMeuble)
+			throws Exception {
+		String query = "SELECT * FROM v_materiau_possible_style_meuble WHERE id_style_meuble = ?";
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1, idStyleMeuble);
+		return VMateriauPossibleStyleMeuble.selectMultipleByPreparedStatement(VMateriauPossibleStyleMeuble.class, statement, connection);
+	}
 
 }

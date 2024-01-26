@@ -244,11 +244,13 @@ create table salaire_employe(
 create table detail_employe_meuble(
     id serial primary key,
     id_formule_meuble integer,
-    id_employe integer,
+    id_poste integer,
+    id_niveau integer,
     nombre integer,
     duree double precision,
     foreign key(id_formule_meuble) references formule_meuble(id),
-    foreign key(id_employe) references employe(id)
+    foreign key(id_poste) references poste(id),
+    foreign key(id_niveau) references niveau(id)
 );
 
 create table prix_de_vente_meuble(
@@ -574,10 +576,11 @@ on tm.id=fm.id_taille_meuble
 ;
 
 create or replace view v_detail_employe_meuble as
-select dem.*,e.nom as nom_employe
+select 
+dem.*,p.nom as nom_poste,n.nom as nom_niveau,n.ordre as ordre_niveau
 from detail_employe_meuble dem
-join employe e 
-on e.id=dem.id_employe
+join poste p on p.id=dem.id_poste
+join niveau n on n.id=dem.id_niveau
 ;
 
 

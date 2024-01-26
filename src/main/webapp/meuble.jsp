@@ -1,13 +1,5 @@
+<!-- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> -->
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.meuble.*" %>
-<%@ page import="entity.materiau.*" %>
-<%@ page import="java.util.List" %>
-<%
-List<StyleMeuble> styleMeuble = (List<StyleMeuble>) request.getAttribute("styleMeuble");
-List<CategorieMeuble> categorieMeuble = (List<CategorieMeuble>) request.getAttribute("categorieMeuble");
-List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typeMateriau");
-List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
-%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -119,13 +111,9 @@ List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
                               >
                               <div class="col-sm-10">
                                 <select class="form-control" name="id_categorie_meuble">
-                                <%
-                                for(CategorieMeuble c : categorieMeuble){
-                                  %>
-                                  <option value="<%= c.getId() %>"><%= c.getNom() %></option>
-                                  <%
-                                }
-                                %>
+                                  <c:forEach var="c" items="${categorieMeubles}">
+                                    <option value="${c.id}">${c.nom}</option>
+                                  </c:forEach>
                                 </select>
                               </div>
                             </div>
@@ -135,13 +123,9 @@ List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
                               >
                               <div class="col-sm-10">
                                 <select class="form-control" name="id_style_meuble">
-                                  <%
-                                for(StyleMeuble s : styleMeuble){
-                                  %>
-                                  <option value="<%= s.getId() %>"><%= s.getNom() %></option>
-                                  <%
-                                }
-                                %>
+                                  <c:forEach var="c" items="${styleMeubles}">
+                                      <option value="${c.id}">${c.nom}</option>
+                                    </c:forEach>
                                 </select>
                               </div>
                             </div>
@@ -188,19 +172,17 @@ List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
                           </tr>
                         </thead>
                         <tbody>
-                          <%
-                          for (VMeuble v : vMeuble){
-                            %>
+                          <c:forEach var="c" items="${vMeubles}">
                             <tr>
-                              <td><%= v.getId() %></td>
-                              <td><%= v.getNom() %></td>
-                              <td><%= v.getNomCategorieMeuble() %></td>
-                              <td><%= v.getNomStyleMeuble() %></td>
+                              <td>${c.id}</td>
+                              <td>${c.nom}</td>
+                              <td>${c.nomCategorieMeuble}</td>
+                              <td>${c.nomStyleMeuble}</td>
                               <td>
                                 <div class="row">
                                   <div class="col-3">
                                     <form action="/nouvelle_formule_meuble" method="get">
-                                      <input type="hidden" name="id_meuble" value="<%= v.getId() %>">
+                                      <input type="hidden" name="id_meuble" value="${c.id}">
                                       <button type="submit" class="btn btn-success">
                                         <i class="fas fa-calculator"></i>
                                       </button>
@@ -209,10 +191,7 @@ List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
                                 </div>
                               </td>
                             </tr>  
-                            <%
-                          }
-                          %>
-                          
+                          </c:forEach>
                         </tbody>
                       </table>
                     </div>

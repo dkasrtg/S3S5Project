@@ -1,9 +1,5 @@
+<!-- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> -->
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.meuble.TailleMeuble" %>
-<%@ page import="java.util.List" %>
-<%
-List<TailleMeuble> tailleMeuble = (List<TailleMeuble>) request.getAttribute("tailleMeuble");
-%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -114,21 +110,30 @@ List<TailleMeuble> tailleMeuble = (List<TailleMeuble>) request.getAttribute("tai
                   <div class="card">
                     <div class="card-body">
                       <h4 class="mt-0 header-title">Liste des Tailles</h4>
-                      <p class="text-muted mb-4 font-13"></p>
-                      <div class="row">
-                        <%
-                        for(TailleMeuble t : tailleMeuble){
-                          %>
-                          <div class="col-2">
-                            <p><%= t.getNom() %></p>
-                          </div>
-                          <%
-                        }
-                        %>
-                         
-                          
-                        
-                      </div>
+                      <table
+                      id="datatable"
+                      class="table table-bordered dt-responsive nowrap"
+                      style="
+                        border-collapse: collapse;
+                        border-spacing: 0;
+                        width: 100%;
+                      "
+                    >
+                      <thead>
+                        <tr>
+                          <th>Id</th>
+                          <th>Nom</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <c:forEach var="c" items="${tailleMeubles}">
+                            <tr>
+                                <td>${c.id}</td>
+                                <td>${c.nom}</td>
+                            </tr>
+                        </c:forEach>
+                      </tbody>
+                    </table>
                     </div>
                   </div>
                 </div>

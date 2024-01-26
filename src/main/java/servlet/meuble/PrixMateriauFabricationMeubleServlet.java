@@ -12,8 +12,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/prix_fabrication_meuble")
-public class PrixFabricationMeubleServlet extends HttpServlet {
+@WebServlet("/prix_materiau_fabrication_meuble")
+public class PrixMateriauFabricationMeubleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Connection connection = null;
@@ -37,6 +37,6 @@ public class PrixFabricationMeubleServlet extends HttpServlet {
             } catch (Exception e) {
             }
         }
-        request.getRequestDispatcher("prix_fabrication_meuble.jsp").forward(request, response);
+        request.getRequestDispatcher("prix_materiau_fabrication_meuble.jsp").forward(request, response);
     }
 }

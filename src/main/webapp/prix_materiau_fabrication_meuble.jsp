@@ -1,14 +1,5 @@
+<!-- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> -->
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.meuble.*" %>
-<%@ page import="entity.materiau.*" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.text.DecimalFormat" %>
-<%
-DecimalFormat df = new DecimalFormat("0");
-Double min = (Double) request.getAttribute("min");
-Double max = (Double) request.getAttribute("max");
-List<VPrixFabricationMeuble> vPrixFabricationMeubles = (List<VPrixFabricationMeuble>) request.getAttribute("vPrixFabricationMeubles");
-%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -77,7 +68,7 @@ List<VPrixFabricationMeuble> vPrixFabricationMeubles = (List<VPrixFabricationMeu
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                        <form action="/prix_fabrication_meuble" method="get">
+                        <form action="/prix_materiau_fabrication_meuble" method="get">
                             <div class="row">
                               <div class="col-xl-6">
                                 <div class="form-group row">
@@ -127,7 +118,7 @@ List<VPrixFabricationMeuble> vPrixFabricationMeubles = (List<VPrixFabricationMeu
                               </div>
                             </div>
                         </form>
-                      <h4 class="mt-0 header-title">Les meubles dont le prix de fabrication est compris entre <%= df.format(min) %>  et <%= df.format(max) %></h4>
+                      <h4 class="mt-0 header-title">Les meubles dont le prix de fabrication est compris entre ${min}  et ${max}</h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive nowrap"
@@ -141,21 +132,17 @@ List<VPrixFabricationMeuble> vPrixFabricationMeubles = (List<VPrixFabricationMeu
                           <tr>
                             <th>Meuble</th>
                             <th>Taille</th>
-                            <th>Prix de fabrication</th>
+                            <th>Prix de fabrication (MATERIAUX)</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <%
-                          for(VPrixFabricationMeuble v : vPrixFabricationMeubles){
-                            %>
+                          <c:forEach var="c" items="${vPrixFabricationMeubles}">
                             <tr>
-                              <td><%= v.getNomMeuble()%></td>
-                              <td><%= v.getNomTailleMeuble() %></td>
-                              <td><%= v.getPrixFabrication() %></td>
+                              <td>${c.nomMeuble}</td>
+                              <td>${c.nomTailleMeuble}</td>
+                              <td>${c.prixFabrication}</td>
                             </tr>
-                            <%
-                          }
-                          %>
+                          </c:forEach>
                         </tbody>
                       </table>
                     </div>

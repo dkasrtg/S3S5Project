@@ -2,95 +2,139 @@ package entity.meuble;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 
-public class VDetailEmployeMeuble {
-    Integer id;
-    Integer idFormuleMeuble;
-    Integer idEmploye;
-    Integer nombre;
-    Double duree;
-    String nomEmploye;
+import com.genericdao.GenericDAO;
+import com.genericdao.annotation.Column;
+import com.genericdao.annotation.Table;
 
-    public VDetailEmployeMeuble(Integer id, Integer idFormuleMeuble, Integer idEmploye, Integer nombre, Double duree,
-            String nomEmploye) {
-        setId(id);
-        setIdFormuleMeuble(idFormuleMeuble);
-        setIdEmploye(idEmploye);
-        setNombre(nombre);
-        setDuree(duree);
-        setNomEmploye(nomEmploye);
-    }
+@Table(name = "v_detail_employe_meuble")
+public class VDetailEmployeMeuble extends GenericDAO {
 
-    public void setNomEmploye(String nomEmploye) {
-        this.nomEmploye = nomEmploye;
-    }
+	@Column(name = "id")
+	private Integer id;
 
-    public String getNomEmploye() {
-        return nomEmploye;
-    }
+	@Column(name = "id_formule_meuble")
+	private Integer idFormuleMeuble;
 
-    public Integer getId() {
-        return id;
-    }
+	@Column(name = "id_poste")
+	private Integer idPoste;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@Column(name = "id_niveau")
+	private Integer idNiveau;
 
-    public Integer getIdFormuleMeuble() {
-        return idFormuleMeuble;
-    }
+	@Column(name = "nombre")
+	private Integer nombre;
 
-    public void setIdFormuleMeuble(Integer idFormuleMeuble) {
-        this.idFormuleMeuble = idFormuleMeuble;
-    }
+	@Column(name = "duree")
+	private Double duree;
 
-    public Integer getIdEmploye() {
-        return idEmploye;
-    }
+	@Column(name = "nom_poste")
+	private String nomPoste;
 
-    public void setIdEmploye(Integer idEmploye) {
-        this.idEmploye = idEmploye;
-    }
+	@Column(name = "nom_niveau")
+	private String nomNiveau;
 
-    public Integer getNombre() {
-        return nombre;
-    }
+	@Column(name = "ordre_niveau")
+	private Integer ordreNiveau;
 
-    public void setNombre(Integer nombre) {
-        this.nombre = nombre;
-    }
+	public VDetailEmployeMeuble() {
 
-    public Double getDuree() {
-        return duree;
-    }
+	}
 
-    public void setDuree(Double duree) {
-        this.duree = duree;
-    }
+	public VDetailEmployeMeuble(Integer id, Integer idFormuleMeuble, Integer idPoste, Integer idNiveau, Integer nombre,
+			Double duree, String nomPoste, String nomNiveau, Integer ordreNiveau) {
+		setId(id);
+		setIdFormuleMeuble(idFormuleMeuble);
+		setIdPoste(idPoste);
+		setIdNiveau(idNiveau);
+		setNombre(nombre);
+		setDuree(duree);
+		setNomPoste(nomPoste);
+		setNomNiveau(nomNiveau);
+		setOrdreNiveau(ordreNiveau);
 
-    public static List<VDetailEmployeMeuble> selectByIdFormuleMeuble(Connection connection, Integer idFormuleMeuble)
-            throws Exception {
-        List<VDetailEmployeMeuble> details = new ArrayList<>();
-        String query = "SELECT * FROM v_detail_employe_meuble WHERE id_formule_meuble = ?";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, idFormuleMeuble);
-        ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()) {
-            Integer id = resultSet.getInt("id");
-            Integer idEmploye = resultSet.getInt("id_employe");
-            Integer nombre = resultSet.getInt("nombre");
-            Double duree = resultSet.getDouble("duree");
-            String nomEmploye = resultSet.getString("nom_employe");
-            VDetailEmployeMeuble detail = new VDetailEmployeMeuble(id, idFormuleMeuble, idEmploye, nombre, duree,
-                    nomEmploye);
-            details.add(detail);
-        }
-        statement.close();
-        resultSet.close();
-        return details;
-    }
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setIdFormuleMeuble(Integer idFormuleMeuble) {
+		this.idFormuleMeuble = idFormuleMeuble;
+	}
+
+	public Integer getIdFormuleMeuble() {
+		return idFormuleMeuble;
+	}
+
+	public void setIdPoste(Integer idPoste) {
+		this.idPoste = idPoste;
+	}
+
+	public Integer getIdPoste() {
+		return idPoste;
+	}
+
+	public void setIdNiveau(Integer idNiveau) {
+		this.idNiveau = idNiveau;
+	}
+
+	public Integer getIdNiveau() {
+		return idNiveau;
+	}
+
+	public void setNombre(Integer nombre) {
+		this.nombre = nombre;
+	}
+
+	public Integer getNombre() {
+		return nombre;
+	}
+
+	public void setDuree(Double duree) {
+		this.duree = duree;
+	}
+
+	public Double getDuree() {
+		return duree;
+	}
+
+	public void setNomPoste(String nomPoste) {
+		this.nomPoste = nomPoste;
+	}
+
+	public String getNomPoste() {
+		return nomPoste;
+	}
+
+	public void setNomNiveau(String nomNiveau) {
+		this.nomNiveau = nomNiveau;
+	}
+
+	public String getNomNiveau() {
+		return nomNiveau;
+	}
+
+	public void setOrdreNiveau(Integer ordreNiveau) {
+		this.ordreNiveau = ordreNiveau;
+	}
+
+	public Integer getOrdreNiveau() {
+		return ordreNiveau;
+	}
+
+	public static List<VDetailEmployeMeuble> selectByIdFormuleMeuble(Connection connection, Integer idFormuleMeuble)
+			throws Exception {
+		String query = "SELECT * FROM v_detail_employe_meuble WHERE id_formule_meuble = ?";
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1, idFormuleMeuble);
+		return VDetailEmployeMeuble.selectMultipleByPreparedStatement(VDetailEmployeMeuble.class, statement,
+				connection);
+	}
+
 }

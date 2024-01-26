@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.util.List;
 
 import database.PG;
-import entity.materiau.TypeMateriau;
 import entity.meuble.CategorieMeuble;
 import entity.meuble.Meuble;
 import entity.meuble.StyleMeuble;
@@ -25,12 +24,10 @@ public class MeubleServlet extends HttpServlet {
             connection = PG.getConnection();
             List<CategorieMeuble> categorieMeuble = CategorieMeuble.selectAll(CategorieMeuble.class, "", connection);
             List<StyleMeuble> styleMeuble = StyleMeuble.selectAll(StyleMeuble.class, "", connection);
-            List<TypeMateriau> typeMateriau = TypeMateriau.selectAll(TypeMateriau.class, "", connection);
             List<VMeuble> vMeuble = VMeuble.selectAll(VMeuble.class, "", connection);
-            request.setAttribute("styleMeuble", styleMeuble);
-            request.setAttribute("typeMateriau", typeMateriau);
-            request.setAttribute("categorieMeuble", categorieMeuble);
-            request.setAttribute("vMeuble", vMeuble);
+            request.setAttribute("styleMeubles", styleMeuble);
+            request.setAttribute("categorieMeubles", categorieMeuble);
+            request.setAttribute("vMeubles", vMeuble);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -51,7 +48,7 @@ public class MeubleServlet extends HttpServlet {
             String description = request.getParameter("description");
             Integer idCategorieMeuble = Integer.parseInt(request.getParameter("id_categorie_meuble"));
             Integer idStyleMeuble = Integer.parseInt(request.getParameter("id_style_meuble"));
-            Meuble meuble = new Meuble(null, nom, idStyleMeuble, idCategorieMeuble,description);
+            Meuble meuble = new Meuble(null, nom, idStyleMeuble, idCategorieMeuble, description);
             connection = PG.getConnection();
             meuble.insert(connection);
             connection.commit();

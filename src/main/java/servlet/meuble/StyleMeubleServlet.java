@@ -5,8 +5,6 @@ import java.sql.Connection;
 import java.util.List;
 
 import database.PG;
-import entity.materiau.VMateriau;
-import entity.meuble.CategorieMeuble;
 import entity.meuble.StyleMeuble;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,14 +14,13 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/style_meuble")
 public class StyleMeubleServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request,HttpServletResponse response)throws ServletException, IOException{
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         Connection connection = null;
         try {
             connection = PG.getConnection();
             List<StyleMeuble> styleMeuble = StyleMeuble.selectAll(StyleMeuble.class, "", connection);
-            List<VMateriau> vMateriau = VMateriau.selectAll(VMateriau.class, "", connection);
-            request.setAttribute("styleMeuble", styleMeuble);
-            request.setAttribute("vMateriau", vMateriau);
+            request.setAttribute("styleMeubles", styleMeuble);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

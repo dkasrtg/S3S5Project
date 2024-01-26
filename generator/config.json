@@ -6,8 +6,8 @@
     "password": "doda"
   },
   "models" : {
-    "packageName" : "entity.materiau",
-    "tables" : ["v_mouvement_materiau"],
-    "outputDirectory" : "D:/Projects/Visual Studio Code/S3-S5Prep/S3S5Project/src/main/java/entity/materiau"
+    "packageName" : "entity.meuble",
+    "tables" : ["v_prix_fabrication_meuble"],
+    "outputDirectory" : "D:/Projects/Visual Studio Code/S3-S5Prep/S3S5Project/src/main/java/entity/meuble"
   }
 }

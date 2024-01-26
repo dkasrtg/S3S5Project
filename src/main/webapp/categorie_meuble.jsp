@@ -1,9 +1,5 @@
+<!-- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> -->
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.meuble.CategorieMeuble" %>
-<%@ page import="java.util.List" %>
-<%
-List<CategorieMeuble> categorieMeuble = (List<CategorieMeuble>) request.getAttribute("categorieMeuble");
-%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -114,19 +110,30 @@ List<CategorieMeuble> categorieMeuble = (List<CategorieMeuble>) request.getAttri
                   <div class="card">
                     <div class="card-body">
                       <h4 class="mt-0 header-title">Liste des categories</h4>
-                      <p class="text-muted mb-4 font-13"></p>
-                      <div class="row">
-                        <%
-                        for(CategorieMeuble c : categorieMeuble){
-                          %>
-                          <div class="col-2">
-                            <p><%= c.getNom() %></p>
-                          </div>
-                          <%
-                        }
-                        %>
-                        
-                      </div>
+                      <table
+                      id="datatable"
+                      class="table table-bordered dt-responsive nowrap"
+                      style="
+                        border-collapse: collapse;
+                        border-spacing: 0;
+                        width: 100%;
+                      "
+                    >
+                      <thead>
+                        <tr>
+                          <th>Id</th>
+                          <th>Nom</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <c:forEach var="c" items="${categorieMeubles}">
+                            <tr>
+                                <td>${c.id}</td>
+                                <td>${c.nom}</td>
+                            </tr>
+                        </c:forEach>
+                      </tbody>
+                    </table>
                     </div>
                   </div>
                 </div>

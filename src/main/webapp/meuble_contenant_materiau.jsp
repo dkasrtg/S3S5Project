@@ -1,12 +1,5 @@
+<!-- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> -->
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.meuble.*" %>
-<%@ page import="entity.materiau.*" %>
-<%@ page import="java.util.List" %>
-<%
-List<VMateriau> vMateriaus = (List<VMateriau>) request.getAttribute("vMateriaus");  
-VMateriau vMateriau = (VMateriau) request.getAttribute("vMateriau");  
-List<VMeubleContenantMateriau> vMeubleContenantMateriaus = (List<VMeubleContenantMateriau>) request.getAttribute("vMeubleContenantMateriaus");  
-%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -84,13 +77,9 @@ List<VMeubleContenantMateriau> vMeubleContenantMateriaus = (List<VMeubleContenan
                             >
                             <div class="col-sm-10">
                               <select class="form-control" name="id_materiau">
-                                <%
-                                for(VMateriau v : vMateriaus){
-                                  %>
-                                  <option value="<%= v.getId() %>"><%= v.getNom() %></option>
-                                  <%
-                                }
-                                %>
+                                <c:forEach var="c" items="${vMateriaus}">
+                                <option value="${c.id}">${c.nom}</option>
+                                </c:forEach>
                               </select>
                             </div>
                           </div>
@@ -108,7 +97,7 @@ List<VMeubleContenantMateriau> vMeubleContenantMateriaus = (List<VMeubleContenan
                         </div>
                       </div>
                       </form>
-                      <h4 class="mt-0 header-title">Les meubles contentant le materiau <i>"<%= vMateriau.getNom() %>"</i></h4>
+                      <h4 class="mt-0 header-title">Les meubles contentant le materiau <i>"${vMateriau.nom}"</i></h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive nowrap"
@@ -129,20 +118,16 @@ List<VMeubleContenantMateriau> vMeubleContenantMateriaus = (List<VMeubleContenan
                           </tr>
                         </thead>
                         <tbody>
-                          <%
-                          for(VMeubleContenantMateriau v : vMeubleContenantMateriaus) {
-                            %>
+                          <c:forEach var="c" items="${vMeubleContenantMateriaus}">
                             <tr>
-                              <td><%= v.getId() %></td>
-                              <td><%= v.getNomMeuble() %></td>
-                              <td><%= v.getNomCategorieMeuble() %></td>
-                              <td><%= v.getNomStyleMeuble() %></td>
-                              <td><%= v.getNomTailleMeuble() %></td>
-                              <td><%= v.getQuantite() %></td>
+                              <td>${c.id}</td>
+                              <td>${c.nomMeuble}</td>
+                              <td>${c.nomCategorieMeuble}</td>
+                              <td>${c.nomStyleMeuble}</td>
+                              <td>${c.nomTailleMeuble}</td>
+                              <td>${c.quantite}</td>
                             </tr>
-                            <%
-                          }
-                          %>
+                          </c:forEach>
                         </tbody>
                       </table>
                     </div>

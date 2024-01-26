@@ -8,7 +8,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 import database.PG;
-import entity.meuble.CategorieMeuble;
 import entity.meuble.FormuleMeuble;
 import entity.meuble.PrixDeVenteMeuble;
 import entity.meuble.TailleMeuble;
@@ -35,10 +34,10 @@ public class PrixDeVenteMeubleServlet extends HttpServlet {
             List<VMeuble> vMeubles = VMeuble.selectAll(VMeuble.class, "", connection);
             List<TailleMeuble> tailleMeubles = TailleMeuble.selectAll(TailleMeuble.class, "", connection);
             List<VPrixDeVenteMeuble> vPrixDeVenteMeubles = VPrixDeVenteMeuble.selectWhereDateInRange(connection, date);
-            request.setAttribute("vMeuble", vMeubles);
-            request.setAttribute("tailleMeuble", tailleMeubles);
+            request.setAttribute("vMeubles", vMeubles);
+            request.setAttribute("tailleMeubles", tailleMeubles);
             request.setAttribute("date", date);
-            request.setAttribute("vPrixDeVenteMeuble", vPrixDeVenteMeubles);
+            request.setAttribute("vPrixDeVenteMeubles", vPrixDeVenteMeubles);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
