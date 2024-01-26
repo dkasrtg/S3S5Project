@@ -188,6 +188,7 @@
                             <th>Date naissance</th>
                             <th>Genre</th>
                             <th>Date entree</th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -199,6 +200,14 @@
                                   <td>${c.dateNaissance}</td>
                                   <td>${c.genre}</td>
                                   <td>${c.dateEntree}</td>
+                                  <td>
+                                    <form action="/modification_role_employe" method="get">
+                                      <input type="hidden" name="id_employe" value="${c.id}">
+                                      <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-level-up-alt"></i>
+                                      </button>
+                                    </form>
+                                  </td>
                               </tr>
                           </c:forEach>
                         </tbody>

@@ -145,30 +145,29 @@ public class VMonteeNiveauEmploye extends GenericDAO {
 	}
 
 	public static List<VMonteeNiveauEmploye> selectByDateBetween(
-			Connection connection, LocalDateTime date) throws SQLException {
-		List<VMonteeNiveauEmploye> monteeNiveauList = new ArrayList<>();
+			Connection connection, LocalDateTime date) throws Exception {
 		String query = "SELECT * FROM v_montee_niveau_employe WHERE date_debut <= ? AND date_fin >= ?";
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setObject(1, date);
 		statement.setObject(2, date);
-		ResultSet resultSet = statement.executeQuery();
-		while (resultSet.next()) {
-			VMonteeNiveauEmploye monteeNiveau = new VMonteeNiveauEmploye(
-					resultSet.getInt("id"),
-					resultSet.getInt("id_poste"),
-					resultSet.getInt("id_niveau_depart"),
-					resultSet.getInt("id_niveau_arrive"),
-					resultSet.getDouble("duree"),
-					resultSet.getTimestamp("date_debut").toLocalDateTime(),
-					resultSet.getTimestamp("date_fin").toLocalDateTime(),
-					resultSet.getString("nom_poste"),
-					resultSet.getString("nom_niveau_depart"),
-					resultSet.getString("nom_niveau_arrive"));
-			monteeNiveauList.add(monteeNiveau);
-		}
-		statement.close();
-		resultSet.close();
-		return monteeNiveauList;
+		return VMonteeNiveauEmploye.selectMultipleByPreparedStatement(VMonteeNiveauEmploye.class, statement, connection);
 	}
+
+	public static List<VMonteeNiveauEmploye> selectByIdPosteAndOrdreNiveauDepartAndDate(Connection connection, LocalDateTime localDateTime, Integer idPoste, Integer ordreNiveauDepart) throws Exception{
+		String query = "select\r\n" + //
+				"mne.*\r\n" + //
+				"from \r\n" + //
+				"v_montee_niveau_employe mne \r\n" + //
+				"join niveau n on n.id=mne.id_niveau_depart\r\n" + //
+				"where date_debut <= ? and date_fin >= ? and id_poste = ? and n.ordre>= ? \r\n" + //
+				"order by n.ordre asc\r\n" + //
+				";";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setObject(1, localDateTime);
+		preparedStatement.setObject(2, localDateTime);
+		preparedStatement.setInt(3, idPoste);
+		preparedStatement.setInt(4, ordreNiveauDepart);
+		return VMonteeNiveauEmploye.selectMultipleByPreparedStatement(VMonteeNiveauEmploye.class, preparedStatement, connection);
+	}	
 
 }

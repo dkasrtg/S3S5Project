@@ -35,8 +35,8 @@ public class EntreeMateriauServlet extends HttpServlet {
             List<VMouvementMateriau> vMouvementMateriau = VMouvementMateriau.selectByTypeMouvement(connection,
                     MouvementMateriau.ENTREE,
                     dateDebut, dateFin);
-            request.setAttribute("vMateriau", vMateriau);
-            request.setAttribute("vMouvementMateriau", vMouvementMateriau);
+            request.setAttribute("vMateriaus", vMateriau);
+            request.setAttribute("vMouvementMateriaus", vMouvementMateriau);
             request.setAttribute("dateDebut", dateDebut);
             request.setAttribute("dateFin", dateFin);
         } catch (Exception e) {

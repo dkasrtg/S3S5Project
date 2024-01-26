@@ -170,6 +170,7 @@ create table client(
     prenom varchar(200),
     telephone varchar(30),
     id_genre integer,
+    date_entree timestamp,
     foreign key(id_genre) references genre(id)
 );
 
@@ -802,4 +803,65 @@ join niveau n1 on n1.id = mne.id_niveau_depart
 join niveau n2 on n2.id = mne.id_niveau_arrive
 ;
 
+create table role_employe(
+    id serial primary key,
+    id_employe integer,
+    id_poste integer,
+    id_niveau integer,
+    date_debut timestamp,
+    date_fin timestamp,
+    taux_horaire double precision,
+    foreign key(id_employe) references employe(id),
+    foreign key(id_poste) references poste(id),
+    foreign key(id_niveau) references niveau(id)
+);
 
+create or replace view v_role_employe as 
+select
+re.*,ve.nom as nom_employe,ve.prenom as prenom_employe,ve.date_naissance as date_naissance_employe,ve.id_genre as id_genre_employe,
+ve.date_entree as date_entree_employe,ve.genre as nom_genre_employe,p.nom as nom_poste, n.nom as nom_niveau,n.ordre as ordre_niveau
+from
+role_employe re
+join v_employe ve on ve.id = re.id_employe
+join poste p on p.id=re.id_poste
+join niveau n on n.id=re.id_niveau
+;
+
+WITH RankedRoles AS (
+    SELECT
+         id,
+ id_employe ,           
+ id_poste    ,          
+ id_niveau    ,         
+ date_debut    ,        
+ date_fin       ,       
+ taux_horaire    ,      
+ nom_employe      ,     
+ prenom_employe    ,    
+ date_naissance_employe,
+ id_genre_employe      ,
+ date_entree_employe   ,
+ nom_genre_employe     ,
+ nom_poste             ,
+ nom_niveau            
+ ordre_niveau          ,
+        ROW_NUMBER() OVER (PARTITION BY id_employe ORDER BY date_debut DESC) AS rnk
+    FROM v_role_employe
+    WHERE date_debut <= '2021-02-01'
+)
+SELECT *
+FROM RankedRoles
+WHERE rnk = 1;
+
+
+select
+mne.*
+from 
+montee_niveau_employe mne 
+join niveau n on n.id=mne.id_niveau_depart
+where date_debut <= '2022-02-02' and date_fin >= '2022-02-02' and id_poste = 1
+order by n.ordre asc
+;
+
+
+select * from multiplication_salarial_employe where id_poste = ? and id_niveau_depart = ? and id_niveau_arrive = ? and date_debut <= ? and date_fin >= ?

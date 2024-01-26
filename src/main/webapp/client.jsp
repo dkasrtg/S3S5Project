@@ -104,6 +104,22 @@
                                 />
                               </div>
                             </div>
+                            <div class="form-group row">
+                              <label
+                                for="example-text-input"
+                                class="col-sm-2 col-form-label"
+                                >Date entree</label
+                              >
+                              <div class="col-sm-10">
+                                <input
+                                  class="form-control"
+                                  type="datetime-local"
+                                  id="example-text-input"
+                                  name="date_entree"
+                                  value=""
+                                />
+                              </div>
+                            </div>
                           </div>
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -171,6 +187,7 @@
                             <th>Prenom</th>
                             <th>Telephone</th>
                             <th>Genre</th>
+                            <th>Date entree</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -181,6 +198,7 @@
                                   <td>${c.prenom}</td>
                                   <td>${c.telephone}</td>
                                   <td>${c.genre}</td>
+                                  <td>${c.dateEntree}</td>
                               </tr>
                           </c:forEach>
                         </tbody>

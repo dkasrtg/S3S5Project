@@ -26,7 +26,7 @@ public class TotalResteMateriauServlet extends HttpServlet {
             connection = PG.getConnection();
             List<TotalResteMateriau> totalResteMateriaus = TotalResteMateriau.list(connection, date);
             request.setAttribute("date", date);
-            request.setAttribute("totalResteMateriau", totalResteMateriaus);
+            request.setAttribute("totalResteMateriaus", totalResteMateriaus);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

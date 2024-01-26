@@ -1,10 +1,5 @@
+<!-- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> -->
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.materiau.*" %>
-<%@ page import="java.util.List" %>
-<%
-List<TypeMateriau> typeMateriau = (List<TypeMateriau>) request.getAttribute("typeMateriau");
-List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
-%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -117,13 +112,9 @@ List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
                               >
                               <div class="col-sm-10">
                                 <select class="form-control" name="id_type_materiau">
-                                  <%
-                                    for (TypeMateriau t : typeMateriau){
-                                      %>
-                                      <option value="<%= t.getId() %>"><%= t.getNom() %></option>
-                                      <%
-                                    }
-                                  %>
+                                  <c:forEach var="c" items="${typeMateriaus}">
+                                    <option value="${c.id}">${c.nom}</option>
+                                  </c:forEach>
                                 </select>
                               </div>
                             </div>
@@ -166,18 +157,14 @@ List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
                           </tr>
                         </thead>
                         <tbody>
-                          <%
-                          for (VMateriau v : vMateriau) {
-                            %>
+                          <c:forEach var="c" items="${vMateriaus}">
                             <tr>
-                              <td><%= v.getId() %></td>
-                              <td><%= v.getNom() %></td>
-                              <td><%= v.getNomTypeMateriau() %></td>
-                              <td><%= v.getDescription() %></td>
+                              <td>${c.id}</td>
+                              <td>${c.nom}</td>
+                              <td>${c.nomTypeMateriau}</td>
+                              <td>${c.description}</td>
                             </tr>
-                            <%
-                          }
-                          %>
+                          </c:forEach>
                         </tbody>
                       </table>
                     </div>

@@ -2,8 +2,8 @@ package entity.employe;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.genericdao.GenericDAO;
 import com.genericdao.annotation.Column;
@@ -111,27 +111,13 @@ public class MonteeNiveauEmploye extends GenericDAO {
 			Connection connection, Integer idPoste, Integer idNiveauDepart, Integer idNiveauArrive,
 			LocalDateTime dateFin)
 			throws Exception {
-		MonteeNiveauEmploye monteeNiveauEmploye = null;
 		String query = "SELECT * FROM montee_niveau_employe WHERE id_poste = ? AND id_niveau_depart = ? AND id_niveau_arrive = ? AND date_fin = ?";
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setInt(1, idPoste);
 		statement.setInt(2, idNiveauDepart);
 		statement.setInt(3, idNiveauArrive);
 		statement.setObject(4, dateFin);
-		ResultSet resultSet = statement.executeQuery();
-		if (resultSet.next()) {
-			monteeNiveauEmploye = new MonteeNiveauEmploye(
-					resultSet.getInt("id"),
-					resultSet.getInt("id_poste"),
-					resultSet.getInt("id_niveau_depart"),
-					resultSet.getInt("id_niveau_arrive"),
-					resultSet.getDouble("duree"),
-					resultSet.getTimestamp("date_debut").toLocalDateTime(),
-					resultSet.getTimestamp("date_fin").toLocalDateTime());
-		}
-		statement.close();
-		resultSet.close();
-		return monteeNiveauEmploye;
+		return MonteeNiveauEmploye.selectOneByPreparedStatement(MonteeNiveauEmploye.class, statement, connection);
 	}
 
 }

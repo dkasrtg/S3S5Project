@@ -2,6 +2,7 @@ package servlet.client;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import database.PG;
@@ -45,7 +46,8 @@ public class ClientServlet extends HttpServlet {
             String prenom = request.getParameter("prenom");
             String telephone = request.getParameter("telephone");
             Integer idGenre = Integer.parseInt(request.getParameter("id_genre"));
-            Client client = new Client(null, nom, prenom, telephone,idGenre);
+            LocalDateTime dateEntree = LocalDateTime.parse(request.getParameter("date_entree"));
+            Client client = new Client(null, nom, prenom, telephone,idGenre,dateEntree);
             connection = PG.getConnection();
             client.insert(connection);
             connection.commit();

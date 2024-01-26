@@ -266,10 +266,10 @@
             >
           </li>
           <li>
-            <a href="/liste_actuelle_employe" class="waves-effect"
-              ><i class="fas fa-users"></i>
+            <a href="/role_employe" class="waves-effect"
+              ><i class="fas fa-user-shield"></i>
               <span
-                >Liste actuelle
+                >Roles
                 <span class="badge badge-pill badge-primary float-right"
                   ></span
                 ></span

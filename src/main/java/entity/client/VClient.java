@@ -4,6 +4,7 @@ package entity.client;
 import com.genericdao.*;
 import com.genericdao.annotation.*;
 
+import java.time.LocalDateTime;
 
 
 @Table( name = "v_client" )
@@ -24,6 +25,9 @@ public class VClient extends GenericDAO {
 	@Column( name = "id_genre")
 	private Integer idGenre;
 
+	@Column( name = "date_entree")
+	private LocalDateTime dateEntree;
+
 	@Column( name = "genre")
 	private String genre;
 
@@ -33,12 +37,13 @@ public class VClient extends GenericDAO {
 
     }
 
-    public VClient(Integer id, String nom, String prenom, String telephone, Integer idGenre, String genre) {
+    public VClient(Integer id, String nom, String prenom, String telephone, Integer idGenre, LocalDateTime dateEntree, String genre) {
         setId(id);
 		setNom(nom);
 		setPrenom(prenom);
 		setTelephone(telephone);
 		setIdGenre(idGenre);
+		setDateEntree(dateEntree);
 		setGenre(genre);
 		
     }
@@ -81,6 +86,14 @@ public class VClient extends GenericDAO {
 
 	public Integer getIdGenre() {
 		return idGenre;
+	}
+
+	public void setDateEntree(LocalDateTime dateEntree) {
+		this.dateEntree = dateEntree;
+	}
+
+	public LocalDateTime getDateEntree() {
+		return dateEntree;
 	}
 
 	public void setGenre(String genre) {

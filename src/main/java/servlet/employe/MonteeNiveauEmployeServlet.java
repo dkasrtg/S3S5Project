@@ -2,7 +2,6 @@ package servlet.employe;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -67,6 +66,7 @@ public class MonteeNiveauEmployeServlet extends HttpServlet {
             monteeNiveauEmploye.insert(connection);
             connection.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             error = "?error=" + e.getMessage();
         } finally {
             try {

@@ -1,15 +1,5 @@
+<!-- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> -->
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.materiau.*" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.time.LocalDateTime" %>
-<%@ page import="java.text.DecimalFormat" %>
-<%
-List<VMateriau> vMateriau = (List<VMateriau>) request.getAttribute("vMateriau");
-List<VMouvementMateriau> vMouvementMateriau = (List<VMouvementMateriau>) request.getAttribute("vMouvementMateriau");
-LocalDateTime dateDebut = (LocalDateTime) request.getAttribute("dateDebut");
-LocalDateTime dateFin = (LocalDateTime) request.getAttribute("dateFin");
-DecimalFormat df = new DecimalFormat("0");
-%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -88,13 +78,9 @@ DecimalFormat df = new DecimalFormat("0");
                                 >
                                 <div class="col-sm-10">
                                   <select class="form-control" name="id_materiau">
-                                    <%
-                                    for (VMateriau v : vMateriau) {
-                                      %>
-                                      <option value="<%= v.getId() %>"><%= v.getNom() %></option>
-                                      <%
-                                    }
-                                    %>
+                                    <c:forEach var="c" items="${vMateriaus}">
+                                      <option value="${c.id}">${c.nom}</option>
+                                    </c:forEach>
                                   </select>
                                 </div>
                               </div>
@@ -214,7 +200,7 @@ DecimalFormat df = new DecimalFormat("0");
                           </div>
                         </div>
                       </form>
-                      <h4 class="mt-0 header-title">Sortie materiaux du <%= dateDebut %> au <%= dateFin %></h4>
+                      <h4 class="mt-0 header-title">Sortie materiaux du ${dateDebut} au ${dateFin}</h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive nowrap"
@@ -237,22 +223,18 @@ DecimalFormat df = new DecimalFormat("0");
                           </tr>
                         </thead>
                         <tbody>
-                          <%
-                          for(VMouvementMateriau v : vMouvementMateriau){
-                            %>
+                          <c:forEach var="c" items="${vMouvementMateriaus}">
                             <tr>
-                              <td><%= v.getId() %></td>
-                              <td><%= v.getIdMouvementMere() %></td>
-                              <td><%= v.getDateMouvement() %></td>
-                              <td><%= v.getNomMateriau() %></td>
-                              <td><%= v.getDescription() %></td>
-                              <td><%= v.getPrixUnitaire() %></td>
-                              <td><%= v.getQuantite() %></td>
-                              <td><%= df.format(v.getPrixTotal()) %></td>
+                              <td>${c.id}</td>
+                              <td>${c.idMouvementMere}</td>
+                              <td>${c.dateMouvement}</td>
+                              <td>${c.nomMateriau}</td>
+                              <td>${c.description}</td>
+                              <td>${c.prixUnitaire}</td>
+                              <td>${c.quantite}</td>
+                              <td>${c.prixTotal}</td>
                             </tr>
-                            <%
-                          }
-                          %>
+                          </c:forEach>
                         </tbody>
                       </table>
                     </div>

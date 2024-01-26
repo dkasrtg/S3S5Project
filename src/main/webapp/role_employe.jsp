@@ -9,7 +9,7 @@
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"
     />
-    <title>Materiau - Reste</title>
+    <title>Employe - Role</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -54,12 +54,12 @@
                     <div class="btn-group float-right">
                       <ol class="breadcrumb hide-phone p-0 m-0">
                         <li class="breadcrumb-item">
-                          <a href="#">Materiau</a>
+                          <a href="#">Employe</a>
                         </li>
-                        <li class="breadcrumb-item active">Reste</li>
+                        <li class="breadcrumb-item active">Roles</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Reste materiau</h4>
+                    <h4 class="page-title">Roles</h4>
                   </div>
                 </div>
               </div>
@@ -68,7 +68,7 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <form action="/total_reste_materiau" method="get">
+                      <form action="/role_employe" method="get">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -101,7 +101,7 @@
                           </div>
                         </div>
                       </form>
-                      <h4 class="mt-0 header-title">Reste materiaux le ${date}</h4>
+                      <h4 class="mt-0 header-title">Liste des roles des employes le ${date}</h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive nowrap"
@@ -113,31 +113,31 @@
                       >
                         <thead>
                           <tr>
-                            <th>Id</th>
-                            <th>Nom</th>
-                            <th>Type</th>
-                            <th>Quantite restant</th>
-                            <th>Prix total</th>
-                            <th>Prix unitaire moyen</th>
+                            <th>Employe</th>
+                            <th>Date Entree</th>
+                            <th>Poste</th>
+                            <th>Niveau</th>
+                            <th>Date debut</th>
+                            <th>Taux horaire</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <c:forEach var="c" items="${totalResteMateriaus}">
-                            <tr>
-                              <td>${c.id}</td>
-                              <td>${c.nom}</td>
-                              <td>${c.nomTypeMateriau}</td>
-                              <td>${c.quantiteRestant}</td>
-                              <td>${c.prixTotal}</td>
-                              <td>${c.prixUnitaireMoyen}</td>
-                            </tr>
+                          <c:forEach var="c" items="${vRoleEmployes}">
+                              <tr>
+                                  <td>${c.nomEmploye} ${c.prenomEmploye}</td>
+                                  <td>${c.dateEntreeEmploye}</td>
+                                  <td>${c.nomPoste}</td>
+                                  <td>${c.nomNiveau}</td>
+                                  <td>${c.dateDebut}</td>
+                                  <td>${c.tauxHoraire}</td>
+                              </tr>
                           </c:forEach>
                         </tbody>
                       </table>
                     </div>
                   </div>
                 </div>
-               </div>
+              </div>
               <!-- Test affichage end -->
             </div>
           </div>

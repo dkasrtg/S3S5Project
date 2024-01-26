@@ -2,135 +2,133 @@ package entity.materiau;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-public class VMouvementMateriau {
-    Integer id;
-    LocalDateTime dateMouvement;
-    Integer idMateriau;
-    String nomMateriau;
-    Integer idTypeMateriau;
-    String nomTypeMateriau;
-    Double quantite;
-    Double prixUnitaire;
-    Integer typeMouvement;
-    String nomTypeMouvement;
-    Integer idMouvementMere;
-    String description;
-    Double prixTotal;
-    Integer idMouvementMeuble;
+import com.genericdao.GenericDAO;
+import com.genericdao.annotation.Column;
+import com.genericdao.annotation.Table;
+
+@Table(name = "v_mouvement_materiau")
+public class VMouvementMateriau extends GenericDAO {
+
+    @Column(name = "id")
+    private Integer id;
+
+    @Column(name = "date_mouvement")
+    private LocalDateTime dateMouvement;
+
+    @Column(name = "id_materiau")
+    private Integer idMateriau;
+
+    @Column(name = "quantite")
+    private Double quantite;
+
+    @Column(name = "prix_unitaire")
+    private Double prixUnitaire;
+
+    @Column(name = "type_mouvement")
+    private Integer typeMouvement;
+
+    @Column(name = "id_mouvement_mere")
+    private Integer idMouvementMere;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "id_mouvement_meuble")
+    private Integer idMouvementMeuble;
+
+    @Column(name = "id_type_materiau")
+    private Integer idTypeMateriau;
+
+    @Column(name = "nom_materiau")
+    private String nomMateriau;
+
+    @Column(name = "nom_type_materiau")
+    private String nomTypeMateriau;
+
+    @Column(name = "prix_total")
+    private Double prixTotal;
 
     public VMouvementMateriau() {
+
     }
 
-    public VMouvementMateriau(Integer id, LocalDateTime dateMouvement, Integer idMateriau, String nomMateriau,
-            Integer idTypeMateriau, String nomTypeMateriau, Double quantite, Double prixUnitaire, Integer typeMouvement,
-            Integer idMouvementMere, String description, Double prixTotal, Integer idMouvementMeuble) {
+    public VMouvementMateriau(Integer id, LocalDateTime dateMouvement, Integer idMateriau, Double quantite,
+            Double prixUnitaire, Integer typeMouvement, Integer idMouvementMere, String description,
+            Integer idMouvementMeuble, Integer idTypeMateriau, String nomMateriau, String nomTypeMateriau,
+            Double prixTotal) {
         setId(id);
         setDateMouvement(dateMouvement);
         setIdMateriau(idMateriau);
-        setNomMateriau(nomMateriau);
         setQuantite(quantite);
         setPrixUnitaire(prixUnitaire);
         setTypeMouvement(typeMouvement);
         setIdMouvementMere(idMouvementMere);
-        setIdTypeMateriau(idTypeMateriau);
-        setNomTypeMateriau(nomTypeMateriau);
         setDescription(description);
-        setNomTypeMouvement();
-        setPrixTotal(prixTotal);
         setIdMouvementMeuble(idMouvementMeuble);
-    }
+        setIdTypeMateriau(idTypeMateriau);
+        setNomMateriau(nomMateriau);
+        setNomTypeMateriau(nomTypeMateriau);
+        setPrixTotal(prixTotal);
 
-    public Integer getId() {
-        return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public LocalDateTime getDateMouvement() {
-        return dateMouvement;
+    public Integer getId() {
+        return id;
     }
 
     public void setDateMouvement(LocalDateTime dateMouvement) {
         this.dateMouvement = dateMouvement;
     }
 
-    public Integer getIdMateriau() {
-        return idMateriau;
+    public LocalDateTime getDateMouvement() {
+        return dateMouvement;
     }
 
     public void setIdMateriau(Integer idMateriau) {
         this.idMateriau = idMateriau;
     }
 
-    public String getNomMateriau() {
-        return nomMateriau;
-    }
-
-    public void setNomMateriau(String nomMateriau) {
-        this.nomMateriau = nomMateriau;
-    }
-
-    public Double getQuantite() {
-        return quantite;
+    public Integer getIdMateriau() {
+        return idMateriau;
     }
 
     public void setQuantite(Double quantite) {
         this.quantite = quantite;
     }
 
-    public Double getPrixUnitaire() {
-        return prixUnitaire;
+    public Double getQuantite() {
+        return quantite;
     }
 
     public void setPrixUnitaire(Double prixUnitaire) {
         this.prixUnitaire = prixUnitaire;
     }
 
-    public Integer getTypeMouvement() {
-        return typeMouvement;
+    public Double getPrixUnitaire() {
+        return prixUnitaire;
     }
 
     public void setTypeMouvement(Integer typeMouvement) {
         this.typeMouvement = typeMouvement;
     }
 
-    public void setNomTypeMouvement() {
-        if (getTypeMouvement() == 1) {
-            this.nomTypeMouvement = "entree";
-            return;
-        }
-        this.nomTypeMouvement = "sortie";
-    }
-
-    public Integer getIdMouvementMere() {
-        return idMouvementMere;
+    public Integer getTypeMouvement() {
+        return typeMouvement;
     }
 
     public void setIdMouvementMere(Integer idMouvementMere) {
         this.idMouvementMere = idMouvementMere;
     }
 
-    public void setIdTypeMateriau(Integer idTypeMateriau) {
-        this.idTypeMateriau = idTypeMateriau;
-    }
-
-    public Integer getIdTypeMateriau() {
-        return idTypeMateriau;
-    }
-
-    public void setNomTypeMateriau(String nomTypeMateriau) {
-        this.nomTypeMateriau = nomTypeMateriau;
-    }
-
-    public String getNomTypeMateriau() {
-        return nomTypeMateriau;
+    public Integer getIdMouvementMere() {
+        return idMouvementMere;
     }
 
     public void setDescription(String description) {
@@ -141,14 +139,6 @@ public class VMouvementMateriau {
         return description;
     }
 
-    public void setPrixTotal(Double prixTotal) {
-        this.prixTotal = prixTotal;
-    }
-
-    public Double getPrixTotal() {
-        return prixTotal;
-    }
-
     public void setIdMouvementMeuble(Integer idMouvementMeuble) {
         this.idMouvementMeuble = idMouvementMeuble;
     }
@@ -157,38 +147,46 @@ public class VMouvementMateriau {
         return idMouvementMeuble;
     }
 
+    public void setIdTypeMateriau(Integer idTypeMateriau) {
+        this.idTypeMateriau = idTypeMateriau;
+    }
+
+    public Integer getIdTypeMateriau() {
+        return idTypeMateriau;
+    }
+
+    public void setNomMateriau(String nomMateriau) {
+        this.nomMateriau = nomMateriau;
+    }
+
+    public String getNomMateriau() {
+        return nomMateriau;
+    }
+
+    public void setNomTypeMateriau(String nomTypeMateriau) {
+        this.nomTypeMateriau = nomTypeMateriau;
+    }
+
+    public String getNomTypeMateriau() {
+        return nomTypeMateriau;
+    }
+
+    public void setPrixTotal(Double prixTotal) {
+        this.prixTotal = prixTotal;
+    }
+
+    public Double getPrixTotal() {
+        return prixTotal;
+    }
+
     public static List<VMouvementMateriau> selectByTypeMouvement(Connection connection, Integer typeMouvement,
             LocalDateTime dateDebut, LocalDateTime dateFin) throws Exception {
-        List<VMouvementMateriau> mouvements = new ArrayList<>();
         String query = "select * from v_mouvement_materiau where type_mouvement= ? and date_mouvement>= ? and date_mouvement<= ? ";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, typeMouvement);
         statement.setObject(2, dateDebut);
         statement.setObject(3, dateFin);
-        ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()) {
-            Integer id = resultSet.getInt("id");
-            LocalDateTime dateMouvement = resultSet.getTimestamp("date_mouvement").toLocalDateTime();
-            Integer idMateriau = resultSet.getInt("id_materiau");
-            String nomMateriau = resultSet.getString("nom_materiau");
-            Integer idTypeMateriau = resultSet.getInt("id_type_materiau");
-            String nomTypeMateriau = resultSet.getString("nom_type_materiau");
-            Double quantite = resultSet.getDouble("quantite");
-            Double prixUnitaire = resultSet.getDouble("prix_unitaire");
-            Integer typeMvt = resultSet.getInt("type_mouvement");
-            Integer idMouvementMere = resultSet.getInt("id_mouvement_mere");
-            String description = resultSet.getString("description");
-            Double prixTotal = resultSet.getDouble("prix_total");
-            Integer idMouvementMeuble = resultSet.getInt("id_mouvement_meuble");
-            VMouvementMateriau mouvement = new VMouvementMateriau(
-                    id, dateMouvement, idMateriau, nomMateriau, idTypeMateriau, nomTypeMateriau,
-                    quantite, prixUnitaire, typeMvt, idMouvementMere, description, prixTotal,
-                    idMouvementMeuble);
-            mouvements.add(mouvement);
-        }
-        statement.close();
-        resultSet.close();
-        return mouvements;
+        return VMouvementMateriau.selectMultipleByPreparedStatement(VMouvementMateriau.class, statement, connection);
     }
 
 }

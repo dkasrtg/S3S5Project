@@ -9,7 +9,7 @@
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"
     />
-    <title>Materiau - Entree</title>
+    <title>Employe - Modification role</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -54,12 +54,12 @@
                     <div class="btn-group float-right">
                       <ol class="breadcrumb hide-phone p-0 m-0">
                         <li class="breadcrumb-item">
-                          <a href="#">Materiau</a>
+                          <a href="#">Employe</a>
                         </li>
-                        <li class="breadcrumb-item active">Entree</li>
+                        <li class="breadcrumb-item active">Modification role</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Entree materiau</h4>
+                    <h4 class="page-title">Modification role</h4>
                   </div>
                 </div>
               </div>
@@ -68,105 +68,9 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Entree materiau</h4>
-                      <form action="/entree_materiau" method="post">
-                        <div class="row">
-                          <div class="col-xl-6">
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label"
-                                  >Materiau</label
-                                >
-                                <div class="col-sm-10">
-                                  <select class="form-control" name="id_materiau">
-                                    <c:forEach var="c" items="${vMateriaus}">
-                                      <option value="${c.id}">${c.nom}</option>
-                                    </c:forEach>
-                                  </select>
-                                </div>
-                              </div>
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Prix unitaire</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  id="example-text-input"
-                                  name="prix_unitaire"
-                                />
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Description</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  id="example-text-input"
-                                  name="description"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-xl-6">
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Date</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="datetime-local"
-                                  id="example-text-input"
-                                  name="date_entree"
-                                />
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                                <label
-                                  for="example-text-input"
-                                  class="col-sm-2 col-form-label"
-                                  >Quantite</label
-                                >
-                                <div class="col-sm-10">
-                                  <input
-                                    class="form-control"
-                                    type="text"
-                                    id="example-text-input"
-                                    name="quantite"
-                                  />
-                                </div>
-                              </div>
-                            <div class="form-group row">
-                              <div class="col-sm-10"></div>
-                              <div class="col-sm-2">
-                                <button
-                                  type="submit"
-                                  class="btn btn-primary waves-effect waves-light"
-                                >
-                                  Submit
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="card">
-                    <div class="card-body">
-                      <form action="/entree_materiau" method="get">
+                      <h4 class="mt-0 header-title">Nouvelle modification role pour ${vEmploye.nom} ${vEmploye.prenom}</h4>
+                      <form action="/modification_role_employe" method="post">
+                        <input type="hidden" name="id_employe" value="${vEmploye.id}">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -181,26 +85,53 @@
                                   type="datetime-local"
                                   id="example-text-input"
                                   name="date_debut"
+                                  value=""
                                 />
                               </div>
                             </div>
+                            <div class="form-group row">
+                              <label class="col-sm-2 col-form-label"
+                                >Poste</label
+                              >
+                              <div class="col-sm-10">
+                                <select class="form-control" name="id_poste">
+                                  <c:forEach var="c" items="${postes}">
+                                      <option value="${c.id}">${c.nom}</option>
+                                  </c:forEach>
+                                </select>
+                              </div>
+                            </div>
                           </div>
-                          <div class="col-xl-6">
+                          <div class="col-xl-6"> 
                             <div class="form-group row">
                               <label
                                 for="example-text-input"
                                 class="col-sm-2 col-form-label"
-                                >Date fin</label
+                                >Taux horaire</label
                               >
                               <div class="col-sm-10">
                                 <input
                                   class="form-control"
-                                  type="datetime-local"
+                                  type="text"
                                   id="example-text-input"
-                                  name="date_fin"
+                                  name="taux_horaire"
+                                  value=""
                                 />
                               </div>
+                            </div>  
+                            <div class="form-group row">
+                              <label class="col-sm-2 col-form-label"
+                                >Niveau</label
+                              >
+                              <div class="col-sm-10">
+                                <select class="form-control" name="id_niveau">
+                                  <c:forEach var="c" items="${niveaus}">
+                                      <option value="${c.id}">${c.nom}</option>
+                                  </c:forEach>
+                                </select>
+                              </div>
                             </div>
+                                                
                             <div class="form-group row">
                               <div class="col-sm-10"></div>
                               <div class="col-sm-2">
@@ -215,7 +146,13 @@
                           </div>
                         </div>
                       </form>
-                      <h4 class="mt-0 header-title">Entree materiaux du ${dateDebut} au ${dateFin}</h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="mt-0 header-title">Liste des modifications</h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive nowrap"
@@ -228,32 +165,30 @@
                         <thead>
                           <tr>
                             <th>Id</th>
-                            <th>Date</th>
-                            <th>Materiau</th>
-                            <th>Description</th>
-                            <th>Prix unitaire</th>
-                            <th>Quantite</th>
-                            <th>Prix total</th>
+                            <th>Poste</th>
+                            <th>Niveau</th>
+                            <th>Date debut</th>
+                            <th>Date fin</th>
+                            <th>Taux horaire</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <c:forEach var="c" items="${vMouvementMateriaus}">
-                            <tr>
-                              <td>${c.id}</td>
-                              <td>${c.dateMouvement}</td>
-                              <td>${c.nomMateriau}</td>
-                              <td>${c.description}</td>
-                              <td>${c.prixUnitaire}</td>
-                              <td>${c.quantite}</td>
-                              <td>${c.prixTotal}</td>
-                            </tr>
+                          <c:forEach var="c" items="${vRoleEmployes}">
+                              <tr>
+                                  <td>${c.id}</td>
+                                  <td>${c.nomPoste}</td>
+                                  <td>${c.nomNiveau}</td>
+                                  <td>${c.dateDebut}</td>
+                                  <td>${c.dateFin}</td>
+                                  <td>${c.tauxHoraire}</td>
+                              </tr>
                           </c:forEach>
                         </tbody>
                       </table>
                     </div>
                   </div>
                 </div>
-               </div>
+              </div>
               <!-- Test affichage end -->
             </div>
           </div>

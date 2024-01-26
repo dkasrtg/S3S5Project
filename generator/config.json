@@ -6,8 +6,8 @@
     "password": "doda"
   },
   "models" : {
-    "packageName" : "entity.employe",
-    "tables" : ["v_multiplication_salarial_employe", "multiplication_salarial_employe"],
-    "outputDirectory" : "D:/Projects/Visual Studio Code/S3-S5Prep/S3S5Project/src/main/java/entity/employe"
+    "packageName" : "entity.materiau",
+    "tables" : ["v_mouvement_materiau"],
+    "outputDirectory" : "D:/Projects/Visual Studio Code/S3-S5Prep/S3S5Project/src/main/java/entity/materiau"
   }
 }

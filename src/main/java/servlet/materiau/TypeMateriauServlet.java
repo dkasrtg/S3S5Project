@@ -19,7 +19,7 @@ public class TypeMateriauServlet extends HttpServlet {
         try {
             connection = PG.getConnection();
             List<TypeMateriau> typeMateriau = TypeMateriau.selectAll(TypeMateriau.class, "", connection);
-            request.setAttribute("typeMateriau", typeMateriau);
+            request.setAttribute("typeMateriaus", typeMateriau);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

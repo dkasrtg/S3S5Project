@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import database.PG;
-import entity.employe.MonteeNiveauEmploye;
 import entity.employe.MultiplicationSalarialEmploye;
 import entity.employe.Niveau;
 import entity.employe.Poste;
