@@ -265,15 +265,15 @@ create table prix_de_vente_meuble(
 create table utilisation_employe(
     id serial primary key,
     id_mouvement_meuble integer,
-    date_utilisation timestamp,
-    id_employe integer,
-    nombre integer,
+    date_debut timestamp,
+    date_fin timestamp,
+    id_role_employe integer,
     duree_utilisation double precision,
-    salaire_unitaire double precision,
     salaire_total double precision,
     description varchar(200),
-    foreign key(id_employe) references employe(id)
+    foreign key(id_role_employe) references role_employe(id)
 );
+
 
 
 -- Employe
@@ -523,41 +523,30 @@ join taille_meuble tm on tm.id=fm.id_taille_meuble
 drop view v_benefice_meuble;
 create or replace view v_benefice_meuble as
 select
-q1.id_formule_meuble,q1.id_meuble,q1.id_taille_meuble,q1.total_materiaux,q2.total_salaires,q3.prix_de_vente,
-m.nom as nom_meuble,tm.nom as nom_taille_meuble,
-(q1.total_materiaux+q2.total_salaires) as prix_de_revient,
-(q3.prix_de_vente-(q1.total_materiaux+q2.total_salaires)) as benefice
+q3.id_formule_meuble,q3.prix_total_materiau,q4.valeur as prix_de_vente,
+fm.id_meuble,fm.id_taille_meuble,
+m.nom as nom_meuble,tm.nom as nom_taille_meuble
 from 
-
-(select q1.id_formule_meuble,fm.id_meuble,fm.id_taille_meuble,q1.total_materiaux
-from formule_meuble fm
-join 
-(select dfm.id_formule_meuble,sum(dfm.quantite*p.prix_unitaire) as total_materiaux from detail_formule_meuble dfm
-join (select id_materiau,avg(prix_unitaire) as prix_unitaire from v_materiau_restant group by id_materiau) as p
-on p.id_materiau = dfm.id_materiau
-group by dfm.id_formule_meuble) as q1
-on q1.id_formule_meuble=fm.id
-) as q1
-
-join
 (select 
-dem.id_formule_meuble,sum(dem.nombre*dem.duree*p.valeur) as total_salaires
-from detail_employe_meuble dem
-join
-(select * from salaire_employe where date_fin='12-12-9999 23:59') as p
-on p.id_employe=dem.id_employe
-group by dem.id_formule_meuble ) as q2
-
-on q1.id_formule_meuble=q2.id_formule_meuble
-
+id_formule_meuble,sum(quantite*prix_unitaire_moyen) as prix_total_materiau
+from
+(select
+dfm.id_formule_meuble,dfm.id_materiau,dfm.quantite,q1.prix_unitaire_moyen
+from detail_formule_meuble dfm
+join (select id_materiau,avg(prix_unitaire) as prix_unitaire_moyen from v_materiau_restant group by id_materiau) as q1 on q1.id_materiau=dfm.id_materiau
+) as q2 
+group by id_formule_meuble ) as q3
 join 
-(select id_formule_meuble,valeur as prix_de_vente from prix_de_vente_meuble where date_fin='12-12-9999 23:59') as q3
-
-on q2.id_formule_meuble=q3.id_formule_meuble
-
-join meuble m on m.id=q1.id_meuble
-join taille_meuble tm on tm.id=q1.id_taille_meuble
+(select id_formule_meuble,valeur from prix_de_vente_meuble where date_fin='9999-12-31 23:59') as q4
+on q4.id_formule_meuble=q3.id_formule_meuble
+join formule_meuble fm on fm.id=q3.id_formule_meuble
+join meuble m on m.id=fm.id_meuble
+join taille_meuble tm on tm.id=fm.id_taille_meuble
 ;
+
+
+
+
 
 create or replace view v_utilisation_employe as 
 select ue.*, e.nom as nom_employe
@@ -652,6 +641,16 @@ create table employe(
     date_naissance date,
 
 );
+
+create table base_taux_horaire(
+    id serial primary key,
+    id_poste integer,
+    date_debut timestamp,
+    date_fin timestamp,
+    valeur double precision,
+    foreign key(id_poste) references poste(id)
+);
+
 
 select * from multiplicite_taux_horaire_niveau;
 select * from taux_horaire_poste ;
@@ -868,3 +867,40 @@ order by n.ordre asc
 
 
 select * from multiplication_salarial_employe where id_poste = ? and id_niveau_depart = ? and id_niveau_arrive = ? and date_debut <= ? and date_fin >= ?
+
+
+create or replace view v_utilisation_employe as
+select 
+ue.*,
+re.id_employe,re.id_poste,re.id_niveau,re.taux_horaire,
+e.nom as nom_employe,e.prenom as prenom_employe,e.genre as nom_genre_employe,e.id_genre as id_genre_employe,
+p.nom as nom_poste,n.nom as nom_niveau
+from 
+utilisation_employe ue
+join role_employe re on re.id=ue.id_role_employe
+join v_employe e on e.id=re.id_employe
+join poste p on p.id=re.id_poste
+join niveau n on n.id=re.id_niveau
+;
+
+
+
+select * from multiplication_salarial_employe where date_fin = '9999-12-31 23:59';
+
+select * from base_taux_horaire where date_fin = '9999-12-31 23:59';
+
+select * from niveau order by ordre asc;
+
+create or replace view v_base_taux_horaire as 
+select bth.*,p.nom as nom_poste 
+from base_taux_horaire bth 
+join poste p on p.id=bth.id_poste
+;
+
+
+
+select * from multiplication_salarial_employe where date_fin = '9999-12-31 23:59';
+
+select id_poste,nom_poste,date_debut,valeur from v_base_taux_horaire where date_fin = '9999-12-31 23:59';
+
+select * from niveau order by ordre asc;

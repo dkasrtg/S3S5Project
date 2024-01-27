@@ -1,170 +1,136 @@
 package entity.meuble;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 
-public class VBeneficeMeuble {
-    Integer idMeuble;
-    Integer idTailleMeuble;
-    String nomMeuble;
-    String nomTailleMeuble;
-    Double prixDeVente;
-    Double totalMateriaux;
-    Double totalSalaires;
-    Double prixDeRevient;
-    Double benefice;
-    Integer idFormuleMeuble;
+import com.genericdao.*;
+import com.genericdao.annotation.*;
 
-    public VBeneficeMeuble(Integer idMeuble, Integer idTailleMeuble, String nomMeuble, String nomTailleMeuble,
-            Double prixDeVente, Double totalMateriaux,
-            Double totalSalaires, Double prixDeRevient, Double benefice, Integer idFormuleMeuble) {
-        setIdMeuble(idMeuble);
-        setIdTailleMeuble(idTailleMeuble);
-        setPrixDeRevient(prixDeRevient);
-        setTotalMateriaux(totalMateriaux);
-        setTotalSalaires(totalSalaires);
-        setPrixDeVente(prixDeVente);
-        setBenefice(benefice);
-        setNomMeuble(nomMeuble);
-        setNomTailleMeuble(nomTailleMeuble);
+
+
+@Table( name = "v_benefice_meuble" )
+public class VBeneficeMeuble extends GenericDAO {
+
+    @Column( name = "id_formule_meuble")
+	private Integer idFormuleMeuble;
+
+	@Column( name = "prix_total_materiau")
+	private Double prixTotalMateriau;
+
+	@Column( name = "prix_de_vente")
+	private Double prixDeVente;
+
+	@Column( name = "id_meuble")
+	private Integer idMeuble;
+
+	@Column( name = "id_taille_meuble")
+	private Integer idTailleMeuble;
+
+	@Column( name = "nom_meuble")
+	private String nomMeuble;
+
+	@Column( name = "nom_taille_meuble")
+	private String nomTailleMeuble;
+	
+	private Double prixTotalSalaire;
+	private Double prixDeRevient;
+	private Double benefice;
+
+	
+
+    public VBeneficeMeuble() {
+
+    }
+
+    public VBeneficeMeuble(Integer idFormuleMeuble, Double prixTotalMateriau, Double prixDeVente, Integer idMeuble, Integer idTailleMeuble, String nomMeuble, String nomTailleMeuble) {
         setIdFormuleMeuble(idFormuleMeuble);
+		setPrixTotalMateriau(prixTotalMateriau);
+		setPrixDeVente(prixDeVente);
+		setIdMeuble(idMeuble);
+		setIdTailleMeuble(idTailleMeuble);
+		setNomMeuble(nomMeuble);
+		setNomTailleMeuble(nomTailleMeuble);
+		
     }
 
     public void setIdFormuleMeuble(Integer idFormuleMeuble) {
-        this.idFormuleMeuble = idFormuleMeuble;
-    }
+		this.idFormuleMeuble = idFormuleMeuble;
+	}
 
-    public Integer getIdFormuleMeuble() {
-        return idFormuleMeuble;
-    }
+	public Integer getIdFormuleMeuble() {
+		return idFormuleMeuble;
+	}
 
-    public Integer getIdMeuble() {
-        return idMeuble;
-    }
+	public void setPrixTotalMateriau(Double prixTotalMateriau) {
+		this.prixTotalMateriau = prixTotalMateriau;
+	}
 
-    public void setIdMeuble(Integer idMeuble) {
-        this.idMeuble = idMeuble;
-    }
+	public Double getPrixTotalMateriau() {
+		return prixTotalMateriau;
+	}
 
-    public Integer getIdTailleMeuble() {
-        return idTailleMeuble;
-    }
+	public void setPrixDeVente(Double prixDeVente) {
+		this.prixDeVente = prixDeVente;
+	}
 
-    public void setIdTailleMeuble(Integer idTailleMeuble) {
-        this.idTailleMeuble = idTailleMeuble;
-    }
+	public Double getPrixDeVente() {
+		return prixDeVente;
+	}
 
-    public Double getPrixDeVente() {
-        return prixDeVente;
-    }
+	public void setIdMeuble(Integer idMeuble) {
+		this.idMeuble = idMeuble;
+	}
 
-    public void setPrixDeVente(Double prixDeVente) {
-        this.prixDeVente = prixDeVente;
-    }
+	public Integer getIdMeuble() {
+		return idMeuble;
+	}
 
-    public Double getTotalMateriaux() {
-        return totalMateriaux;
-    }
+	public void setIdTailleMeuble(Integer idTailleMeuble) {
+		this.idTailleMeuble = idTailleMeuble;
+	}
 
-    public void setTotalMateriaux(Double totalMateriaux) {
-        this.totalMateriaux = totalMateriaux;
-    }
+	public Integer getIdTailleMeuble() {
+		return idTailleMeuble;
+	}
 
-    public Double getTotalSalaires() {
-        return totalSalaires;
-    }
+	public void setNomMeuble(String nomMeuble) {
+		this.nomMeuble = nomMeuble;
+	}
 
-    public void setTotalSalaires(Double totalSalaires) {
-        this.totalSalaires = totalSalaires;
-    }
+	public String getNomMeuble() {
+		return nomMeuble;
+	}
 
-    public Double getPrixDeRevient() {
-        return prixDeRevient;
-    }
+	public void setNomTailleMeuble(String nomTailleMeuble) {
+		this.nomTailleMeuble = nomTailleMeuble;
+	}
 
-    public void setPrixDeRevient(Double prixDeRevient) {
-        this.prixDeRevient = prixDeRevient;
-    }
+	public String getNomTailleMeuble() {
+		return nomTailleMeuble;
+	}
 
-    public Double getBenefice() {
-        return benefice;
-    }
+	public Double getPrixTotalSalaire() {
+		return prixTotalSalaire;
+	}
 
-    public void setBenefice(Double benefice) {
-        this.benefice = benefice;
-    }
+	public void setPrixTotalSalaire(Double prixTotalSalaire) {
+		this.prixTotalSalaire = prixTotalSalaire;
+	}
 
-    public void setNomMeuble(String nomMeuble) {
-        this.nomMeuble = nomMeuble;
-    }
+	public Double getPrixDeRevient() {
+		return prixDeRevient;
+	}
 
-    public String getNomMeuble() {
-        return nomMeuble;
-    }
+	public void setPrixDeRevient(Double prixDeRevient) {
+		this.prixDeRevient = prixDeRevient;
+	}
 
-    public void setNomTailleMeuble(String nomTailleMeuble) {
-        this.nomTailleMeuble = nomTailleMeuble;
-    }
+	public Double getBenefice() {
+		return benefice;
+	}
 
-    public String getNomTailleMeuble() {
-        return nomTailleMeuble;
-    }
+	public void setBenefice(Double benefice) {
+		this.benefice = benefice;
+	}
 
-    public static List<VBeneficeMeuble> selectByBeneficeRange(Connection connection, Double minBenefice,
-            Double maxBenefice) throws Exception {
-        List<VBeneficeMeuble> benefices = new ArrayList<>();
-        String query = "SELECT * FROM v_benefice_meuble WHERE benefice BETWEEN ? AND ?";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setDouble(1, minBenefice);
-        statement.setDouble(2, maxBenefice);
-        ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()) {
-            Integer idMeuble = resultSet.getInt("id_meuble");
-            Integer idTailleMeuble = resultSet.getInt("id_taille_meuble");
-            String nomMeuble = resultSet.getString("nom_meuble");
-            String nomTailleMeuble = resultSet.getString("nom_taille_meuble");
-            Double prixDeVente = resultSet.getDouble("prix_de_vente");
-            Double totalMateriaux = resultSet.getDouble("total_materiaux");
-            Double totalSalaires = resultSet.getDouble("total_salaires");
-            Double prixDeRevient = resultSet.getDouble("prix_de_revient");
-            Double benefice = resultSet.getDouble("benefice");
-            Integer idFormuleMeuble = resultSet.getInt("id_formule_meuble");
-            VBeneficeMeuble beneficeMeuble = new VBeneficeMeuble(idMeuble, idTailleMeuble, nomMeuble,
-                    nomTailleMeuble,
-                    prixDeVente, totalMateriaux, totalSalaires, prixDeRevient, benefice, idFormuleMeuble);
-            benefices.add(beneficeMeuble);
-        }
-        statement.close();
-        resultSet.close();
-        return benefices;
-    }
+	
 
-    public static List<VBeneficeMeuble> list(Connection connection) throws Exception {
-        List<VBeneficeMeuble> benefices = new ArrayList<>();
-        String query = "SELECT * FROM v_benefice_meuble order by benefice desc";
-        PreparedStatement statement = connection.prepareStatement(query);
-        ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()) {
-            Integer idMeuble = resultSet.getInt("id_meuble");
-            Integer idTailleMeuble = resultSet.getInt("id_taille_meuble");
-            String nomMeuble = resultSet.getString("nom_meuble");
-            String nomTailleMeuble = resultSet.getString("nom_taille_meuble");
-            Double prixDeVente = resultSet.getDouble("prix_de_vente");
-            Double totalMateriaux = resultSet.getDouble("total_materiaux");
-            Double totalSalaires = resultSet.getDouble("total_salaires");
-            Double prixDeRevient = resultSet.getDouble("prix_de_revient");
-            Double benefice = resultSet.getDouble("benefice");
-            Integer idFormuleMeuble = resultSet.getInt("id_formule_meuble");
-            VBeneficeMeuble beneficeMeuble = new VBeneficeMeuble(idMeuble, idTailleMeuble, nomMeuble,
-                    nomTailleMeuble,
-                    prixDeVente, totalMateriaux, totalSalaires, prixDeRevient, benefice, idFormuleMeuble);
-            benefices.add(beneficeMeuble);
-        }
-        statement.close();
-        resultSet.close();
-        return benefices;
-    }
 }

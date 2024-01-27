@@ -256,4 +256,11 @@ public class VRoleEmploye extends GenericDAO {
 		return VRoleEmploye.selectMultipleByPreparedStatement(VRoleEmploye.class, preparedStatement, connection);
 	}
 
+	public static List<VRoleEmploye> selectByDateFin(Connection connection, LocalDateTime dateFin) throws Exception{
+		String query = "select * from v_role_employe where date_fin = ?";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setObject(1, dateFin);
+		return VRoleEmploye.selectMultipleByPreparedStatement(VRoleEmploye.class, preparedStatement, connection);
+	}
+
 }

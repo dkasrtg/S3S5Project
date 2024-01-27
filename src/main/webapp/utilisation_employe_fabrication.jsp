@@ -9,7 +9,7 @@
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"
     />
-    <title>Employe - Utilisations</title>
+    <title>Meuble - Fabrication</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -54,12 +54,12 @@
                     <div class="btn-group float-right">
                       <ol class="breadcrumb hide-phone p-0 m-0">
                         <li class="breadcrumb-item">
-                          <a href="#">Employe</a>
+                          <a href="#">Meuble</a>
                         </li>
-                        <li class="breadcrumb-item active">Utilisations</li>
+                        <li class="breadcrumb-item active">Fabrication</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Utilisations</h4>
+                    <h4 class="page-title">Utilisations employe dans la fabrication de meuble</h4>
                   </div>
                 </div>
               </div>
@@ -68,8 +68,9 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Nouvel utilisation</h4>
-                      <form action="/utilisation_employe" method="post">
+                      <h4 class="mt-0 header-title">Nouvel utilisation pour la fabrication de ${vMouvementMeuble.quantite} ${vMouvementMeuble.nomMeuble} ${vMouvementMeuble.nomTailleMeuble} du ${vMouvementMeuble.dateMouvement}</h4>
+                      <form action="/utilisation_employe_fabrication" method="post">
+                        <input type="hidden" name="id_mouvement_meuble" value="${vMouvementMeuble.id}">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -104,6 +105,9 @@
                                 />
                               </div>
                             </div>
+                            
+                          </div>
+                          <div class="col-xl-6"> 
                             <div class="form-group row">
                               <label class="col-sm-2 col-form-label"
                                 >Employe</label
@@ -114,24 +118,6 @@
                                     <option value="${c.id}">${c.nomEmploye} ${c.prenomEmploye} - ${c.nomPoste} ${c.nomNiveau} - ${c.tauxHoraire}</option>
                                   </c:forEach>
                                 </select>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-xl-6"> 
-                            <div class="form-group row">
-                              <label
-                                for="example-text-input"
-                                class="col-sm-2 col-form-label"
-                                >Description</label
-                              >
-                              <div class="col-sm-10">
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  id="example-text-input"
-                                  name="description"
-                                  value=""
-                                />
                               </div>
                             </div>
                             <div class="form-group row">
@@ -185,7 +171,6 @@
                             <th>Id</th>
                             <th>Date debut</th>
                             <th>Date fin</th>
-                            <th>Description</th>
                             <th>Employe</th>
                             <th>Poste</th>
                             <th>Niveau</th>
@@ -200,7 +185,6 @@
                               <td>${c.id}</td>
                               <td>${c.dateDebut}</td>
                               <td>${c.dateFin}</td>
-                              <td>${c.description}</td>
                               <td>${c.nomEmploye} ${c.prenomEmploye}</td>
                               <td>${c.nomPoste}</td>
                               <td>${c.nomNiveau}</td>

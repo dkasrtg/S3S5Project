@@ -9,7 +9,7 @@
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui"
     />
-    <title>Meuble - Benefice</title>
+    <title>Employe - Base taux horaire</title>
     <meta content="Admin Dashboard" name="description" />
     <meta content="Mannatthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -54,12 +54,12 @@
                     <div class="btn-group float-right">
                       <ol class="breadcrumb hide-phone p-0 m-0">
                         <li class="breadcrumb-item">
-                          <a href="#">Meuble</a>
+                          <a href="#">Employe</a>
                         </li>
-                        <li class="breadcrumb-item active">Benefice</li>
+                        <li class="breadcrumb-item active">Base taux horaire</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Benefice</h4>
+                    <h4 class="page-title">Base taux horaire</h4>
                   </div>
                 </div>
               </div>
@@ -68,57 +68,78 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                        <form action="/benefice_meuble" method="get">
-                            <div class="row">
-                              <div class="col-xl-6">
-                                <div class="form-group row">
-                                  <label
-                                    for="example-text-input"
-                                    class="col-sm-2 col-form-label"
-                                    >Minimum</label
-                                  >
-                                  <div class="col-sm-10">
-                                    <input
-                                      class="form-control"
-                                      type="text"
-                                      id="example-text-input"
-                                      name="min"
-                                    />
-                                  </div>
-                                </div>
-                                
-                              </div>
-                              <div class="col-xl-6">
-                                <div class="form-group row">
-                                  <label
-                                    for="example-text-input"
-                                    class="col-sm-2 col-form-label"
-                                    >Maximum</label
-                                  >
-                                  <div class="col-sm-10">
-                                    <input
-                                      class="form-control"
-                                      type="nom"
-                                      id="example-text-input"
-                                      name="max"
-                                    />
-                                  </div>
-                              </div>
-                                <div class="form-group row">
-                                  <div class="col-sm-10"></div>
-                                  <div class="col-sm-2">
-                                    <button
-                                      type="submit"
-                                      class="btn btn-primary waves-effect waves-light"
-                                    >
-                                      Submit
-                                    </button>
-                                  </div>
-                                </div>
+                      <h4 class="mt-0 header-title">Nouvel base taux horaire</h4>
+                      <form action="/base_taux_horaire_employe" method="post">
+                        <div class="row">
+                          <div class="col-xl-6">
+                            <div class="form-group row">
+                              <label
+                                for="example-text-input"
+                                class="col-sm-2 col-form-label"
+                                >Date debut</label
+                              >
+                              <div class="col-sm-10">
+                                <input
+                                  class="form-control"
+                                  type="datetime-local"
+                                  id="example-text-input"
+                                  name="date_debut"
+                                  value=""
+                                />
                               </div>
                             </div>
-                        </form>
-                      <h4 class="mt-0 header-title">Les meubles dont le benefice est compris entre ${min} et ${max}</h4>
+                            <div class="form-group row">
+                              <label class="col-sm-2 col-form-label"
+                                >Poste</label
+                              >
+                              <div class="col-sm-10">
+                                <select class="form-control" name="id_poste">
+                                  <c:forEach var="c" items="${postes}">
+                                    <option value="${c.id}">${c.nom}</option>
+                                  </c:forEach>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-6"> 
+                            <div class="form-group row">
+                              <label
+                                for="example-text-input"
+                                class="col-sm-2 col-form-label"
+                                >Valeur</label
+                              >
+                              <div class="col-sm-10">
+                                <input
+                                  class="form-control"
+                                  type="text"
+                                  id="example-text-input"
+                                  name="valeur"
+                                  value=""
+                                />
+                              </div>
+                            </div>
+                                           
+                            <div class="form-group row">
+                              <div class="col-sm-10"></div>
+                              <div class="col-sm-2">
+                                <button
+                                  type="submit"
+                                  class="btn btn-primary waves-effect waves-light"
+                                >
+                                  Submit
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="mt-0 header-title">Liste des bases</h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive"
@@ -130,25 +151,23 @@
                       >
                         <thead>
                           <tr>
-                            <th>Meuble</th>
-                            <th>Taille</th>
-                            <th>Prix de vente</th>
-                            <th>Total materiaux (SELON PRIX DES RESTANTS)</th>
-                            <th>Total salaires (SELON BASE TAUX HORAIRE)</th>
-                            <th>Prix de revient</th>
-                            <th>Benefice</th>
+                            <th>Id</th>
+                            <th>Poste</th>
+                            <th>Date debut</th>
+                            <c:forEach var="c" items="${niveaus}">
+                              <th>${c.nom}</th>
+                            </c:forEach>
                           </tr>
                         </thead>
                         <tbody>
-                         <c:forEach var="c" items="${vBeneficeMeubles}">
+                         <c:forEach var="c" items="${vBaseTauxHoraires}">
                           <tr>
-                            <td>${c.nomMeuble}</td>
-                            <td>${c.nomTailleMeuble}</td>
-                            <td>${c.prixDeVente}</td>
-                            <td>${c.prixTotalMateriau}</td>
-                            <td>${c.prixTotalSalaire}</td>
-                            <td>${c.prixDeRevient}</td>
-                            <td>${c.benefice}</td>
+                            <td>${c.id}</td>
+                            <td>${c.nomPoste}</td>
+                            <td>${c.dateDebut}</td>
+                            <c:forEach var="d" items="${c.tauxBaseNiveaus}">
+                              <td>${d}</td>
+                            </c:forEach>
                           </tr>
                          </c:forEach>
                         </tbody>
@@ -156,7 +175,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- end col -->
               </div>
               <!-- Test affichage end -->
             </div>
@@ -165,6 +183,7 @@
         <%@ include file="/statics/footer.jsp"%>
       </div>
     </div>
+    <script src="/js/error.js"></script>
     <script src="/template/assets/js/jquery.min.js"></script>
     <script src="/template/assets/js/popper.min.js"></script>
     <script src="/template/assets/js/bootstrap.min.js"></script>

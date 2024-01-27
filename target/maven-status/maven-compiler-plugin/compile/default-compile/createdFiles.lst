@@ -14,7 +14,6 @@ servlet\reference\DetailsReferenceServlet.class
 servlet\reference\ReferenceServlet.class
 servlet\reference\UpdateReferenceServlet.class
 entity\meuble\VMeuble.class
-servlet\meuble\PrixFabricationMeubleServlet.class
 servlet\meuble\PrixDeVenteMeubleServlet.class
 database\PG.class
 entity\meuble\MateriauPossibleStyleMeuble.class
@@ -22,11 +21,9 @@ servlet\client\ClientServlet.class
 servlet\meuble\MeubleServlet.class
 entity\meuble\PrixDeVenteMeuble.class
 servlet\meuble\MateriauPossibleStyleMeubleServlet.class
-servlet\meuble\SortieMeubleServlet.class
 adapter\Adapter.class
 entity\reference\CheckboxReference.class
 exception\QuantiteInsufficientForMeubleException.class
-entity\meuble\VBeneficeMeuble.class
 entity\meuble\FormuleMeuble.class
 entity\reference\OptionReference.class
 servlet\test\TestAffichage.class
@@ -34,7 +31,6 @@ entity\meuble\VVenteMeuble.class
 adapter\Adapter$LocalDateAdapter.class
 adapter\Adapter$LocalDateTimeAdapter.class
 servlet\meuble\TailleMeubleServlet.class
-servlet\meuble\SuggestionProductionMeubleServlet.class
 entity\reference\VReference.class
 exception\FormuleMeubleTailleNotExistException.class
 entity\meuble\VPrixDeVenteMeuble.class

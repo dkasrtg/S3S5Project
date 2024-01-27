@@ -63,7 +63,7 @@ public class PrixDeVenteMeubleServlet extends HttpServlet {
             if (idFormuleMeuble == -1) {
                 throw new FormuleMeubleTailleNotExistException();
             }
-            LocalDate lastDate = LocalDate.of(9999, 12, 12);
+            LocalDate lastDate = LocalDate.of(9999, 12, 31);
             LocalTime lastTime = LocalTime.of(23, 59);
             LocalDateTime lastDateTime = LocalDateTime.of(lastDate, lastTime);
             PrixDeVenteMeuble lastPrixDeVenteMeuble = PrixDeVenteMeuble.selectByIdFormuleMeubleAndDateFin(connection,

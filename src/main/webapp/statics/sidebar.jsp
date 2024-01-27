@@ -276,6 +276,28 @@
               ></a
             >
           </li>
+          <li>
+            <a href="/utilisation_employe" class="waves-effect"
+              ><i class="fas fa-clock"></i>
+              <span
+                >Utilisations
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
+          <li>
+            <a href="/base_taux_horaire_employe" class="waves-effect"
+              ><i class="fas fa-table"></i>
+              <span
+                >Base taux horaire
+                <span class="badge badge-pill badge-primary float-right"
+                  ></span
+                ></span
+              ></a
+            >
+          </li>
         <li class="menu-title">Client</li>
         <li>
           <a href="/client" class="waves-effect"
