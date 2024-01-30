@@ -3,7 +3,6 @@ package entity.employe;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import com.genericdao.GenericDAO;
 import com.genericdao.annotation.Column;

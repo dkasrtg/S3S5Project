@@ -1,9 +1,5 @@
 package entity.employe;
 
-
-import com.genericdao.*;
-import com.genericdao.annotation.*;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,48 +8,51 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.genericdao.GenericDAO;
+import com.genericdao.annotation.Column;
+import com.genericdao.annotation.Table;
 
-@Table( name = "v_multiplication_salarial_employe" )
+@Table(name = "v_multiplication_salarial_employe")
 public class VMultiplicationSalarialEmploye extends GenericDAO {
 
-    @Column( name = "id")
+	@Column(name = "id")
 	private Integer id;
 
-	@Column( name = "id_poste")
+	@Column(name = "id_poste")
 	private Integer idPoste;
 
-	@Column( name = "id_niveau_depart")
+	@Column(name = "id_niveau_depart")
 	private Integer idNiveauDepart;
 
-	@Column( name = "id_niveau_arrive")
+	@Column(name = "id_niveau_arrive")
 	private Integer idNiveauArrive;
 
-	@Column( name = "multipliant")
+	@Column(name = "multipliant")
 	private Double multipliant;
 
-	@Column( name = "date_debut")
+	@Column(name = "date_debut")
 	private LocalDateTime dateDebut;
 
-	@Column( name = "date_fin")
+	@Column(name = "date_fin")
 	private LocalDateTime dateFin;
 
-	@Column( name = "nom_poste")
+	@Column(name = "nom_poste")
 	private String nomPoste;
 
-	@Column( name = "nom_niveau_depart")
+	@Column(name = "nom_niveau_depart")
 	private String nomNiveauDepart;
 
-	@Column( name = "nom_niveau_arrive")
+	@Column(name = "nom_niveau_arrive")
 	private String nomNiveauArrive;
 
-	
+	public VMultiplicationSalarialEmploye() {
 
-    public VMultiplicationSalarialEmploye() {
+	}
 
-    }
-
-    public VMultiplicationSalarialEmploye(Integer id, Integer idPoste, Integer idNiveauDepart, Integer idNiveauArrive, Double multipliant, LocalDateTime dateDebut, LocalDateTime dateFin, String nomPoste, String nomNiveauDepart, String nomNiveauArrive) {
-        setId(id);
+	public VMultiplicationSalarialEmploye(Integer id, Integer idPoste, Integer idNiveauDepart, Integer idNiveauArrive,
+			Double multipliant, LocalDateTime dateDebut, LocalDateTime dateFin, String nomPoste, String nomNiveauDepart,
+			String nomNiveauArrive) {
+		setId(id);
 		setIdPoste(idPoste);
 		setIdNiveauDepart(idNiveauDepart);
 		setIdNiveauArrive(idNiveauArrive);
@@ -63,10 +62,10 @@ public class VMultiplicationSalarialEmploye extends GenericDAO {
 		setNomPoste(nomPoste);
 		setNomNiveauDepart(nomNiveauDepart);
 		setNomNiveauArrive(nomNiveauArrive);
-		
-    }
 
-    public void setId(Integer id) {
+	}
+
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -146,7 +145,7 @@ public class VMultiplicationSalarialEmploye extends GenericDAO {
 		return nomNiveauArrive;
 	}
 
-		public static List<VMultiplicationSalarialEmploye> selectByDateBetween(
+	public static List<VMultiplicationSalarialEmploye> selectByDateBetween(
 			Connection connection, LocalDateTime date) throws SQLException {
 		List<VMultiplicationSalarialEmploye> vMultiplicationSalarialEmployes = new ArrayList<>();
 		String query = "SELECT * FROM v_multiplication_salarial_employe WHERE date_debut <= ? AND date_fin >= ?";

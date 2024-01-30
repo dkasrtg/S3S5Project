@@ -1,15 +1,13 @@
 package entity.employe;
 
-import com.genericdao.*;
-import com.genericdao.annotation.*;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+
+import com.genericdao.GenericDAO;
+import com.genericdao.annotation.Column;
+import com.genericdao.annotation.Table;
 
 @Table(name = "v_montee_niveau_employe")
 public class VMonteeNiveauEmploye extends GenericDAO {
