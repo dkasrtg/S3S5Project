@@ -9,7 +9,8 @@ import java.util.List;
 
 import database.PG;
 import entity.meuble.VFormuleMeuble;
-import entity.meuble.VTotalVenteProduitGenre;
+import entity.meuble.VenteGlobalParGenre;
+import entity.meuble.VenteGlobalParProduitParGenre;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -34,21 +35,8 @@ public class StatistiqueVenteMeubleServlet extends HttpServlet {
             List<VenteGlobalParGenre> venteGlobalParGenres = VenteGlobalParGenre.selectByDate(connection, dateDebut, dateFin);
             List<VFormuleMeuble> vFormuleMeubles = VFormuleMeuble.selectAll(VFormuleMeuble.class, "", connection);
             for (VFormuleMeuble vFormuleMeuble : vFormuleMeubles) {
-                List<VTotalVenteProduitGenre> vTotalVenteProduitGenres = VTotalVenteProduitGenre
-                        .selectByIdFormuleMeuble(connection, vFormuleMeuble.getId());
-                Double sum2 = 0.0;
-                for (VTotalVenteProduitGenre vTotalVenteProduitGenre : vTotalVenteProduitGenres) {
-                    sum2 += vTotalVenteProduitGenre.getQuantite();
-                }
-                for (VTotalVenteProduitGenre vTotalVenteProduitGenre : vTotalVenteProduitGenres) {
-                    if (sum2 == 0) {
-                        vTotalVenteProduitGenre.setQuantite(0.0);
-                    } else {
-                        vTotalVenteProduitGenre.setQuantite(vTotalVenteProduitGenre.getQuantite() * 100 / sum2);
-                    }
-
-                }
-                vFormuleMeuble.setvTotalVenteProduitGenres(vTotalVenteProduitGenres);
+                List<VenteGlobalParProduitParGenre> venteGlobalParProduitParGenres = VenteGlobalParProduitParGenre.seelctByDateAndIdFormuleMeuble(connection, dateDebut, dateFin, vFormuleMeuble.getId());
+                vFormuleMeuble.setVenteGlobalParProduitParGenres(venteGlobalParProduitParGenres);
             }
             request.setAttribute("dateDebut", dateDebut);
             request.setAttribute("dateFin", dateFin);

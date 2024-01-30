@@ -31,7 +31,7 @@ public class VFormuleMeuble extends GenericDAO {
     private List<VDetailFormuleMeuble> vDetailFormuleMeubles;
     private List<VDetailEmployeMeuble> vDetailEmployeMeubles;
 
-    private List<VTotalVenteProduitGenre> vTotalVenteProduitGenres;
+    private List<VenteGlobalParProduitParGenre> venteGlobalParProduitParGenres;
 
     public VFormuleMeuble() {
 
@@ -103,12 +103,12 @@ public class VFormuleMeuble extends GenericDAO {
         return vDetailEmployeMeubles;
     }
 
-    public void setvTotalVenteProduitGenres(List<VTotalVenteProduitGenre> vTotalVenteProduitGenres) {
-        this.vTotalVenteProduitGenres = vTotalVenteProduitGenres;
+    public void setVenteGlobalParProduitParGenres(List<VenteGlobalParProduitParGenre> venteGlobalParProduitParGenres) {
+        this.venteGlobalParProduitParGenres = venteGlobalParProduitParGenres;
     }
 
-    public List<VTotalVenteProduitGenre> getvTotalVenteProduitGenres() {
-        return vTotalVenteProduitGenres;
+    public List<VenteGlobalParProduitParGenre> getVenteGlobalParProduitParGenres() {
+        return venteGlobalParProduitParGenres;
     }
 
     public static List<VFormuleMeuble> selectByIdMeuble(Connection connection, Integer idMeuble) throws Exception {

@@ -1,14 +1,11 @@
-package servlet.meuble;
+package entity.meuble;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.naming.spi.DirStateFactory.Result;
 
 public class VenteGlobalParGenre {
     private Integer idGenre;

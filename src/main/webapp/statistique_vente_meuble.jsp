@@ -188,12 +188,12 @@
                               <td>${c.nomTailleMeuble}</td>
                               <c:forEach
                                 var="d"
-                                items="${c.vTotalVenteProduitGenres}"
+                                items="${c.venteGlobalParProduitParGenres}"
                               >
-                                <td>${d.quantite}</td>
+                                <td>${d.pourcentage}</td>
                               </c:forEach>
                               <td>
-                                <div style="height: 100px">
+                                <div style="width:200px; height:fit-content">
                                   <canvas
                                     id="mc${c.id}"
                                     width="10"
@@ -256,9 +256,9 @@
           labels: [
           <c:forEach
             var="d"
-            items="${c.vTotalVenteProduitGenres}"
+            items="${c.venteGlobalParProduitParGenres}"
           >
-            "${d.genre}",
+            "${d.nomGenre}",
           </c:forEach>
           ],
           datasets: [
@@ -266,12 +266,12 @@
               data: [
               <c:forEach
                 var="d"
-                items="${c.vTotalVenteProduitGenres}"
+                items="${c.venteGlobalParProduitParGenres}"
               >
-                ${d.quantite},
+                ${d.pourcentage},
               </c:forEach>
               ],
-              backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+              backgroundColor: ["#3498db", "#e74c3c"],
             },
           ],
         };
@@ -280,8 +280,11 @@
           type: "pie",
           data: ${"data"}${c.id},
           options: {
-            width:5,
-            height:5
+            plugins: {
+              legend: {
+                position: "right",
+              },
+            },
           },
         });
       </script>

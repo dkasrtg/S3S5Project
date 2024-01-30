@@ -700,15 +700,6 @@ select
 *
 from formule_meuble
 
-create or replace view v_vente_enregistre as
-select 
-dvm.id_formule_meuble, sum(dvm.quantite) as quantite,vc.id_genre
-from detail_vente_meuble dvm
-join vente_meuble vm on vm.id = dvm.id_vente_meuble
-join v_client vc on vc.id=vm.id_client
-group by dvm.id_formule_meuble,vc.id_genre
-;
-
 
 select 
 fm.id,fm.id_meuble,fm.id_taille_meuble,coalesce(vve.quantite,0) as  quantite,vve.id_genre
@@ -718,25 +709,8 @@ on vve.id_formule_meuble = fm.id
 ;
 
 
-create or replace view v_map_genre as
-SELECT fm.id as id_formule_meuble,fm.id_taille_meuble,fm.id_meuble, g.id as id_genre,g.nom as genre
-FROM formule_meuble fm
-CROSS JOIN genre g
-;
-
-
 select * from v_vente_enregistre;
 
-
-create or replace view v_total_vente_produit_genre as
-select
-vmg.*,coalesce(vve.quantite,0) as quantite , tm.nom as nom_taille_meuble, m.nom as nom_meuble
-from v_map_genre vmg 
-left join v_vente_enregistre vve 
-on vve.id_formule_meuble = vmg.id_formule_meuble and vve.id_genre=vmg.id_genre
-join taille_meuble tm on tm.id=vmg.id_taille_meuble
-join meuble m on m.id = vmg.id_meuble
-;
 
 
 
@@ -1030,3 +1004,57 @@ LEFT JOIN (
         vc.id_genre
 ) q2 ON q2.id_genre = g.id;
 
+
+
+
+create or replace view v_map_genre as
+SELECT fm.id as id_formule_meuble, g.id as id_genre,g.nom as nom_genre
+FROM formule_meuble fm
+CROSS JOIN genre g
+;
+
+
+-- stat vente par produits
+
+select 
+vmg.*,coalesce(q1.quantite,0) as quantite
+from (select * from v_map_genre where id_formule_meuble=6) as vmg
+left join
+(SELECT
+dvm.id_formule_meuble,sum(dvm.quantite) as quantite,vc.id_genre
+FROM
+detail_vente_meuble dvm
+JOIN vente_meuble vm ON vm.id = dvm.id_vente_meuble
+JOIN v_client vc ON vc.id = vm.id_client
+WHERE
+vm.date_vente >= '2022-02-02 00:00' AND vm.date_vente <= '2024-02-01 00:00'
+group by dvm.id_formule_meuble,vc.id_genre) as q1
+on q1.id_formule_meuble=vmg.id_formule_meuble and q1.id_genre=vmg.id_genre
+;
+
+
+
+SELECT
+vmg.*,
+coalesce(q1.quantite, 0) as quantite,
+CASE
+    WHEN SUM(coalesce(q1.quantite, 0)) OVER (PARTITION BY vmg.id_formule_meuble) = 0 THEN 0
+    ELSE coalesce(q1.quantite, 0) * 100.0 / SUM(coalesce(q1.quantite, 0)) OVER (PARTITION BY vmg.id_formule_meuble)
+END as pourcentage
+FROM
+(SELECT * FROM v_map_genre WHERE id_formule_meuble = 6) as vmg
+LEFT JOIN
+(SELECT
+    dvm.id_formule_meuble,
+    sum(dvm.quantite) as quantite,
+    vc.id_genre
+FROM
+    detail_vente_meuble dvm
+JOIN vente_meuble vm ON vm.id = dvm.id_vente_meuble
+JOIN v_client vc ON vc.id = vm.id_client
+WHERE
+    vm.date_vente >= '2022-02-02 00:00' AND vm.date_vente <= '2024-02-01 00:00'
+GROUP BY
+    dvm.id_formule_meuble, vc.id_genre) as q1
+ON
+q1.id_formule_meuble = vmg.id_formule_meuble AND q1.id_genre = vmg.id_genre;
