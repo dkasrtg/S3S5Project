@@ -16,7 +16,9 @@ import entity.meuble.VFormuleMeuble;
 import entity.meuble.VMeubleRestant;
 import entity.meuble.VVenteMeuble;
 import entity.meuble.VenteMeuble;
+import exception.AtLeastOneException;
 import exception.QuantiteInsufficientForVenteException;
+import exception.QuantiteNegatifZeroException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -67,6 +69,9 @@ public class VenteMeubleServlet extends HttpServlet {
             Integer idClient = Integer.parseInt(request.getParameter("id_client"));
             String[] idFormuleMeubles = request.getParameterValues("id_formule_meuble[]");
             String[] quantites = request.getParameterValues("quantite[]");
+            if (quantites==null) {
+                throw new AtLeastOneException("Meuble a acheter");
+            }
             connection = PG.getConnection();
             Double prixTotal = 0.0;
             VenteMeuble venteMeuble = new VenteMeuble(null, date, idClient, prixTotal);
@@ -74,8 +79,11 @@ public class VenteMeubleServlet extends HttpServlet {
             for (int i = 0; i < idFormuleMeubles.length; i++) {
                 Integer idFormuleMeuble = Integer.parseInt(idFormuleMeubles[i]);
                 Double quantite = Double.parseDouble(quantites[i]);
-                List<VMeubleRestant> vMeubleRestants = VMeubleRestant.selectByIdFormuleMeuble(connection,
-                        idFormuleMeuble);
+                if (quantite<=0) {
+                    throw new QuantiteNegatifZeroException();
+                }
+                List<VMeubleRestant> vMeubleRestants = VMeubleRestant.selectByIdFormuleMeubleWhereDateMouvementBefore(connection,
+                        idFormuleMeuble,date);
                 for (int j = 0; j < vMeubleRestants.size() && quantite > 0; j++) {
                     Double q = quantite;
                     if (q > vMeubleRestants.get(j).getQuantite()) {

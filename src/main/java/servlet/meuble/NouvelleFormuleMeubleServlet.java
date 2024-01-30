@@ -16,6 +16,7 @@ import entity.meuble.VDetailFormuleMeuble;
 import entity.meuble.VFormuleMeuble;
 import entity.meuble.VMateriauPossibleStyleMeuble;
 import entity.meuble.VMeuble;
+import exception.AtLeastOneException;
 import exception.FormuleMeubleTailleExistException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -76,6 +77,9 @@ public class NouvelleFormuleMeubleServlet extends HttpServlet {
             }
             String[] idMateriau = request.getParameterValues("id_materiau[]");
             String[] quantite = request.getParameterValues("quantite[]");
+            if (idMateriau==null) {
+                throw new AtLeastOneException("Composants");
+            }
             FormuleMeuble formuleMeuble = new FormuleMeuble(null, idMeuble, idTailleMeuble);
             formuleMeuble.insert(connection);
             for (int i = 0; i < quantite.length; i++) {
@@ -87,6 +91,9 @@ public class NouvelleFormuleMeubleServlet extends HttpServlet {
             String[] idNiveau = request.getParameterValues("id_niveau[]");
             String[] nombre = request.getParameterValues("nombre[]");
             String[] duree = request.getParameterValues("duree[]");
+            if (duree==null) {
+                throw new AtLeastOneException("Employes utilises");
+            }
             for (int i = 0; i < duree.length; i++) {
                 DetailEmployeMeuble detailEmployeMeuble = new DetailEmployeMeuble(null, formuleMeuble.getId(),
                         Integer.parseInt(idPoste[i]), Integer.parseInt(idNiveau[i]), Integer.parseInt(nombre[i]),
@@ -105,5 +112,4 @@ public class NouvelleFormuleMeubleServlet extends HttpServlet {
         }
         response.sendRedirect("/nouvelle_formule_meuble?id_meuble=" + idMeuble + "" + error);
     }
-
 }

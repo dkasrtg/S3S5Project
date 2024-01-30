@@ -6,8 +6,8 @@
     "password": "doda"
   },
   "models" : {
-    "packageName" : "entity.meuble",
-    "tables" : ["v_detail_vente_meuble"],
+    "packageName" : "",
+    "tables" : [],
     "outputDirectory" : "D:/Projects/Visual Studio Code/S3-S5Prep/S3S5Project/src/main/java/entity/meuble"
   }
 }

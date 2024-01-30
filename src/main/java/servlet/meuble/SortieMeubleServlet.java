@@ -86,7 +86,7 @@ public class SortieMeubleServlet extends HttpServlet {
             if (idFormuleMeuble == -1) {
                 throw new FormuleMeubleTailleNotExistException();
             }
-            List<VMeubleRestant> vMeubleRestants = VMeubleRestant.selectByIdFormuleMeuble(connection, idFormuleMeuble);
+            List<VMeubleRestant> vMeubleRestants = VMeubleRestant.selectByIdFormuleMeubleWhereDateMouvementBefore(connection, idFormuleMeuble,dateSortie);
             for (int i = 0; i < vMeubleRestants.size() && quantite > 0; i++) {
                 Double q = quantite;
                 if (q > vMeubleRestants.get(i).getQuantite()) {

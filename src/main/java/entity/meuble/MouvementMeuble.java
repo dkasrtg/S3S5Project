@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.genericdao.GenericDAO;
 import com.genericdao.annotation.Column;
@@ -182,6 +183,13 @@ public class MouvementMeuble extends GenericDAO {
             }
         }
         return LocalDateTime.of(1, 1, 1, 0, 0);
+    }
+
+    public static List<MouvementMeuble> selectByIdMouvementMere(Connection connection, Integer idMouvementMere) throws Exception {
+        String query = "select * from mouvement_meuble where id_mouvement_mere = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, idMouvementMere);
+        return MouvementMeuble.selectMultipleByPreparedStatement(MouvementMeuble.class, preparedStatement, connection);
     }
 
 }

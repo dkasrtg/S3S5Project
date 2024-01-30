@@ -117,7 +117,7 @@ public class ResteMeuble {
                 "from\r\n" + //
                 "(select\r\n" + //
                 "mme.id,mme.id_formule_meuble,mme.quantite as qe ,mme.prix_total pte,\r\n" + //
-                "mms.quantite as qs,mms.prix_total as pts\r\n" + //
+                "coalesce(mms.quantite,0) as qs,coalesce(mms.prix_total,0) as pts\r\n" + //
                 "from \r\n" + //
                 "(select * from mouvement_meuble where type_mouvement=1 and date_mouvement <= ? ) as mme\r\n" + //
                 "left join\r\n" + //
@@ -125,9 +125,7 @@ public class ResteMeuble {
                 "on mme.id=mms.id_mouvement_mere) as q1\r\n" + //
                 "group by id,id_formule_meuble,qe,pte ) as q2 ) as q3\r\n" + //
                 "group by id_formule_meuble ) as q4) q3\r\n" + //
-                "on q3.id_formule_meuble=vfm.id\r\n" + //
-                ";\r\n" + //
-                "";
+                "on q3.id_formule_meuble=vfm.id";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setObject(1, date);
         statement.setObject(2, date);

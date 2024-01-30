@@ -69,7 +69,7 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Assigner un materiau a un style</h4>
+                      <h4 class="mt-0 header-title">Associer un materiau a un style</h4>
                       <form action="/materiau_possible_style_meuble" method="post">
                         <div class="row">
                           <div class="col-xl-6">
@@ -187,6 +187,7 @@
         <%@ include file="/statics/footer.jsp"%>
       </div>
     </div>
+    <script src="/js/error.js"></script>
     <script src="/template/assets/js/jquery.min.js"></script>
     <script src="/template/assets/js/popper.min.js"></script>
     <script src="/template/assets/js/bootstrap.min.js"></script>

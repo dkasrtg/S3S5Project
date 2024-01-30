@@ -60,14 +60,22 @@ public class UtilisationEmployeFabricationServlet extends HttpServlet {
             connection = PG.getConnection();
             RoleEmploye roleEmploye = RoleEmploye.selectById(RoleEmploye.class, connection, idRoleEmploye);
             Double salaireTotal = dureeUtilisation * roleEmploye.getTauxHoraire();
-            UtilisationEmploye utilisationEmploye = new UtilisationEmploye(null, idMouvementMeuble, dateDebut, dateFin, idRoleEmploye,
+            UtilisationEmploye utilisationEmploye = new UtilisationEmploye(null, idMouvementMeuble, dateDebut, dateFin,
+                    idRoleEmploye,
                     dureeUtilisation, salaireTotal, description);
-            MouvementMeuble mouvementMeuble = MouvementMeuble.selectById(MouvementMeuble.class, connection, idMouvementMeuble);
-            mouvementMeuble.setTotalSalaires(mouvementMeuble.getTotalSalaires()+salaireTotal);
-            mouvementMeuble.setPrixTotal(mouvementMeuble.getPrixTotal()+salaireTotal);
-            mouvementMeuble.setPrixUnitaire(mouvementMeuble.getPrixTotal()/mouvementMeuble.getQuantite());
+            MouvementMeuble mouvementMeuble = MouvementMeuble.selectById(MouvementMeuble.class, connection,
+                    idMouvementMeuble);
+            mouvementMeuble.setTotalSalaires(mouvementMeuble.getTotalSalaires() + salaireTotal);
+            mouvementMeuble.setPrixTotal(mouvementMeuble.getPrixTotal() + salaireTotal);
+            mouvementMeuble.setPrixUnitaire(mouvementMeuble.getPrixTotal() / mouvementMeuble.getQuantite());
             utilisationEmploye.insert(connection);
             mouvementMeuble.update(connection);
+            List<MouvementMeuble> sortiesLies = MouvementMeuble.selectByIdMouvementMere(connection, idMouvementMeuble);
+            for (MouvementMeuble sortieLies : sortiesLies) {
+                sortieLies.setPrixUnitaire(mouvementMeuble.getPrixUnitaire());
+                sortieLies.setPrixTotal(sortieLies.getQuantite()*sortieLies.getPrixUnitaire());
+                sortieLies.update(connection);
+            }
             connection.commit();
         } catch (Exception e) {
             e.printStackTrace();

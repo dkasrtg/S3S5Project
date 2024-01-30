@@ -903,7 +903,7 @@ id,id_formule_meuble,qe,pte,sum(qs) as qs,sum(pts) as pts
 from
 (select
 mme.id,mme.id_formule_meuble,mme.quantite as qe ,mme.prix_total pte,
-mms.quantite as qs,mms.prix_total as pts
+coalesce(mms.quantite,0) as qs,coalesce(mms.prix_total,0) as pts
 from 
 (select * from mouvement_meuble where type_mouvement=1 and date_mouvement <= '2024-02-01 00:00') as mme
 left join
@@ -1058,3 +1058,26 @@ GROUP BY
     dvm.id_formule_meuble, vc.id_genre) as q1
 ON
 q1.id_formule_meuble = vmg.id_formule_meuble AND q1.id_genre = vmg.id_genre;
+
+
+
+SELECT
+total_quantite,
+id_genre,
+nom_genre,
+CASE
+    WHEN SUM(total_quantite) OVER () = 0 THEN 0
+    ELSE total_quantite * 100.0 / SUM(total_quantite) OVER ()
+END as pourcentage
+FROM
+(SELECT
+    sum(dvm.quantite) as total_quantite,
+    vc.id_genre,vc.genre as nom_genre
+FROM
+    detail_vente_meuble dvm
+JOIN vente_meuble vm ON vm.id = dvm.id_vente_meuble
+JOIN v_client vc ON vc.id = vm.id_client
+WHERE
+    vm.date_vente >= '2022-02-02 00:00' AND vm.date_vente <= '2024-02-01 00:00'
+GROUP BY
+    vc.id_genre,vc.genre) as q1;

@@ -10,6 +10,7 @@ import entity.materiau.VMateriau;
 import entity.meuble.MateriauPossibleStyleMeuble;
 import entity.meuble.StyleMeuble;
 import entity.meuble.VMateriauPossibleStyleMeuble;
+import exception.MateriauDejaAssocieStyleException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -59,9 +60,12 @@ public class MateriauPossibleStyleMeubleServlet extends HttpServlet {
         try {
             Integer idMateriau = Integer.parseInt(request.getParameter("id_materiau"));
             Integer idStyleMeuble = Integer.parseInt(request.getParameter("id_style_meuble"));
+            connection = PG.getConnection();
+            if (MateriauPossibleStyleMeuble.seelctByIdMateriauAndIdStyleMeuble(connection, idMateriau, idStyleMeuble)!=null) {
+                throw new MateriauDejaAssocieStyleException();
+            }
             MateriauPossibleStyleMeuble materiauPossibleStyleMeuble = new MateriauPossibleStyleMeuble(null,
                     idStyleMeuble, idMateriau);
-            connection = PG.getConnection();
             materiauPossibleStyleMeuble.insert(connection);
             connection.commit();
         } catch (Exception e) {

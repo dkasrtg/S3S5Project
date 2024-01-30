@@ -81,11 +81,12 @@ public class VMeubleRestant extends GenericDAO {
         return quantite;
     }
 
-    public static List<VMeubleRestant> selectByIdFormuleMeuble(Connection connection, Integer idFormuleMeuble)
+    public static List<VMeubleRestant> selectByIdFormuleMeubleWhereDateMouvementBefore(Connection connection, Integer idFormuleMeuble,LocalDateTime localDateTime)
             throws Exception {
-        String query = "SELECT * FROM v_meuble_restant WHERE id_formule_meuble = ?";
+        String query = "SELECT * FROM v_meuble_restant WHERE id_formule_meuble = ? and date_mouvement < ?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, idFormuleMeuble);
+        statement.setObject(2, localDateTime);
         return VMeubleRestant.selectMultipleByPreparedStatement(VMeubleRestant.class, statement, connection);
     }
 
