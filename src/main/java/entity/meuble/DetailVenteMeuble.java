@@ -40,8 +40,7 @@ public class DetailVenteMeuble extends GenericDAO {
 		setIdFormuleMeuble(idFormuleMeuble);
 		setQuantite(quantite);
 		setPrixUnitaire(prixUnitaire);
-		setPrixTotal(prixTotal);
-		
+		setPrixTotal(prixTotal);		
     }
 
     public void setId(Integer id) {

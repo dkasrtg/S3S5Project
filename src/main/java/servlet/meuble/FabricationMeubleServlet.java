@@ -13,7 +13,6 @@ import entity.materiau.VMateriauRestant;
 import entity.meuble.FormuleMeuble;
 import entity.meuble.MouvementMeuble;
 import entity.meuble.TailleMeuble;
-import entity.meuble.VDetailEmployeMeuble;
 import entity.meuble.VDetailFormuleMeuble;
 import entity.meuble.VMeuble;
 import entity.meuble.VMouvementMeuble;

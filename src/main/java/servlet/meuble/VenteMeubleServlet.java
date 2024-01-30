@@ -10,9 +10,13 @@ import java.util.List;
 import database.PG;
 import entity.client.Client;
 import entity.meuble.DetailVenteMeuble;
-import entity.meuble.VFormuleMeubleComplet;
+import entity.meuble.MouvementMeuble;
+import entity.meuble.PrixDeVenteMeuble;
+import entity.meuble.VFormuleMeuble;
+import entity.meuble.VMeubleRestant;
 import entity.meuble.VVenteMeuble;
 import entity.meuble.VenteMeuble;
+import exception.QuantiteInsufficientForVenteException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -35,14 +39,14 @@ public class VenteMeubleServlet extends HttpServlet {
             }
             connection = PG.getConnection();
             List<Client> clients = Client.selectAll(Client.class, "", connection);
-            List<VFormuleMeubleComplet> vFormuleMeubleComplets = VFormuleMeubleComplet
-                    .selectAll(VFormuleMeubleComplet.class, "", connection);
-            List<VVenteMeuble> vVenteMeubles = VVenteMeuble.selectAll(VVenteMeuble.class, "", connection);
+            List<VFormuleMeuble> vFormuleMeubles = VFormuleMeuble.selectAll(VFormuleMeuble.class, getServletInfo(),
+                    connection);
+            List<VVenteMeuble> vVenteMeubles = VVenteMeuble.selectByDate(connection, dateDebut, dateFin);
             request.setAttribute("vVenteMeubles", vVenteMeubles);
             request.setAttribute("clients", clients);
             request.setAttribute("dateDebut", dateDebut);
             request.setAttribute("dateFin", dateFin);
-            request.setAttribute("vFormuleMeubleComplets", vFormuleMeubleComplets);
+            request.setAttribute("vFormuleMeubleComplets", vFormuleMeubles);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -64,15 +68,43 @@ public class VenteMeubleServlet extends HttpServlet {
             String[] idFormuleMeubles = request.getParameterValues("id_formule_meuble[]");
             String[] quantites = request.getParameterValues("quantite[]");
             connection = PG.getConnection();
-            VenteMeuble venteMeuble = new VenteMeuble(null, date, idClient, 0.0);
+            Double prixTotal = 0.0;
+            VenteMeuble venteMeuble = new VenteMeuble(null, date, idClient, prixTotal);
             venteMeuble.insert(connection);
             for (int i = 0; i < idFormuleMeubles.length; i++) {
                 Integer idFormuleMeuble = Integer.parseInt(idFormuleMeubles[i]);
                 Double quantite = Double.parseDouble(quantites[i]);
+                List<VMeubleRestant> vMeubleRestants = VMeubleRestant.selectByIdFormuleMeuble(connection,
+                        idFormuleMeuble);
+                for (int j = 0; j < vMeubleRestants.size() && quantite > 0; j++) {
+                    Double q = quantite;
+                    if (q > vMeubleRestants.get(j).getQuantite()) {
+                        q = vMeubleRestants.get(j).getQuantite();
+                    }
+                    quantite = quantite - q;
+                    MouvementMeuble mouvementMeuble = new MouvementMeuble(null, date, idFormuleMeuble,
+                            q, MouvementMeuble.SORTIE, vMeubleRestants.get(i).getId(), -1.0, -1.0,
+                            q * vMeubleRestants.get(j).getPrixUnitaire(), vMeubleRestants.get(j).getPrixUnitaire(), -1,
+                            "Vente de meuble");
+                    mouvementMeuble.insert(connection);
+                }
+                if (quantite != 0) {
+                    VFormuleMeuble vFormuleMeuble = VFormuleMeuble.selectById(VFormuleMeuble.class, connection,
+                            idFormuleMeuble);
+                    throw new QuantiteInsufficientForVenteException(
+                            vFormuleMeuble.getNomMeuble() + " - " + vFormuleMeuble.getNomTailleMeuble(), quantite);
+                }
+                LocalDateTime dateFin = LocalDateTime.of(9999, 12, 31, 23, 59);
+                PrixDeVenteMeuble prixDeVenteMeuble = PrixDeVenteMeuble.selectByIdFormuleMeubleAndDateFin(connection,
+                        idFormuleMeuble, dateFin);
+                quantite = Double.parseDouble(quantites[i]);
                 DetailVenteMeuble detailVenteMeuble = new DetailVenteMeuble(null, venteMeuble.getId(), idFormuleMeuble,
-                        quantite, 0.0, 0.0);
+                        quantite, prixDeVenteMeuble.getValeur(), prixDeVenteMeuble.getValeur() * quantite);
                 detailVenteMeuble.insert(connection);
+                prixTotal += detailVenteMeuble.getPrixTotal();
             }
+            venteMeuble.setPrixTotal(prixTotal);
+            venteMeuble.update(connection);
             connection.commit();
         } catch (Exception e) {
             e.printStackTrace();

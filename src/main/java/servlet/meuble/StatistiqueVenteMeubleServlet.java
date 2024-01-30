@@ -2,12 +2,14 @@ package servlet.meuble;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import database.PG;
-import entity.meuble.VFormuleMeubleComplet;
+import entity.meuble.VFormuleMeuble;
 import entity.meuble.VTotalVenteProduitGenre;
-import entity.meuble.VVenteGlobalGenre;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,21 +22,20 @@ public class StatistiqueVenteMeubleServlet extends HttpServlet {
             throws ServletException, IOException {
         Connection connection = null;
         try {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime dateDebut = LocalDateTime.of(LocalDate.of(now.getYear(), now.getMonth(), 1),
+                    LocalTime.MIDNIGHT);
+            LocalDateTime dateFin = now;
+            if (request.getParameter("date_debut") != null && request.getParameter("date_fin") != null) {
+                dateDebut = LocalDateTime.parse(request.getParameter("date_debut"));
+                dateFin = LocalDateTime.parse(request.getParameter("date_fin"));
+            }
             connection = PG.getConnection();
-            List<VVenteGlobalGenre> vVenteGlobalGenres = VVenteGlobalGenre.selectAll(VVenteGlobalGenre.class, "",
-                    connection);
-            Double sum = 0.0;
-            for (VVenteGlobalGenre vVenteGlobalGenre : vVenteGlobalGenres) {
-                sum += vVenteGlobalGenre.getQuantite();
-            }
-            for (VVenteGlobalGenre vVenteGlobalGenre : vVenteGlobalGenres) {
-                vVenteGlobalGenre.setQuantite(vVenteGlobalGenre.getQuantite() * 100 / sum);
-            }
-            List<VFormuleMeubleComplet> vFormuleMeubleComplets = VFormuleMeubleComplet
-                    .selectAll(VFormuleMeubleComplet.class, "", connection);
-            for (VFormuleMeubleComplet vFormuleMeubleComplet : vFormuleMeubleComplets) {
+            List<VenteGlobalParGenre> venteGlobalParGenres = VenteGlobalParGenre.selectByDate(connection, dateDebut, dateFin);
+            List<VFormuleMeuble> vFormuleMeubles = VFormuleMeuble.selectAll(VFormuleMeuble.class, "", connection);
+            for (VFormuleMeuble vFormuleMeuble : vFormuleMeubles) {
                 List<VTotalVenteProduitGenre> vTotalVenteProduitGenres = VTotalVenteProduitGenre
-                        .selectByIdFormuleMeuble(connection, vFormuleMeubleComplet.getId());
+                        .selectByIdFormuleMeuble(connection, vFormuleMeuble.getId());
                 Double sum2 = 0.0;
                 for (VTotalVenteProduitGenre vTotalVenteProduitGenre : vTotalVenteProduitGenres) {
                     sum2 += vTotalVenteProduitGenre.getQuantite();
@@ -47,10 +48,12 @@ public class StatistiqueVenteMeubleServlet extends HttpServlet {
                     }
 
                 }
-                vFormuleMeubleComplet.setvTotalVenteProduitGenres(vTotalVenteProduitGenres);
+                vFormuleMeuble.setvTotalVenteProduitGenres(vTotalVenteProduitGenres);
             }
-            request.setAttribute("vVenteGlobalGenres", vVenteGlobalGenres);
-            request.setAttribute("vFormuleMeubleComplets", vFormuleMeubleComplets);
+            request.setAttribute("dateDebut", dateDebut);
+            request.setAttribute("dateFin", dateFin);
+            request.setAttribute("venteGlobalParGenres", venteGlobalParGenres);
+            request.setAttribute("vFormuleMeubleComplets", vFormuleMeubles);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

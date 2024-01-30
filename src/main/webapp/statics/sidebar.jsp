@@ -8,7 +8,7 @@
   <div class="topbar-left">
     <div class="text-center bg-logo">
       <a href="#" class="logo"
-        ><i class="mdi mdi-bowling text-success"></i> Project</a
+        ><i class="mdi mdi-bowling text-success"></i> Meuble</a
       >
     </div>
   </div>
@@ -148,6 +148,28 @@
           ></a>
         </li>
         <li>
+          <a href="/sortie_meuble" class="waves-effect"
+            ><i class="fas fa-arrow-alt-circle-up"></i>
+            <span
+              >Sortie meuble
+              <span class="badge badge-pill badge-primary float-right"
+                ></span
+              ></span
+            ></a
+          >
+        </li>
+        <li>
+          <a href="/reste_meuble" class="waves-effect"
+            ><i class="fas fa-check-circle"></i>
+            <span
+              >Reste meuble
+              <span class="badge badge-pill badge-primary float-right"
+                ></span
+              ></span
+            ></a
+          >
+        </li>
+        <li>
           <a href="/prix_de_vente_meuble" class="waves-effect"
             ><i class="fas fa-tag"></i>
             <span
@@ -167,28 +189,6 @@
               ></span></span
           ></a>
         </li>
-        <!-- <li>
-            <a href="/sortie_meuble" class="waves-effect"
-              ><i class="fas fa-arrow-alt-circle-up"></i>
-              <span
-                >Sortie meuble
-                <span class="badge badge-pill badge-primary float-right"
-                  ></span
-                ></span
-              ></a
-            >
-          </li>
-          <li>
-            <a href="/suggestion_production_meuble" class="waves-effect"
-              ><i class="fas fa-question-circle"></i>
-              <span
-                >Suggestion production
-                <span class="badge badge-pill badge-primary float-right"
-                  ></span
-                ></span
-              ></a
-            >
-          </li> -->
         <li>
           <a href="/vente_meuble" class="waves-effect"
             ><i class="fas fa-shopping-cart"></i>

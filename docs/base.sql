@@ -472,7 +472,6 @@ from detail_formule_meuble dfm
 join materiau m on m.id=dfm.id_materiau
 ;
 
-
 -- reste total materiau
 
 select v_materiau.id,v_materiau.nom,v_materiau.id_type_materiau,v_materiau.nom_type_materiau,
@@ -557,11 +556,12 @@ on e.id=ue.id_employe
 ;
 
 create or replace view v_formule_meuble as
-select fm.id,fm.id_meuble,fm.id_taille_meuble,tm.nom as nom_taille_meuble
+select fm.id,fm.id_meuble,fm.id_taille_meuble,tm.nom as nom_taille_meuble,m.nom as nom_meuble
 from
 formule_meuble fm
 join taille_meuble tm
 on tm.id=fm.id_taille_meuble
+join meuble m on m.id=fm.id_meuble
 ;
 
 create or replace view v_detail_employe_meuble as
@@ -575,7 +575,8 @@ join niveau n on n.id=dem.id_niveau
 
 create or replace view v_meuble_restant as
 select * from (
-select id,date_mouvement,id_formule_meuble,prix_unitaire,sum(q_e-q_s) as quantite from
+select id,date_mouvement,id_formule_meuble,prix_unitaire,q_e-tqs as quantite from (
+select id,date_mouvement,id_formule_meuble,prix_unitaire,q_e,sum(q_s) as tqs from
 (select
 mme.id,mme.date_mouvement,mme.id_formule_meuble,mme.q_e,mme.prix_unitaire,coalesce(mms.q_s,0) as q_s
 from 
@@ -583,9 +584,9 @@ from
 left join
 (select quantite as q_s,id_mouvement_mere from mouvement_meuble where type_mouvement=-1) as mms
 on mme.id=mms.id_mouvement_mere) as q1
-group by id,date_mouvement,id_formule_meuble,prix_unitaire
+group by id,date_mouvement,id_formule_meuble,prix_unitaire,q_e
 order by date_mouvement asc ) as q2
-where quantite>0
+) as q3 where quantite >0
 ;
 
 
@@ -681,15 +682,17 @@ from vente_meuble vm join client c on c.id=vm.id_client;
 
 
 create or replace view v_vente_global_genre as
-select q2.*,g.nom as genre from (
-select id_genre,sum(quantite) as quantite from 
+select g.*,coalesce(quantite,0) as quantite from 
+genre g 
+left join 
+(select id_genre,sum(quantite) as quantite from 
 (select 
 dvm.id_formule_meuble, dvm.quantite,vc.id_genre
 from detail_vente_meuble dvm
 join vente_meuble vm on vm.id = dvm.id_vente_meuble
 join v_client vc on vc.id=vm.id_client) as q1
 group by id_genre ) as q2
-join genre g on g.id = q2.id_genre
+on g.id = q2.id_genre
 ;
 
 
@@ -707,14 +710,12 @@ group by dvm.id_formule_meuble,vc.id_genre
 ;
 
 
-
 select 
 fm.id,fm.id_meuble,fm.id_taille_meuble,coalesce(vve.quantite,0) as  quantite,vve.id_genre
 from formule_meuble fm 
 left join v_vente_enregistre vve
 on vve.id_formule_meuble = fm.id
 ;
-
 
 
 create or replace view v_map_genre as
@@ -904,3 +905,128 @@ select * from multiplication_salarial_employe where date_fin = '9999-12-31 23:59
 select id_poste,nom_poste,date_debut,valeur from v_base_taux_horaire where date_fin = '9999-12-31 23:59';
 
 select * from niveau order by ordre asc;
+
+
+
+select
+vfm.*,
+coalesce(q3.quantite_restant,0) as quantite_restant,
+coalesce(q3.prix_total,0) as prix_total,
+coalesce(q3.prix_unitaire_moyen,0) as prix_unitaire_moyen 
+from v_formule_meuble vfm
+left join
+(select
+id_formule_meuble,qr as quantite_restant,ptr as prix_total,ptr/qr as prix_unitaire_moyen
+from
+(select
+id_formule_meuble,sum(qr) as qr,sum(ptr) as ptr
+from
+(select
+id,id_formule_meuble,qe-qs as qr,pte-pts as ptr
+from
+(select
+id,id_formule_meuble,qe,pte,sum(qs) as qs,sum(pts) as pts
+from
+(select
+mme.id,mme.id_formule_meuble,mme.quantite as qe ,mme.prix_total pte,
+mms.quantite as qs,mms.prix_total as pts
+from 
+(select * from mouvement_meuble where type_mouvement=1 and date_mouvement <= '2024-02-01 00:00') as mme
+left join
+(select * from mouvement_meuble where type_mouvement=-1 and date_mouvement <= '2024-02-01 00:00') as mms
+on mme.id=mms.id_mouvement_mere) as q1
+group by id,id_formule_meuble,qe,pte ) as q2 ) as q3
+group by id_formule_meuble ) as q4) q3
+on q3.id_formule_meuble=vfm.id
+;
+
+
+select
+id_formule_meuble,qr as quantite_restant,ptr as prix_total,ptr/qr as prix_unitaire_moyen
+from
+(select
+id_formule_meuble,sum(qr) as qr,sum(ptr) as ptr
+from
+(select
+id,id_formule_meuble,qe-qs as qr,pte-pts as ptr
+from
+(select
+id,id_formule_meuble,qe,pte,sum(qs) as qs,sum(pts) as pts
+from
+(select
+mme.id,mme.id_formule_meuble,mme.quantite as qe ,mme.prix_total pte,
+mms.quantite as qs,mms.prix_total as pts
+from 
+(select * from mouvement_meuble where type_mouvement=1 and date_mouvement <= '2024-02-01 00:00') as mme
+left join
+(select * from mouvement_meuble where type_mouvement=-1 and date_mouvement <= '2024-02-01 00:00') as mms
+on mme.id=mms.id_mouvement_mere) as q1
+group by id,id_formule_meuble,qe,pte ) as q2 ) as q3
+group by id_formule_meuble ) as q4
+
+
+create or replace view v_detail_vente_meuble as
+select
+dvm.*,vfm.id_meuble,vfm.id_taille_meuble,vfm.nom_meuble,vfm.nom_taille_meuble
+from detail_vente_meuble dvm
+join v_formule_meuble vfm
+on vfm.id=dvm.id_formule_meuble
+;
+
+-- stat vente
+
+
+select
+g.id as id_genre,g.nom as nom_genre,
+coalesce(q1.quantite,0) as quantite
+from
+genre g
+left join
+(SELECT
+sum(dvm.quantite) as quantite,
+vc.id_genre
+FROM
+detail_vente_meuble dvm
+JOIN vente_meuble vm ON vm.id = dvm.id_vente_meuble
+JOIN v_client vc ON vc.id = vm.id_client
+where vm.date_vente>='2022-02-02 00:00' and vm.date_vente<='2024-02-01 00:00'
+group by vc.id_genre) q1
+on q1.id_genre=g.id
+;
+
+
+
+SELECT
+    g.id as id_genre,
+    g.nom as nom_genre,
+    COALESCE(q1.quantite, 0) as quantite,
+    COALESCE(q1.quantite / NULLIF(q2.total_quantite, 0) * 100, 0) as pourcentage
+FROM
+    genre g
+LEFT JOIN (
+    SELECT
+        sum(dvm.quantite) as quantite,
+        vc.id_genre
+    FROM
+        detail_vente_meuble dvm
+    JOIN vente_meuble vm ON vm.id = dvm.id_vente_meuble
+    JOIN v_client vc ON vc.id = vm.id_client
+    WHERE
+        vm.date_vente >= '2022-02-02 00:00' AND vm.date_vente <= '2024-02-01 00:00'
+    GROUP BY
+        vc.id_genre
+) q1 ON q1.id_genre = g.id
+LEFT JOIN (
+    SELECT
+        sum(dvm.quantite) as total_quantite,
+        vc.id_genre
+    FROM
+        detail_vente_meuble dvm
+    JOIN vente_meuble vm ON vm.id = dvm.id_vente_meuble
+    JOIN v_client vc ON vc.id = vm.id_client
+    WHERE
+        vm.date_vente >= '2022-02-02 00:00' AND vm.date_vente <= '2024-02-01 00:00'
+    GROUP BY
+        vc.id_genre
+) q2 ON q2.id_genre = g.id;
+

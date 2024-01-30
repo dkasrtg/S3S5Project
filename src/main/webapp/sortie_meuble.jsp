@@ -1,17 +1,5 @@
+<!-- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> -->
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.meuble.*" %>
-<%@ page import="entity.materiau.*" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.time.LocalDateTime" %>
-<%@ page import="java.text.DecimalFormat" %>
-<%
-List<TailleMeuble> tailleMeuble = (List<TailleMeuble>) request.getAttribute("tailleMeuble");
-List<VMeuble> vMeuble = (List<VMeuble>) request.getAttribute("vMeuble");
-LocalDateTime dateDebut = (LocalDateTime) request.getAttribute("dateDebut");
-LocalDateTime dateFin = (LocalDateTime) request.getAttribute("dateFin");
-DecimalFormat df = new DecimalFormat("0");
-List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAttribute("vMouvementMeuble");
-%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -90,13 +78,9 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                                 >
                                 <div class="col-sm-10">
                                   <select class="form-control" name="id_meuble">
-                                      <%
-                                      for (VMeuble v : vMeuble){
-                                        %>
-                                        <option value="<%= v.getId() %>"><%= v.getNom() %></option>
-                                        <%
-                                      }
-                                      %>
+                                      <c:forEach var="c" items="${vMeubles}">
+                                        <option value="${c.id}">${c.nom}</option>
+                                      </c:forEach>
                                   </select>
                                 </div>
                               </div>  
@@ -106,13 +90,9 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                                 >
                                 <div class="col-sm-10">
                                   <select class="form-control" name="id_taille_meuble">
-                                    <%
-                                    for(TailleMeuble t : tailleMeuble){
-                                      %>
-                                      <option value="<%= t.getId() %>"><%= t.getNom() %></option>
-                                      <%
-                                    }
-                                    %>
+                                    <c:forEach var="c" items="${tailleMeubles}">
+                                        <option value="${c.id}">${c.nom}</option>
+                                      </c:forEach>
                                   </select>
                                 </div>
                               </div>
@@ -159,7 +139,7 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                                     class="form-control"
                                     type="datetime-local"
                                     id="example-text-input"
-                                    name="date"
+                                    name="date_sortie"
                                   />
                                 </div>
                               </div>
@@ -232,7 +212,7 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                           </div>
                         </div>
                       </form>
-                      <h4 class="mt-0 header-title">Sortie de meubles du <%= dateDebut %> au <%= dateFin %></h4>
+                      <h4 class="mt-0 header-title">Sortie de meubles du ${dateDebut} au ${dateFin}</h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive"
@@ -242,40 +222,38 @@ List<VMouvementMeuble> vMouvementMeuble = (List<VMouvementMeuble>) request.getAt
                           width: 100%;
                         "
                       >
-                        <thead>
-                          <tr>
-                            <th>Id</th>
-                            <th>Date</th>
-                            <th>Meuble</th>
-                            <th>Taille</th>
-                            <th>Categorie</th>
-                            <th>Style</th>
-                            <th>Quantite</th>
-                            <th>Prix total</th>
-                            <th>Prix unitaire</th>
-                            <th>Description</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <%
-                          for(VMouvementMeuble v : vMouvementMeuble){
-                            %>
+                      <thead>
+                        <tr>
+                          <th>Id</th>
+                          <th>IdMouvementMere</th>
+                          <th>Date</th>
+                          <th>Description</th>
+                          <th>Meuble</th>
+                          <th>Taille</th>
+                          <th>Categorie</th>
+                          <th>Style</th>
+                          <th>Quantite</th>
+                          <th>Prix unitaire</th>
+                          <th>Prix total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <c:forEach var="v" items="${vMouvementMeubles}">
                             <tr>
-                              <td><%= v.getId() %></td>
-                              <td><%= v.getDateMouvement() %></td>
-                              <td><%= v.getNomMeuble() %></td>
-                              <td><%= v.getNomTailleMeuble() %></td>
-                              <td><%= v.getNomCategorieMeuble() %></td>
-                              <td><%= v.getNomStyleMeuble() %></td>
-                              <td><%= v.getQuantite() %></td>
-                              <td><%= df.format(v.getPrixTotal()) %></td>
-                              <td><%= df.format(v.getPrixUnitaire()) %></td>
-                              <td><%= v.getDescription() %></td>
+                                <td>${v.id}</td>
+                                <td>${v.idMouvementMere}</td>
+                                <td>${v.dateMouvement}</td>
+                                <td>${v.description}</td>
+                                <td>${v.nomMeuble}</td>
+                                <td>${v.nomTailleMeuble}</td>
+                                <td>${v.nomCategorieMeuble}</td>
+                                <td>${v.nomStyleMeuble}</td>
+                                <td>${v.quantite}</td>
+                                <td>${v.prixUnitaire}</td>
+                                <td>${v.prixTotal}</td>
                             </tr>
-                            <%
-                          }
-                          %>
-                        </tbody>
+                        </c:forEach>
+                      </tbody>
                       </table>
                     </div>
                   </div>

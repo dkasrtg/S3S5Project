@@ -1,17 +1,5 @@
 <!-- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> -->
 <%@ page isErrorPage="true" %>
-<%@ page import="entity.meuble.*" %>
-<%@ page import="entity.materiau.*" %>
-<%@ page import="entity.client.*" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.time.LocalDateTime" %>
-<%@ page import="java.text.DecimalFormat" %>
-<%
-LocalDateTime dateDebut = (LocalDateTime) request.getAttribute("dateDebut");
-LocalDateTime dateFin = (LocalDateTime) request.getAttribute("dateFin");
-DecimalFormat df = new DecimalFormat("0");
-List<Client> clients = (List<Client>) request.getAttribute("clients");
-%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -90,13 +78,9 @@ List<Client> clients = (List<Client>) request.getAttribute("clients");
                               >
                               <div class="col-sm-10">
                                 <select class="form-control" name="id_client">
-                                  <% 
-                                  for(Client c: clients){
-                                    %>
-                                    <option value="<%= c.getId() %>"><%= c.getNom() %></option>
-                                    <%
-                                  }
-                                  %>
+                                  <c:forEach var="c" items="${clients}">
+                                    <option value="${c.id}">${c.nom} ${c.prenom}</option>
+                                  </c:forEach>
                                 </select>
                               </div>
                             </div>
@@ -153,7 +137,7 @@ List<Client> clients = (List<Client>) request.getAttribute("clients");
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <!-- <form action="/vente_meuble" method="get">
+                      <form action="/vente_meuble" method="get">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -201,8 +185,8 @@ List<Client> clients = (List<Client>) request.getAttribute("clients");
                             </div>
                           </div>
                         </div>
-                      </form> -->
-                      <h4 class="mt-0 header-title">Vente de meubles </h4>
+                      </form>
+                      <h4 class="mt-0 header-title">Vente de meubles du ${dateDebut} au ${dateFin}</h4>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive "
@@ -218,6 +202,7 @@ List<Client> clients = (List<Client>) request.getAttribute("clients");
                             <th>Date</th>
                             <th>Client</th>
                             <th>Total</th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -227,6 +212,14 @@ List<Client> clients = (List<Client>) request.getAttribute("clients");
                                 <td>${c.dateVente}</td>
                                 <td>${c.nomClient}</td>
                                 <td>${c.prixTotal}</td>
+                                <td>
+                                  <form action="/detail_vente_meuble" method="get">
+                                    <input type="hidden" name="id_vente_meuble" value="${c.id}">
+                                    <button type="submit" class="btn btn-primary">
+                                      <i class="fas fa-info-circle"></i>
+                                    </button>
+                                  </form>
+                                </td>
                               </tr>
                           </c:forEach>
                         </tbody>
