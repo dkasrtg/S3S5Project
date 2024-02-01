@@ -69,7 +69,7 @@ public class VenteMeubleServlet extends HttpServlet {
             Integer idClient = Integer.parseInt(request.getParameter("id_client"));
             String[] idFormuleMeubles = request.getParameterValues("id_formule_meuble[]");
             String[] quantites = request.getParameterValues("quantite[]");
-            if (quantites==null) {
+            if (quantites==null || idFormuleMeubles==null) {
                 throw new AtLeastOneException("Meuble a acheter");
             }
             connection = PG.getConnection();

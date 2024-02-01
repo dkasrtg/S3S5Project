@@ -4,6 +4,8 @@ package entity.client;
 import com.genericdao.*;
 import com.genericdao.annotation.*;
 
+import exception.DateAfterNowException;
+
 import java.time.LocalDateTime;
 
 
@@ -35,7 +37,7 @@ public class Client extends GenericDAO {
 
     }
 
-    public Client(Integer id, String nom, String prenom, String telephone, Integer idGenre, LocalDateTime dateEntree) {
+    public Client(Integer id, String nom, String prenom, String telephone, Integer idGenre, LocalDateTime dateEntree) throws Exception{
         setId(id);
 		setNom(nom);
 		setPrenom(prenom);
@@ -85,7 +87,10 @@ public class Client extends GenericDAO {
 		return idGenre;
 	}
 
-	public void setDateEntree(LocalDateTime dateEntree) {
+	public void setDateEntree(LocalDateTime dateEntree) throws Exception {
+		if (dateEntree.isAfter(LocalDateTime.now())) {
+			throw new DateAfterNowException();
+		}
 		this.dateEntree = dateEntree;
 	}
 

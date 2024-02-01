@@ -13,6 +13,7 @@ import entity.meuble.PrixDeVenteMeuble;
 import entity.meuble.TailleMeuble;
 import entity.meuble.VMeuble;
 import entity.meuble.VPrixDeVenteMeuble;
+import exception.DateDebutBeforeLastDebutException;
 import exception.FormuleMeubleTailleNotExistException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -69,6 +70,9 @@ public class PrixDeVenteMeubleServlet extends HttpServlet {
             PrixDeVenteMeuble lastPrixDeVenteMeuble = PrixDeVenteMeuble.selectByIdFormuleMeubleAndDateFin(connection,
                     idFormuleMeuble, lastDateTime);
             if (lastPrixDeVenteMeuble != null) {
+                if (date.compareTo(lastPrixDeVenteMeuble.getDateDebut()) <= 0) {
+                    throw new DateDebutBeforeLastDebutException();
+                }
                 lastPrixDeVenteMeuble.setDateFin(date);
                 lastPrixDeVenteMeuble.update(connection);
             }

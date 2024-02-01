@@ -10,6 +10,7 @@ import entity.employe.MonteeNiveauEmploye;
 import entity.employe.Niveau;
 import entity.employe.Poste;
 import entity.employe.VMonteeNiveauEmploye;
+import exception.DateDebutBeforeLastDebutException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,13 +24,14 @@ public class MonteeNiveauEmployeServlet extends HttpServlet {
         Connection connection = null;
         try {
             LocalDateTime localDateTime = LocalDateTime.now();
-            if (request.getParameter("date")!=null) {
+            if (request.getParameter("date") != null) {
                 localDateTime = LocalDateTime.parse(request.getParameter("date"));
             }
             connection = PG.getConnection();
             List<Niveau> niveaus = Niveau.selectAll(Niveau.class, "", connection);
             List<Poste> postes = Poste.selectAll(Poste.class, "", connection);
-            List<VMonteeNiveauEmploye> vMonteeNiveauEmployes = VMonteeNiveauEmploye.selectByDateBetween(connection, localDateTime);
+            List<VMonteeNiveauEmploye> vMonteeNiveauEmployes = VMonteeNiveauEmploye.selectByDateBetween(connection,
+                    localDateTime);
             request.setAttribute("niveaus", niveaus);
             request.setAttribute("postes", postes);
             request.setAttribute("date", localDateTime);
@@ -57,12 +59,18 @@ public class MonteeNiveauEmployeServlet extends HttpServlet {
             LocalDateTime dateDebut = LocalDateTime.parse(request.getParameter("date_debut"));
             LocalDateTime dateFin = LocalDateTime.of(9999, 12, 31, 23, 59);
             connection = PG.getConnection();
-            MonteeNiveauEmploye lastMonteeNiveauEmploye = MonteeNiveauEmploye.selectByIdPosteNiveauDepartNiveauArriveDateFin(connection, idPoste, idNiveauDepart, idNiveauArrive, dateFin);
-            if (lastMonteeNiveauEmploye!=null) {
+            MonteeNiveauEmploye lastMonteeNiveauEmploye = MonteeNiveauEmploye
+                    .selectByIdPosteNiveauDepartNiveauArriveDateFin(connection, idPoste, idNiveauDepart, idNiveauArrive,
+                            dateFin);
+            if (lastMonteeNiveauEmploye != null) {
+                if (dateDebut.compareTo(lastMonteeNiveauEmploye.getDateDebut()) <= 0) {
+                    throw new DateDebutBeforeLastDebutException();
+                }
                 lastMonteeNiveauEmploye.setDateFin(dateDebut);
                 lastMonteeNiveauEmploye.update(connection);
             }
-            MonteeNiveauEmploye monteeNiveauEmploye = new MonteeNiveauEmploye(null, idPoste, idNiveauDepart, idNiveauArrive, duree, dateDebut, dateFin);
+            MonteeNiveauEmploye monteeNiveauEmploye = new MonteeNiveauEmploye(null, idPoste, idNiveauDepart,
+                    idNiveauArrive, duree, dateDebut, dateFin);
             monteeNiveauEmploye.insert(connection);
             connection.commit();
         } catch (Exception e) {

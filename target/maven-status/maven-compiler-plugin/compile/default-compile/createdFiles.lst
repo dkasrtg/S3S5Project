@@ -6,7 +6,6 @@ entity\meuble\MouvementMeuble.class
 exception\QuantiteInsufficientException.class
 entity\materiau\MouvementMateriau.class
 servlet\meuble\VenteMeubleServlet.class
-exception\DateBeforeLastException.class
 entity\meuble\VMeuble.class
 servlet\meuble\PrixDeVenteMeubleServlet.class
 database\PG.class

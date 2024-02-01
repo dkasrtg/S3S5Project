@@ -9,6 +9,9 @@ import com.genericdao.annotation.Column;
 import com.genericdao.annotation.Id;
 import com.genericdao.annotation.Table;
 
+import exception.DateAfterNowException;
+import exception.FieldNegatifZeroException;
+
 @Table(name = "base_taux_horaire")
 public class BaseTauxHoraire extends GenericDAO {
 
@@ -32,7 +35,7 @@ public class BaseTauxHoraire extends GenericDAO {
 
 	}
 
-	public BaseTauxHoraire(Integer id, Integer idPoste, LocalDateTime dateDebut, LocalDateTime dateFin, Double valeur) {
+	public BaseTauxHoraire(Integer id, Integer idPoste, LocalDateTime dateDebut, LocalDateTime dateFin, Double valeur) throws Exception {
 		setId(id);
 		setIdPoste(idPoste);
 		setDateDebut(dateDebut);
@@ -57,7 +60,10 @@ public class BaseTauxHoraire extends GenericDAO {
 		return idPoste;
 	}
 
-	public void setDateDebut(LocalDateTime dateDebut) {
+	public void setDateDebut(LocalDateTime dateDebut) throws Exception{
+		if (dateDebut.isAfter(LocalDateTime.now())) {
+			throw new DateAfterNowException();
+		}
 		this.dateDebut = dateDebut;
 	}
 
@@ -73,7 +79,10 @@ public class BaseTauxHoraire extends GenericDAO {
 		return dateFin;
 	}
 
-	public void setValeur(Double valeur) {
+	public void setValeur(Double valeur) throws Exception{
+		if (valeur<=0) {
+			throw new FieldNegatifZeroException("Valeur");
+		}
 		this.valeur = valeur;
 	}
 

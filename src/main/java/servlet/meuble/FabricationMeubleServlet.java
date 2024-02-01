@@ -16,8 +16,7 @@ import entity.meuble.TailleMeuble;
 import entity.meuble.VDetailFormuleMeuble;
 import entity.meuble.VMeuble;
 import entity.meuble.VMouvementMeuble;
-import exception.DateAfterNowException;
-import exception.DateBeforeLastException;
+import exception.OutDateBeforeLastException;
 import exception.FormuleMeubleTailleNotExistException;
 import exception.QuantiteInsufficientForMeubleException;
 import jakarta.servlet.ServletException;
@@ -72,12 +71,9 @@ public class FabricationMeubleServlet extends HttpServlet {
             Integer idTailleMeuble = Integer.parseInt(request.getParameter("id_taille_meuble"));
             Double quantite = Double.parseDouble(request.getParameter("quantite"));
             LocalDateTime dateFabrication = LocalDateTime.parse(request.getParameter("date_fabrication"));
-            if (dateFabrication.isAfter(LocalDateTime.now())) {
-                throw new DateAfterNowException();
-            }
             LocalDateTime lastOutMouvementDate = MouvementMateriau.getLastOutMouvementDate(connection);
             if (dateFabrication.isBefore(lastOutMouvementDate)) {
-                throw new DateBeforeLastException();
+                throw new OutDateBeforeLastException();
             }
             Integer idFormuleMeuble = FormuleMeuble.existByIdMeubleAndTailleMeuble(connection, idMeuble,
                     idTailleMeuble);

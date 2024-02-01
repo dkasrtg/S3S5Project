@@ -9,6 +9,9 @@ import com.genericdao.annotation.Column;
 import com.genericdao.annotation.Id;
 import com.genericdao.annotation.Table;
 
+import exception.DateAfterNowException;
+import exception.FieldNegatifZeroException;
+
 @Table(name = "montee_niveau_employe")
 public class MonteeNiveauEmploye extends GenericDAO {
 
@@ -39,7 +42,7 @@ public class MonteeNiveauEmploye extends GenericDAO {
 	}
 
 	public MonteeNiveauEmploye(Integer id, Integer idPoste, Integer idNiveauDepart, Integer idNiveauArrive,
-			Double duree, LocalDateTime dateDebut, LocalDateTime dateFin) {
+			Double duree, LocalDateTime dateDebut, LocalDateTime dateFin) throws Exception{
 		setId(id);
 		setIdPoste(idPoste);
 		setIdNiveauDepart(idNiveauDepart);
@@ -82,7 +85,10 @@ public class MonteeNiveauEmploye extends GenericDAO {
 		return idNiveauArrive;
 	}
 
-	public void setDuree(Double duree) {
+	public void setDuree(Double duree) throws Exception{
+		if (duree<=0) {
+			throw new FieldNegatifZeroException("Duree");
+		}
 		this.duree = duree;
 	}
 
@@ -90,7 +96,10 @@ public class MonteeNiveauEmploye extends GenericDAO {
 		return duree;
 	}
 
-	public void setDateDebut(LocalDateTime dateDebut) {
+	public void setDateDebut(LocalDateTime dateDebut) throws Exception{
+		if (dateDebut.isAfter(LocalDateTime.now())) {
+			throw new DateAfterNowException();
+		}
 		this.dateDebut = dateDebut;
 	}
 

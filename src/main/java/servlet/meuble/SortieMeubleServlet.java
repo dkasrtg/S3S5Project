@@ -14,11 +14,9 @@ import entity.meuble.TailleMeuble;
 import entity.meuble.VMeuble;
 import entity.meuble.VMeubleRestant;
 import entity.meuble.VMouvementMeuble;
-import exception.DateAfterNowException;
-import exception.DateBeforeLastException;
+import exception.OutDateBeforeLastException;
 import exception.FormuleMeubleTailleNotExistException;
 import exception.QuantiteInsufficientException;
-import exception.QuantiteNegatifZeroException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -71,15 +69,9 @@ public class SortieMeubleServlet extends HttpServlet {
             Double quantite = Double.parseDouble(request.getParameter("quantite"));
             LocalDateTime dateSortie = LocalDateTime.parse(request.getParameter("date_sortie"));
             String description = request.getParameter("description");
-            if (quantite <= 0) {
-                throw new QuantiteNegatifZeroException();
-            }
-            if (dateSortie.isAfter(LocalDateTime.now())) {
-                throw new DateAfterNowException();
-            }
             LocalDateTime lastOutMouvementDate = MouvementMeuble.getLastOutMouvementDate(connection);
             if (dateSortie.isBefore(lastOutMouvementDate)) {
-                throw new DateBeforeLastException();
+                throw new OutDateBeforeLastException();
             }
             Integer idFormuleMeuble = FormuleMeuble.existByIdMeubleAndTailleMeuble(connection, idMeuble,
                     idTailleMeuble);

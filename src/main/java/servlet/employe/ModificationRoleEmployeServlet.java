@@ -11,6 +11,7 @@ import entity.employe.Poste;
 import entity.employe.RoleEmploye;
 import entity.employe.VEmploye;
 import entity.employe.VRoleEmploye;
+import exception.DateDebutBeforeLastDebutException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -56,12 +57,16 @@ public class ModificationRoleEmployeServlet extends HttpServlet {
             LocalDateTime dateDebut = LocalDateTime.parse(request.getParameter("date_debut"));
             Double tauxHoraire = Double.parseDouble(request.getParameter("taux_horaire"));
             LocalDateTime dateFin = LocalDateTime.of(9999, 12, 31, 23, 59);
-            RoleEmploye lastRoleEmploye  = RoleEmploye.selectByIdEmployeAndDateFin(connection, idEmploye, dateFin);
-            if (lastRoleEmploye!=null) {
+            RoleEmploye lastRoleEmploye = RoleEmploye.selectByIdEmployeAndDateFin(connection, idEmploye, dateFin);
+            if (lastRoleEmploye != null) {
+                if (dateDebut.compareTo(lastRoleEmploye.getDateDebut()) <= 0) {
+                    throw new DateDebutBeforeLastDebutException();
+                }
                 lastRoleEmploye.setDateFin(dateDebut);
                 lastRoleEmploye.update(connection);
             }
-            RoleEmploye roleEmploye = new RoleEmploye(null, idEmploye, idPoste, idNiveau, dateDebut, dateFin, tauxHoraire);
+            RoleEmploye roleEmploye = new RoleEmploye(null, idEmploye, idPoste, idNiveau, dateDebut, dateFin,
+                    tauxHoraire);
             roleEmploye.insert(connection);
             connection.commit();
         } catch (Exception e) {

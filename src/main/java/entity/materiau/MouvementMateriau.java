@@ -4,6 +4,9 @@ package entity.materiau;
 import com.genericdao.*;
 import com.genericdao.annotation.*;
 
+import exception.DateAfterNowException;
+import exception.QuantiteNegatifZeroException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,7 +53,7 @@ public class MouvementMateriau extends GenericDAO {
 
     }
 
-    public MouvementMateriau(Integer id, LocalDateTime dateMouvement, Integer idMateriau, Double quantite, Double prixUnitaire, Integer typeMouvement, Integer idMouvementMere, String description, Integer idMouvementMeuble) {
+    public MouvementMateriau(Integer id, LocalDateTime dateMouvement, Integer idMateriau, Double quantite, Double prixUnitaire, Integer typeMouvement, Integer idMouvementMere, String description, Integer idMouvementMeuble) throws Exception{
         setId(id);
 		setDateMouvement(dateMouvement);
 		setIdMateriau(idMateriau);
@@ -71,7 +74,10 @@ public class MouvementMateriau extends GenericDAO {
 		return id;
 	}
 
-	public void setDateMouvement(LocalDateTime dateMouvement) {
+	public void setDateMouvement(LocalDateTime dateMouvement) throws Exception{
+		if (dateMouvement.isAfter(LocalDateTime.now())) {
+			throw new DateAfterNowException();
+		}
 		this.dateMouvement = dateMouvement;
 	}
 
@@ -87,7 +93,10 @@ public class MouvementMateriau extends GenericDAO {
 		return idMateriau;
 	}
 
-	public void setQuantite(Double quantite) {
+	public void setQuantite(Double quantite) throws Exception{
+		if (quantite<=0) {
+			throw new QuantiteNegatifZeroException();
+		}
 		this.quantite = quantite;
 	}
 

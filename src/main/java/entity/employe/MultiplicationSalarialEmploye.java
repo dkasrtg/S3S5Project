@@ -9,6 +9,9 @@ import com.genericdao.annotation.Column;
 import com.genericdao.annotation.Id;
 import com.genericdao.annotation.Table;
 
+import exception.DateAfterNowException;
+import exception.FieldNegatifZeroException;
+
 @Table(name = "multiplication_salarial_employe")
 public class MultiplicationSalarialEmploye extends GenericDAO {
 
@@ -39,7 +42,7 @@ public class MultiplicationSalarialEmploye extends GenericDAO {
 	}
 
 	public MultiplicationSalarialEmploye(Integer id, Integer idPoste, Integer idNiveauDepart, Integer idNiveauArrive,
-			Double multipliant, LocalDateTime dateDebut, LocalDateTime dateFin) {
+			Double multipliant, LocalDateTime dateDebut, LocalDateTime dateFin) throws Exception {
 		setId(id);
 		setIdPoste(idPoste);
 		setIdNiveauDepart(idNiveauDepart);
@@ -82,7 +85,10 @@ public class MultiplicationSalarialEmploye extends GenericDAO {
 		return idNiveauArrive;
 	}
 
-	public void setMultipliant(Double multipliant) {
+	public void setMultipliant(Double multipliant) throws Exception {
+		if (multipliant<=0) {
+			throw new FieldNegatifZeroException("Multipliant");
+		}
 		this.multipliant = multipliant;
 	}
 
@@ -90,7 +96,10 @@ public class MultiplicationSalarialEmploye extends GenericDAO {
 		return multipliant;
 	}
 
-	public void setDateDebut(LocalDateTime dateDebut) {
+	public void setDateDebut(LocalDateTime dateDebut) throws Exception{
+		if (dateDebut.isAfter(LocalDateTime.now())) {
+			throw new DateAfterNowException();
+		}
 		this.dateDebut = dateDebut;
 	}
 
@@ -120,8 +129,11 @@ public class MultiplicationSalarialEmploye extends GenericDAO {
 				statement, connection);
 	}
 
-	public static MultiplicationSalarialEmploye selectByIdPosteAndIdNiveauDepartAndIdNiveauArriveAndDate(Connection connection, Integer idPoste,Integer idNiveauDepart,Integer idNiveauArrive,LocalDateTime localDateTime) throws Exception{
-		String query = "select * from multiplication_salarial_employe where id_poste = ? and id_niveau_depart = ? and id_niveau_arrive = ? and date_debut <= ? and date_fin >= ?\r\n" + //
+	public static MultiplicationSalarialEmploye selectByIdPosteAndIdNiveauDepartAndIdNiveauArriveAndDate(
+			Connection connection, Integer idPoste, Integer idNiveauDepart, Integer idNiveauArrive,
+			LocalDateTime localDateTime) throws Exception {
+		String query = "select * from multiplication_salarial_employe where id_poste = ? and id_niveau_depart = ? and id_niveau_arrive = ? and date_debut <= ? and date_fin >= ?\r\n"
+				+ //
 				"";
 		PreparedStatement preparedStatement = connection.prepareStatement(query);
 		preparedStatement.setInt(1, idPoste);
@@ -129,7 +141,8 @@ public class MultiplicationSalarialEmploye extends GenericDAO {
 		preparedStatement.setInt(3, idNiveauArrive);
 		preparedStatement.setObject(4, localDateTime);
 		preparedStatement.setObject(5, localDateTime);
-		return MultiplicationSalarialEmploye.selectOneByPreparedStatement(MultiplicationSalarialEmploye.class, preparedStatement, connection);
+		return MultiplicationSalarialEmploye.selectOneByPreparedStatement(MultiplicationSalarialEmploye.class,
+				preparedStatement, connection);
 	}
 
 }

@@ -12,7 +12,7 @@ import entity.materiau.MouvementMateriau;
 import entity.materiau.VMateriau;
 import entity.materiau.VMateriauRestant;
 import entity.materiau.VMouvementMateriau;
-import exception.DateBeforeLastException;
+import exception.OutDateBeforeLastException;
 import exception.QuantiteInsufficientException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -66,7 +66,7 @@ public class SortieMateriauServlet extends HttpServlet {
             connection = PG.getConnection();
             LocalDateTime lastOutMouvementDate = MouvementMateriau.getLastOutMouvementDate(connection);
             if (dateMouvement.isBefore(lastOutMouvementDate)) {
-                throw new DateBeforeLastException();
+                throw new OutDateBeforeLastException();
             }
             List<VMateriauRestant> vMateriauRestants = VMateriauRestant
                     .selectByIdMateriauWhereDateMouvementBefore(connection, idMateriau, dateMouvement);

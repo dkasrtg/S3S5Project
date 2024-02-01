@@ -33,7 +33,7 @@ public class PrixDeVenteMeuble extends GenericDAO {
     }
 
     public PrixDeVenteMeuble(Integer id, Integer idFormuleMeuble, LocalDateTime dateDebut, LocalDateTime dateFin,
-            Double valeur) {
+            Double valeur) throws Exception{
         setId(id);
         setIdFormuleMeuble(idFormuleMeuble);
         setDateDebut(dateDebut);
@@ -58,7 +58,7 @@ public class PrixDeVenteMeuble extends GenericDAO {
         return idFormuleMeuble;
     }
 
-    public void setDateDebut(LocalDateTime dateDebut) {
+    public void setDateDebut(LocalDateTime dateDebut) throws Exception{
         this.dateDebut = dateDebut;
     }
 
@@ -66,7 +66,7 @@ public class PrixDeVenteMeuble extends GenericDAO {
         return dateDebut;
     }
 
-    public void setDateFin(LocalDateTime dateFin) {
+    public void setDateFin(LocalDateTime dateFin){
         this.dateFin = dateFin;
     }
 

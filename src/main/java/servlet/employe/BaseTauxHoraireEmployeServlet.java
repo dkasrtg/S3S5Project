@@ -12,6 +12,7 @@ import entity.employe.MultiplicationSalarialEmploye;
 import entity.employe.Niveau;
 import entity.employe.Poste;
 import entity.employe.VBaseTauxHoraire;
+import exception.DateDebutBeforeLastDebutException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -39,7 +40,7 @@ public class BaseTauxHoraireEmployeServlet extends HttpServlet {
                                         vBaseTauxHoraire.getIdPoste(), niveaus.get(i).getId(),
                                         niveaus.get(i + 1).getId(),
                                         localDateTime);
-                        tauxBaseNiveaus.add(tauxBaseNiveaus.get(i)*multiplicationSalarialEmploye.getMultipliant());
+                        tauxBaseNiveaus.add(tauxBaseNiveaus.get(i) * multiplicationSalarialEmploye.getMultipliant());
                     }
                 } catch (Exception e) {
                 }
@@ -72,6 +73,9 @@ public class BaseTauxHoraireEmployeServlet extends HttpServlet {
             BaseTauxHoraire lastBaseTauxHoraire = BaseTauxHoraire.selectByIdPosteAndDateFin(connection, idPoste,
                     dateFin);
             if (lastBaseTauxHoraire != null) {
+                if (dateDebut.compareTo(lastBaseTauxHoraire.getDateDebut()) <= 0) {
+                    throw new DateDebutBeforeLastDebutException();
+                }
                 lastBaseTauxHoraire.setDateFin(dateDebut);
                 lastBaseTauxHoraire.update(connection);
             }

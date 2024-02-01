@@ -10,6 +10,7 @@ import entity.employe.MultiplicationSalarialEmploye;
 import entity.employe.Niveau;
 import entity.employe.Poste;
 import entity.employe.VMultiplicationSalarialEmploye;
+import exception.DateDebutBeforeLastDebutException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,17 +24,18 @@ public class MultiplicationSalarialEmployeServlet extends HttpServlet {
         Connection connection = null;
         try {
             LocalDateTime localDateTime = LocalDateTime.now();
-            if (request.getParameter("date")!=null) {
+            if (request.getParameter("date") != null) {
                 localDateTime = LocalDateTime.parse(request.getParameter("date"));
             }
-            connection = PG.getConnection();    
+            connection = PG.getConnection();
             List<Niveau> niveaus = Niveau.selectAll(Niveau.class, "", connection);
             List<Poste> postes = Poste.selectAll(Poste.class, "", connection);
-            List<VMultiplicationSalarialEmploye> multiplicationSalarialEmployes = VMultiplicationSalarialEmploye.selectByDateBetween(connection, localDateTime);
+            List<VMultiplicationSalarialEmploye> multiplicationSalarialEmployes = VMultiplicationSalarialEmploye
+                    .selectByDateBetween(connection, localDateTime);
             request.setAttribute("niveaus", niveaus);
             request.setAttribute("postes", postes);
             request.setAttribute("date", localDateTime);
-            request.setAttribute("multiplicationSalarialEmployes",multiplicationSalarialEmployes);
+            request.setAttribute("multiplicationSalarialEmployes", multiplicationSalarialEmployes);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -58,12 +60,18 @@ public class MultiplicationSalarialEmployeServlet extends HttpServlet {
             LocalDateTime dateDebut = LocalDateTime.parse(request.getParameter("date_debut"));
             LocalDateTime dateFin = LocalDateTime.of(9999, 12, 31, 23, 59);
             connection = PG.getConnection();
-            MultiplicationSalarialEmploye lastMultiplicationSalarialEmploye = MultiplicationSalarialEmploye.selectByIdPosteNiveauDepartNiveauArriveDateFin(connection, idPoste, idNiveauDepart, idNiveauArrive, dateFin);
-            if (lastMultiplicationSalarialEmploye!=null) {
+            MultiplicationSalarialEmploye lastMultiplicationSalarialEmploye = MultiplicationSalarialEmploye
+                    .selectByIdPosteNiveauDepartNiveauArriveDateFin(connection, idPoste, idNiveauDepart, idNiveauArrive,
+                            dateFin);
+            if (lastMultiplicationSalarialEmploye != null) {
+                if (dateDebut.compareTo(lastMultiplicationSalarialEmploye.getDateDebut()) <= 0) {
+                    throw new DateDebutBeforeLastDebutException();
+                }
                 lastMultiplicationSalarialEmploye.setDateFin(dateDebut);
                 lastMultiplicationSalarialEmploye.update(connection);
             }
-            MultiplicationSalarialEmploye multiplicationSalarialEmploye = new MultiplicationSalarialEmploye(null, idPoste, idNiveauDepart, idNiveauArrive, multipliant, dateDebut, dateFin);
+            MultiplicationSalarialEmploye multiplicationSalarialEmploye = new MultiplicationSalarialEmploye(null,
+                    idPoste, idNiveauDepart, idNiveauArrive, multipliant, dateDebut, dateFin);
             multiplicationSalarialEmploye.insert(connection);
             connection.commit();
         } catch (Exception e) {

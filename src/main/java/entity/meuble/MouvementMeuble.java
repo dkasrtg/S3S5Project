@@ -11,6 +11,9 @@ import com.genericdao.annotation.Column;
 import com.genericdao.annotation.Id;
 import com.genericdao.annotation.Table;
 
+import exception.DateAfterNowException;
+import exception.QuantiteNegatifZeroException;
+
 @Table(name = "mouvement_meuble")
 public class MouvementMeuble extends GenericDAO {
 
@@ -60,7 +63,7 @@ public class MouvementMeuble extends GenericDAO {
 
     public MouvementMeuble(Integer id, LocalDateTime dateMouvement, Integer idFormuleMeuble, Double quantite,
             Integer typeMouvement, Integer idMouvementMere, Double totalMateriaux, Double totalSalaires,
-            Double prixTotal, Double prixUnitaire, Integer idDetailVenteMeuble, String description) {
+            Double prixTotal, Double prixUnitaire, Integer idDetailVenteMeuble, String description) throws Exception {
         setId(id);
         setDateMouvement(dateMouvement);
         setIdFormuleMeuble(idFormuleMeuble);
@@ -84,7 +87,10 @@ public class MouvementMeuble extends GenericDAO {
         return id;
     }
 
-    public void setDateMouvement(LocalDateTime dateMouvement) {
+    public void setDateMouvement(LocalDateTime dateMouvement) throws Exception {
+        if (dateMouvement.isAfter(LocalDateTime.now())) {
+            throw new DateAfterNowException();
+        }
         this.dateMouvement = dateMouvement;
     }
 
@@ -100,7 +106,10 @@ public class MouvementMeuble extends GenericDAO {
         return idFormuleMeuble;
     }
 
-    public void setQuantite(Double quantite) {
+    public void setQuantite(Double quantite) throws Exception {
+        if (quantite <= 0) {
+            throw new QuantiteNegatifZeroException();
+        }
         this.quantite = quantite;
     }
 
@@ -185,7 +194,8 @@ public class MouvementMeuble extends GenericDAO {
         return LocalDateTime.of(1, 1, 1, 0, 0);
     }
 
-    public static List<MouvementMeuble> selectByIdMouvementMere(Connection connection, Integer idMouvementMere) throws Exception {
+    public static List<MouvementMeuble> selectByIdMouvementMere(Connection connection, Integer idMouvementMere)
+            throws Exception {
         String query = "select * from mouvement_meuble where id_mouvement_mere = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, idMouvementMere);
