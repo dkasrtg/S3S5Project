@@ -36,6 +36,7 @@ D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\SuggestionProductionMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\TypeMateriau.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\MouvementMateriau.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\StatistiqueVenteParMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\BeneficeMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\employe\Employe.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\materiau\TotalResteMateriau.java
@@ -44,6 +45,7 @@ D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\VenteMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\employe\VMultiplicationSalarialEmploye.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\materiau\TotalResteMateriauServlet.java
+D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\StatistiqueVenteGeneralMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\MateriauPossibleStyleMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\employe\EmployeServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\StyleMeuble.java
@@ -67,7 +69,6 @@ D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\VMateriauPossibleStyleMeuble.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\employe\VMonteeNiveauEmploye.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\CategorieMeuble.java
-D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\StatistiqueVenteMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\employe\BaseTauxHoraire.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\servlet\meuble\DetailVenteMeubleServlet.java
 D:\Projects\Visual Studio Code\S3-S5Prep\S3S5Project\src\main\java\entity\meuble\FormuleMeuble.java
