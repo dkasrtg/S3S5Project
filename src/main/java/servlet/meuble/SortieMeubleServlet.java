@@ -17,6 +17,7 @@ import entity.meuble.VMouvementMeuble;
 import exception.OutDateBeforeLastException;
 import exception.FormuleMeubleTailleNotExistException;
 import exception.QuantiteInsufficientException;
+import exception.QuantiteNegatifZeroException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -67,6 +68,9 @@ public class SortieMeubleServlet extends HttpServlet {
             Integer idMeuble = Integer.parseInt(request.getParameter("id_meuble"));
             Integer idTailleMeuble = Integer.parseInt(request.getParameter("id_taille_meuble"));
             Double quantite = Double.parseDouble(request.getParameter("quantite"));
+            if (quantite<=0) {
+                throw new QuantiteNegatifZeroException();
+            }
             LocalDateTime dateSortie = LocalDateTime.parse(request.getParameter("date_sortie"));
             String description = request.getParameter("description");
             LocalDateTime lastOutMouvementDate = MouvementMeuble.getLastOutMouvementDate(connection);

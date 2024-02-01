@@ -24,7 +24,7 @@ public class CategorieMeuble extends GenericDAO {
 
     }
 
-    public CategorieMeuble(Integer id, String nom) {
+    public CategorieMeuble(Integer id, String nom) throws Exception{
         setId(id);
 		setNom(nom);
 		

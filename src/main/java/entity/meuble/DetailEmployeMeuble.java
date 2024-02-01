@@ -1,7 +1,9 @@
 package entity.meuble;
 
-import com.genericdao.*;
-import com.genericdao.annotation.*;
+import com.genericdao.GenericDAO;
+import com.genericdao.annotation.Column;
+import com.genericdao.annotation.Id;
+import com.genericdao.annotation.Table;
 
 import exception.FieldNegatifZeroException;
 
@@ -32,7 +34,7 @@ public class DetailEmployeMeuble extends GenericDAO {
 	}
 
 	public DetailEmployeMeuble(Integer id, Integer idFormuleMeuble, Integer idPoste, Integer idNiveau, Integer nombre,
-			Double duree) throws Exception{
+			Double duree) throws Exception {
 		setId(id);
 		setIdFormuleMeuble(idFormuleMeuble);
 		setIdPoste(idPoste);
@@ -74,8 +76,8 @@ public class DetailEmployeMeuble extends GenericDAO {
 		return idNiveau;
 	}
 
-	public void setNombre(Integer nombre) throws Exception{
-		if (nombre<=0) {
+	public void setNombre(Integer nombre) throws Exception {
+		if (nombre <= 0) {
 			throw new FieldNegatifZeroException("Nombre");
 		}
 		this.nombre = nombre;
@@ -85,7 +87,10 @@ public class DetailEmployeMeuble extends GenericDAO {
 		return nombre;
 	}
 
-	public void setDuree(Double duree) {
+	public void setDuree(Double duree) throws Exception {
+		if (duree <= 0) {
+			throw new FieldNegatifZeroException("Duree");
+		}
 		this.duree = duree;
 	}
 

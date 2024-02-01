@@ -11,7 +11,6 @@ servlet\meuble\PrixDeVenteMeubleServlet.class
 database\PG.class
 entity\meuble\MateriauPossibleStyleMeuble.class
 servlet\client\ClientServlet.class
-servlet\meuble\MeubleServlet.class
 entity\meuble\PrixDeVenteMeuble.class
 servlet\meuble\MateriauPossibleStyleMeubleServlet.class
 exception\QuantiteInsufficientForMeubleException.class
@@ -38,7 +37,6 @@ servlet\materiau\TypeMateriauServlet.class
 entity\client\Client.class
 exception\DateAfterNowException.class
 servlet\meuble\StyleMeubleServlet.class
-servlet\meuble\CategorieMeubleServlet.class
 servlet\meuble\DetailsMeubleServlet.class
 entity\meuble\StyleMeuble.class
 entity\materiau\Materiau.class
@@ -47,7 +45,6 @@ entity\meuble\VMouvementMeuble.class
 entity\materiau\TypeMateriau.class
 entity\meuble\VPrixFabricationMeuble.class
 entity\meuble\VDetailFormuleMeuble.class
-entity\meuble\CategorieMeuble.class
 entity\materiau\VMateriau.class
 entity\meuble\Meuble.class
 entity\materiau\VMateriauRestant.class

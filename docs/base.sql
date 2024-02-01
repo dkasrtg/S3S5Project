@@ -7,7 +7,7 @@ CREATE DATABASE s3s5;
 
 create table type_materiau(
     id serial primary key,
-    nom varchar(200)
+    nom varchar(200) unique
 );
 
 create table materiau(

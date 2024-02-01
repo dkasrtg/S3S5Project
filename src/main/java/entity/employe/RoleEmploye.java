@@ -9,6 +9,8 @@ import com.genericdao.annotation.Column;
 import com.genericdao.annotation.Id;
 import com.genericdao.annotation.Table;
 
+import exception.FieldNegatifZeroException;
+
 @Table(name = "role_employe")
 public class RoleEmploye extends GenericDAO {
 
@@ -82,7 +84,7 @@ public class RoleEmploye extends GenericDAO {
 		return idNiveau;
 	}
 
-	public void setDateDebut(LocalDateTime dateDebut) {
+	public void setDateDebut(LocalDateTime dateDebut){
 		this.dateDebut = dateDebut;
 	}
 
@@ -98,7 +100,10 @@ public class RoleEmploye extends GenericDAO {
 		return dateFin;
 	}
 
-	public void setTauxHoraire(Double tauxHoraire) {
+	public void setTauxHoraire(Double tauxHoraire) throws Exception{
+		if (tauxHoraire<=0) {
+			throw new FieldNegatifZeroException("Taux Horaire");
+		}
 		this.tauxHoraire = tauxHoraire;
 	}
 
