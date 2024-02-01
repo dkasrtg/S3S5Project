@@ -62,7 +62,7 @@
                         </li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Statistique vente</h4>
+                    <h4 class="page-title">Statistique vente par meuble</h4>
                   </div>
                 </div>
               </div>
@@ -71,7 +71,7 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <form action="/statistique_vente_meuble" method="get">
+                      <form action="/statistique_vente_par_meuble" method="get">
                         <div class="row">
                           <div class="col-xl-6">
                             <div class="form-group row">
@@ -89,8 +89,6 @@
                                 />
                               </div>
                             </div>
-                          </div>
-                          <div class="col-xl-6">
                             <div class="form-group row">
                               <label
                                 for="example-text-input"
@@ -106,6 +104,21 @@
                                 />
                               </div>
                             </div>
+                          </div>
+                          <div class="col-xl-6">
+                            <div class="form-group row">
+                              <label class="col-sm-2 col-form-label"
+                                >Meuble</label
+                              >
+                              <div class="col-sm-10">
+                                <select class="form-control" name="id_meuble">
+                                  <c:forEach var="c" items="${meubles}">
+                                    <option value="${c.id}">${c.nom}</option>
+                                  </c:forEach>
+                                </select>
+                              </div>
+                            </div>
+                            
                             <div class="form-group row">
                               <div class="col-sm-10"></div>
                               <div class="col-sm-2">
@@ -120,49 +133,11 @@
                           </div>
                         </div>
                       </form>
+                      <div class="row mb-4"></div>
                       <h4 class="mt-0 header-title">
-                        Statistiques de vente meubles du ${dateDebut} au
-                        ${dateFin}
+                        Statistiques de vente des meubles "${meuble.nom}" du
+                        ${dateDebut} au ${dateFin}
                       </h4>
-                      <div class="row">
-                        <div class="col-lg-6">
-                          <p>En totalite</p>
-                          <table
-                            class="table table-bordered dt-responsive"
-                            style="
-                              border-collapse: collapse;
-                              border-spacing: 0;
-                              width: 100%;
-                            "
-                          >
-                            <thead>
-                              <tr>
-                                <td>Genre</td>
-                                <td>Quantite</td>
-                                <td>Pourcentage</td>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <c:forEach
-                                var="c"
-                                items="${venteGlobalParGenres}"
-                              >
-                                <tr>
-                                  <td>${c.nomGenre}</td>
-                                  <td>${c.quantite}</td>
-                                  <td>${c.pourcentage}</td>
-                                </tr>
-                              </c:forEach>
-                            </tbody>
-                          </table>
-                        </div>
-                        <div class="col-lg-4">
-                          <div style="height: 200px">
-                            <canvas id="myPieChart"></canvas>
-                          </div>
-                        </div>
-                      </div>
-                      <p>Par produits</p>
                       <table
                         id="datatable"
                         class="table table-bordered dt-responsive"
@@ -193,7 +168,7 @@
                                 <td>${d.pourcentage}</td>
                               </c:forEach>
                               <td>
-                                <div style="width:200px; height:fit-content">
+                                <div style="width: 200px; height: fit-content">
                                   <canvas
                                     id="mc${c.id}"
                                     width="10"
@@ -216,39 +191,6 @@
         <%@ include file="/statics/footer.jsp"%>
       </div>
     </div>
-    <!-- Pie chart global -->
-    <script>
-      const data = {
-        labels: [
-          <c:forEach var="c" items="${venteGlobalParGenres}">
-            "${c.nomGenre}",
-          </c:forEach>,
-        ],
-        datasets: [
-          {
-            data: [
-              <c:forEach var="c" items="${venteGlobalParGenres}">
-                "${c.pourcentage}",
-              </c:forEach>,
-            ],
-            backgroundColor: ["#3498db", "#e74c3c"],
-          },
-        ],
-      };
-      const ctxp = document.getElementById("myPieChart").getContext("2d");
-      const myPieChart = new Chart(ctxp, {
-        type: "pie",
-        data: data,
-        options: {
-          plugins: {
-            legend: {
-              position: "right",
-            },
-          },
-        },
-      });
-    </script>
-    <!-- Pie chart global -->
 
     <c:forEach var="c" items="${vFormuleMeubleComplets}">
       <script>
@@ -289,6 +231,7 @@
         });
       </script>
     </c:forEach>
+
     <script src="/template/assets/js/jquery.min.js"></script>
     <script src="/template/assets/js/popper.min.js"></script>
     <script src="/template/assets/js/bootstrap.min.js"></script>

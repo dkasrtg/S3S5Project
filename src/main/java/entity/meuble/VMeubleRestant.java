@@ -90,4 +90,4 @@ public class VMeubleRestant extends GenericDAO {
         return VMeubleRestant.selectMultipleByPreparedStatement(VMeubleRestant.class, statement, connection);
     }
 
-}
+}   

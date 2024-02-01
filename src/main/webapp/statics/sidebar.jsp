@@ -199,15 +199,15 @@
               ></span></span
           ></a>
         </li>
-        <li>
-          <a href="/statistique_vente_meuble" class="waves-effect"
-            ><i class="fas fa-chart-bar"></i>
-            <span
-              >Statistique vente
-              <span
-                class="badge badge-pill badge-primary float-right"
-              ></span></span
-          ></a>
+        <li class="has_sub">
+          <a href="javascript:void(0);" class="waves-effect"><i class="fas fa-chart-bar"></i><span>Statistiques vente</span><span class="float-right"><i class="mdi mdi-chevron-right"></i></span></a><ul class="list-unstyled">
+            <li>
+              <a href="/statistique_vente_general">General</a>
+            </li>
+            <li>
+              <a href="/statistique_vente_par_meuble">Par meuble</a>
+            </li>
+          </ul>
         </li>
         <li class="menu-title">Employe</li>
           <li>
