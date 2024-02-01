@@ -4,6 +4,8 @@ package entity.meuble;
 import com.genericdao.*;
 import com.genericdao.annotation.*;
 
+import exception.FieldEmptyException;
+
 
 
 @Table( name = "style_meuble" )
@@ -22,7 +24,7 @@ public class StyleMeuble extends GenericDAO {
 
     }
 
-    public StyleMeuble(Integer id, String nom) {
+    public StyleMeuble(Integer id, String nom) throws Exception{
         setId(id);
 		setNom(nom);
 		
@@ -36,7 +38,10 @@ public class StyleMeuble extends GenericDAO {
 		return id;
 	}
 
-	public void setNom(String nom) {
+	public void setNom(String nom) throws Exception{
+		if (nom.trim().isEmpty()) {
+			throw new FieldEmptyException("Nom");
+		}
 		this.nom = nom;
 	}
 

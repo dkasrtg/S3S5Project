@@ -4,6 +4,8 @@ package entity.materiau;
 import com.genericdao.*;
 import com.genericdao.annotation.*;
 
+import exception.FieldEmptyException;
+
 
 
 @Table( name = "materiau" )
@@ -28,7 +30,7 @@ public class Materiau extends GenericDAO {
 
     }
 
-    public Materiau(Integer id, String nom, Integer idTypeMateriau, String description) {
+    public Materiau(Integer id, String nom, Integer idTypeMateriau, String description) throws Exception{
         setId(id);
 		setNom(nom);
 		setIdTypeMateriau(idTypeMateriau);
@@ -44,7 +46,10 @@ public class Materiau extends GenericDAO {
 		return id;
 	}
 
-	public void setNom(String nom) {
+	public void setNom(String nom) throws Exception{
+		if (nom.trim().isEmpty()) {
+			throw new FieldEmptyException("Nom ");
+		}
 		this.nom = nom;
 	}
 

@@ -4,6 +4,8 @@ package entity.employe;
 import com.genericdao.*;
 import com.genericdao.annotation.*;
 
+import exception.FieldEmptyException;
+
 
 
 @Table( name = "poste" )
@@ -22,7 +24,7 @@ public class Poste extends GenericDAO {
 
     }
 
-    public Poste(Integer id, String nom) {
+    public Poste(Integer id, String nom) throws Exception{
         setId(id);
 		setNom(nom);
 		
@@ -36,14 +38,15 @@ public class Poste extends GenericDAO {
 		return id;
 	}
 
-	public void setNom(String nom) {
+	public void setNom(String nom) throws Exception{
+		if (nom.trim().isEmpty()) {
+			throw new FieldEmptyException("Nom");
+		}
 		this.nom = nom;
 	}
 
 	public String getNom() {
 		return nom;
-	}
-
-	
+	}	
 
 }

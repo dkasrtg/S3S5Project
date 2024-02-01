@@ -9,6 +9,8 @@ import com.genericdao.annotation.Column;
 import com.genericdao.annotation.Id;
 import com.genericdao.annotation.Table;
 
+import exception.FieldNegatifZeroException;
+
 @Table(name = "prix_de_vente_meuble")
 public class PrixDeVenteMeuble extends GenericDAO {
 
@@ -58,7 +60,7 @@ public class PrixDeVenteMeuble extends GenericDAO {
         return idFormuleMeuble;
     }
 
-    public void setDateDebut(LocalDateTime dateDebut) throws Exception{
+    public void setDateDebut(LocalDateTime dateDebut){
         this.dateDebut = dateDebut;
     }
 
@@ -74,7 +76,10 @@ public class PrixDeVenteMeuble extends GenericDAO {
         return dateFin;
     }
 
-    public void setValeur(Double valeur) {
+    public void setValeur(Double valeur) throws Exception{
+        if (valeur<=0) {
+            throw new FieldNegatifZeroException("Valeur");
+        }
         this.valeur = valeur;
     }
 

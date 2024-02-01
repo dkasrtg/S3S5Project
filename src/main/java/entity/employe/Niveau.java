@@ -4,6 +4,8 @@ package entity.employe;
 import com.genericdao.*;
 import com.genericdao.annotation.*;
 
+import exception.FieldEmptyException;
+
 
 
 @Table( name = "niveau" )
@@ -25,7 +27,7 @@ public class Niveau extends GenericDAO {
 
     }
 
-    public Niveau(Integer id, String nom, Integer ordre) {
+    public Niveau(Integer id, String nom, Integer ordre) throws Exception{
         setId(id);
 		setNom(nom);
 		setOrdre(ordre);
@@ -40,7 +42,10 @@ public class Niveau extends GenericDAO {
 		return id;
 	}
 
-	public void setNom(String nom) {
+	public void setNom(String nom) throws Exception{
+		if (nom.trim().isEmpty()) {
+			throw new FieldEmptyException("Nom");
+		}
 		this.nom = nom;
 	}
 
@@ -55,7 +60,5 @@ public class Niveau extends GenericDAO {
 	public Integer getOrdre() {
 		return ordre;
 	}
-
-	
 
 }
