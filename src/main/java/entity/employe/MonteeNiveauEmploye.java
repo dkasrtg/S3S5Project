@@ -77,7 +77,7 @@ public class MonteeNiveauEmploye extends GenericDAO {
 		return idNiveauDepart;
 	}
 
-	public void setIdNiveauArrive(Integer idNiveauArrive) {
+	public void setIdNiveauArrive(Integer idNiveauArrive){
 		this.idNiveauArrive = idNiveauArrive;
 	}
 

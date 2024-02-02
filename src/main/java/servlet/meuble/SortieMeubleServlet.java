@@ -101,6 +101,7 @@ public class SortieMeubleServlet extends HttpServlet {
                 throw new QuantiteInsufficientException(quantite);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             error = "?error=" + e.getMessage();
         } finally {
             try {

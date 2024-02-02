@@ -11,6 +11,7 @@ import entity.employe.Niveau;
 import entity.employe.Poste;
 import entity.employe.VMonteeNiveauEmploye;
 import exception.DateDebutBeforeLastDebutException;
+import exception.NiveauArriveBeforeDepartException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -56,9 +57,12 @@ public class MonteeNiveauEmployeServlet extends HttpServlet {
             Integer idPoste = Integer.parseInt(request.getParameter("id_poste"));
             Integer idNiveauDepart = Integer.parseInt(request.getParameter("id_niveau_depart"));
             Integer idNiveauArrive = Integer.parseInt(request.getParameter("id_niveau_arrive"));
+            connection = PG.getConnection();
+            if (!Niveau.isNiveauArriveAfter(connection, idNiveauDepart, idNiveauArrive)) {
+                throw new NiveauArriveBeforeDepartException();
+            }
             LocalDateTime dateDebut = LocalDateTime.parse(request.getParameter("date_debut"));
             LocalDateTime dateFin = LocalDateTime.of(9999, 12, 31, 23, 59);
-            connection = PG.getConnection();
             MonteeNiveauEmploye lastMonteeNiveauEmploye = MonteeNiveauEmploye
                     .selectByIdPosteNiveauDepartNiveauArriveDateFin(connection, idPoste, idNiveauDepart, idNiveauArrive,
                             dateFin);

@@ -1,8 +1,14 @@
 package entity.employe;
 
 
-import com.genericdao.*;
-import com.genericdao.annotation.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import com.genericdao.GenericDAO;
+import com.genericdao.annotation.Column;
+import com.genericdao.annotation.Id;
+import com.genericdao.annotation.Table;
 
 import exception.FieldEmptyException;
 
@@ -59,6 +65,25 @@ public class Niveau extends GenericDAO {
 
 	public Integer getOrdre() {
 		return ordre;
+	}
+
+	public static Boolean isNiveauArriveAfter(Connection connection,Integer idNievauDepart,Integer idNiveauArrive) throws Exception{
+		Boolean result = null;
+		String query = "select depart<arrive as result from\r\n" + //
+				"(select ordre as depart from niveau where id= ? ) as q1\r\n" + //
+				"cross join \r\n" + //
+				"(select ordre as arrive from niveau where id= ? ) as q2\r\n" + //
+				";";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setInt(1, idNievauDepart);
+		preparedStatement.setInt(2, idNiveauArrive);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		if (resultSet.next()) {
+			result = resultSet.getBoolean("result");
+		}
+		preparedStatement.close();
+		resultSet.close();
+		return result;
 	}
 
 }

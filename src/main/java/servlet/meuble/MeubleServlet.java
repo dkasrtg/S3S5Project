@@ -53,6 +53,7 @@ public class MeubleServlet extends HttpServlet {
             meuble.insert(connection);
             connection.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             error = "?error=" + e.getMessage();
         } finally {
             try {

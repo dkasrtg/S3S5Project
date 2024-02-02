@@ -52,6 +52,7 @@ public class ClientServlet extends HttpServlet {
             client.insert(connection);
             connection.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             error = "?error=" + e.getMessage();
         } finally {
             try {

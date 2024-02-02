@@ -81,6 +81,7 @@ public class PrixDeVenteMeubleServlet extends HttpServlet {
             prixDeVenteMeuble.insert(connection);
             connection.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             error = "?error=" + e.getMessage();
         } finally {
             try {

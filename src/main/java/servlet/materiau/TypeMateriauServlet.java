@@ -41,6 +41,7 @@ public class TypeMateriauServlet extends HttpServlet {
             typeMateriau.insert(connection);
             connection.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             error = "?error=" + e.getMessage();
         } finally {
             try {

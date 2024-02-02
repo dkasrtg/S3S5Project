@@ -22,6 +22,7 @@ public class DetailsMeubleServlet extends HttpServlet {
             VMeuble vMeuble = VMeuble.selectById(VMeuble.class,connection, id);
             request.setAttribute("vMeuble", vMeuble);
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             try {
                 connection.close();

@@ -102,6 +102,7 @@ public class NouvelleFormuleMeubleServlet extends HttpServlet {
             }
             connection.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             error = "&error=" + e.getMessage();
         } finally {
             try {

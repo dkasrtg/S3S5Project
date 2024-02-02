@@ -70,6 +70,7 @@ public class ModificationRoleEmployeServlet extends HttpServlet {
             roleEmploye.insert(connection);
             connection.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             error = "&error=" + e.getMessage();
         } finally {
             try {

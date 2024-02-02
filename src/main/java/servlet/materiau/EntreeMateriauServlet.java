@@ -66,6 +66,7 @@ public class EntreeMateriauServlet extends HttpServlet {
             mouvementMateriau.insert(connection);
             connection.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             error = "?error=" + e.getMessage();
         } finally {
             try {

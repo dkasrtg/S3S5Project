@@ -83,6 +83,7 @@ public class BaseTauxHoraireEmployeServlet extends HttpServlet {
             baseTauxHoraire.insert(connection);
             connection.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             error = "?error=" + e.getMessage();
         } finally {
             try {

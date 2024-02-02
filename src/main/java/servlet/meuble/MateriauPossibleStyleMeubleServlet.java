@@ -69,6 +69,7 @@ public class MateriauPossibleStyleMeubleServlet extends HttpServlet {
             materiauPossibleStyleMeuble.insert(connection);
             connection.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             error = "?error=" + e.getMessage();
         } finally {
             try {

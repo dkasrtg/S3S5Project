@@ -9,101 +9,101 @@ CREATE DATABASE s3s5;
 -- TABLES
 create table type_materiau(
     id serial primary key,
-    nom varchar(200)
+    nom varchar(200) not null unique
 );
 
 create table materiau(
     id serial primary key,
-    nom varchar(200),
+    nom varchar(200) not null unique,
     id_type_materiau integer,
     description text,
-    foreign key(id_type_materiau) references type_materiau(id)
+    foreign key(id_type_materiau) references type_materiau(id) on update cascade
 );
 
 create table categorie_meuble(
     id serial primary key,
-    nom varchar(200)
+    nom varchar(200) not null unique
 );
 
 create table style_meuble(
     id serial primary key,
-    nom varchar(200)
+    nom varchar(200) not null unique
 );
 
 create table meuble(
     id serial primary key,
-    nom varchar(200),
+    nom varchar(200) not null unique,
     id_style_meuble integer,
     id_categorie_meuble integer,
     description text,
-    foreign key(id_style_meuble) references style_meuble(id),
-    foreign key(id_categorie_meuble) references categorie_meuble(id)
+    foreign key(id_style_meuble) references style_meuble(id) on update cascade,
+    foreign key(id_categorie_meuble) references categorie_meuble(id) on update cascade
 );
     
 create table materiau_possible_style_meuble(
     id serial primary key,
     id_style_meuble integer,
     id_materiau integer,
-    foreign key(id_style_meuble) references style_meuble(id),
-    foreign key(id_materiau) references materiau(id)
+    foreign key(id_style_meuble) references style_meuble(id) on update cascade,
+    foreign key(id_materiau) references materiau(id) on update cascade
 );
 
 
 CREATE TABLE taille_meuble (
     id serial primary key,
-    nom varchar (100)
+    nom varchar (100) not null unique
 );
 
 CREATE TABLE formule_meuble (
     id serial primary key,
     id_meuble integer,
     id_taille_meuble integer,
-    foreign key(id_meuble) references meuble(id),
-    foreign key(id_taille_meuble) references taille_meuble(id)
+    foreign key(id_meuble) references meuble(id) on update cascade,
+    foreign key(id_taille_meuble) references taille_meuble(id) on update cascade
 );
 
 create table detail_formule_meuble(
     id serial primary key,
     id_formule_meuble integer,
     id_materiau integer,
-    quantite double precision,
+    quantite double precision not null,
     foreign key(id_formule_meuble) references formule_meuble(id),
     foreign key(id_materiau) references materiau(id)
 );
 
 create table poste(
     id serial primary key,
-    nom varchar(200)
+    nom varchar(200) not null unique
 );
 
 create table niveau(
     id serial primary key,
-    nom varchar(200),
-    ordre integer
+    nom varchar(200) not null unique,
+    ordre integer not null unique
 );
 
 create table genre(
     id serial primary key,
-    nom varchar(200)
+    nom varchar(200) not null unique
 );
 
 create table employe(
     id serial primary key,
-    nom varchar(200),
+    nom varchar(200) not null,
     prenom varchar(200),
-    date_naissance date,
+    date_naissance date not null,
     id_genre integer,
-    date_entree timestamp,
-    foreign key(id_genre) references genre(id)
+    date_entree timestamp not null,
+    foreign key(id_genre) references genre(id) on update cascade
 );
 
 create table base_taux_horaire(
     id serial primary key,
     id_poste integer,
-    date_debut timestamp,
-    date_fin timestamp,
-    valeur double precision,
-    foreign key(id_poste) references poste(id)
+    date_debut timestamp not null,
+    date_fin timestamp not null,
+    valeur double precision not null,
+    foreign key(id_poste) references poste(id) on update cascade
 );
 
 create table detail_employe_meuble(
@@ -111,77 +111,77 @@ create table detail_employe_meuble(
     id_formule_meuble integer,
     id_poste integer,
     id_niveau integer,
-    nombre integer,
-    duree double precision,
-    foreign key(id_formule_meuble) references formule_meuble(id),
-    foreign key(id_poste) references poste(id),
-    foreign key(id_niveau) references niveau(id)
+    nombre integer not null,
+    duree double precision not null,
+    foreign key(id_formule_meuble) references formule_meuble(id) on update cascade,
+    foreign key(id_poste) references poste(id) on update cascade,
+    foreign key(id_niveau) references niveau(id) on update cascade
 );
 
 create table client(
     id serial primary key,
-    nom varchar(200),
+    nom varchar(200) not null,
     prenom varchar(200),
     telephone varchar(30),
     id_genre integer,
-    date_entree timestamp,
-    foreign key(id_genre) references genre(id)
+    date_entree timestamp not null,
+    foreign key(id_genre) references genre(id) on update cascade
 );
 
 create table vente_meuble(
     id serial primary key,
-    date_vente timestamp,
+    date_vente timestamp not null,
     id_client integer,
-    prix_total double precision,
-    foreign key (id_client) references client(id)
+    prix_total double precision not null,
+    foreign key (id_client) references client(id) on update cascade
 );
 
 create table detail_vente_meuble(
     id serial primary key,
     id_vente_meuble integer,
     id_formule_meuble integer,
-    quantite double precision,
-    prix_unitaire double precision,
-    prix_total double precision,
-    foreign key(id_formule_meuble) references formule_meuble(id)
+    quantite double precision not null,
+    prix_unitaire double precision not null,
+    prix_total double precision not null,
+    foreign key(id_formule_meuble) references formule_meuble(id) on update cascade
 );
 
 create table mouvement_meuble(
     id serial primary key,
-    date_mouvement timestamp,
+    date_mouvement timestamp not null,
     id_formule_meuble integer,
-    quantite double precision,
-    type_mouvement integer,
+    quantite double precision not null,
+    type_mouvement integer not null,
     id_mouvement_mere integer,
     total_materiaux double precision,
     total_salaires double precision,
-    prix_total double precision,
-    prix_unitaire double precision,
+    prix_total double precision not null,
+    prix_unitaire double precision not null,
     id_detail_vente_meuble integer,
     description varchar(200),
-    foreign key(id_formule_meuble) references formule_meuble(id)
+    foreign key(id_formule_meuble) references formule_meuble(id) on update cascade
 );
 
 create table mouvement_materiau(
     id serial primary key,
-    date_mouvement timestamp,
+    date_mouvement timestamp not null,
     id_materiau integer,
-    quantite double precision,
-    prix_unitaire double precision,
-    type_mouvement integer,
+    quantite double precision not null,
+    prix_unitaire double precision not null,
+    type_mouvement integer not null,
     id_mouvement_mere integer,
     description varchar(200),
     id_mouvement_meuble integer,
-    foreign key(id_materiau) references materiau(id)
+    foreign key(id_materiau) references materiau(id) on update cascade
 );
 
 create table prix_de_vente_meuble(
     id serial primary key,
     id_formule_meuble integer,
-    date_debut timestamp,
-    date_fin timestamp,
-    valeur double precision,
-    foreign key(id_formule_meuble) references formule_meuble(id)
+    date_debut timestamp not null,
+    date_fin timestamp not null,
+    valeur double precision not null,
+    foreign key(id_formule_meuble) references formule_meuble(id) on update cascade
 );
 
 create table role_employe(
@@ -189,24 +189,24 @@ create table role_employe(
     id_employe integer,
     id_poste integer,
     id_niveau integer,
-    date_debut timestamp,
-    date_fin timestamp,
-    taux_horaire double precision,
-    foreign key(id_employe) references employe(id),
-    foreign key(id_poste) references poste(id),
-    foreign key(id_niveau) references niveau(id)
+    date_debut timestamp not null,
+    date_fin timestamp not null,
+    taux_horaire double precision not null,
+    foreign key(id_employe) references employe(id) on update cascade,
+    foreign key(id_poste) references poste(id) on update cascade,
+    foreign key(id_niveau) references niveau(id) on update cascade
 );
 
 create table utilisation_employe(
     id serial primary key,
     id_mouvement_meuble integer,
-    date_debut timestamp,
-    date_fin timestamp,
+    date_debut timestamp not null,
+    date_fin timestamp not null,
     id_role_employe integer,
-    duree_utilisation double precision,
-    salaire_total double precision,
+    duree_utilisation double precision not null,
+    salaire_total double precision not null,
     description varchar(200),
-    foreign key(id_role_employe) references role_employe(id)
+    foreign key(id_role_employe) references role_employe(id) on update cascade
 );
 
 create table montee_niveau_employe(
@@ -214,12 +214,12 @@ create table montee_niveau_employe(
     id_poste integer,
     id_niveau_depart integer,
     id_niveau_arrive integer,
-    duree double precision,
-    date_debut timestamp,
-    date_fin timestamp,
-    foreign key(id_poste) references poste(id),
-    foreign key(id_niveau_depart) references niveau(id),
-    foreign key(id_niveau_arrive) references niveau(id)
+    duree double precision not null,
+    date_debut timestamp not null,
+    date_fin timestamp not null,
+    foreign key(id_poste) references poste(id) on update cascade,
+    foreign key(id_niveau_depart) references niveau(id) on update cascade,
+    foreign key(id_niveau_arrive) references niveau(id) on update cascade
 );
 
 create table multiplication_salarial_employe(
@@ -227,12 +227,12 @@ create table multiplication_salarial_employe(
     id_poste integer,
     id_niveau_depart integer,
     id_niveau_arrive integer,
-    multipliant double precision,
-    date_debut timestamp,
-    date_fin timestamp,
-    foreign key(id_poste) references poste(id),
-    foreign key(id_niveau_depart) references niveau(id),
-    foreign key(id_niveau_arrive) references niveau(id)
+    multipliant double precision not null,
+    date_debut timestamp not null,
+    date_fin timestamp not null,
+    foreign key(id_poste) references poste(id) on update cascade,
+    foreign key(id_niveau_depart) references niveau(id) on update cascade,
+    foreign key(id_niveau_arrive) references niveau(id) on update cascade
 );
 
 -- VIEWS
@@ -619,6 +619,14 @@ group by id,id_formule_meuble,qe,pte ) as q2 ) as q3
 group by id_formule_meuble ) as q4) q3
 on q3.id_formule_meuble=vfm.id
 ;
+
+-- verification ordre niveau
+select depart<arrive as result from
+(select ordre as depart from niveau where id=2) as q1
+cross join 
+(select ordre as arrive from niveau where id=1) as q2
+;
+
 
 -- DATA
 INSERT INTO categorie_meuble(nom) VALUES ('Table');

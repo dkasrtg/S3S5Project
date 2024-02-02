@@ -43,6 +43,7 @@ public class CategorieMeubleServlet extends HttpServlet {
             categorieMeuble.insert(connection);
             connection.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             error = "?error=" + e.getMessage();
         } finally {
             try {
